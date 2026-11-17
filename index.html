@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Off Book: the AI debt that isn't on the balance sheet</title>
+<meta name="description" content="The AI boom runs on IOUs. Off Book adds up what AI companies owe off the balance sheet, grades their credit, and stress-tests what happens if OpenAI can't pay.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Off Book: the AI boom runs on IOUs">
+<meta property="og:description" content="The AI boom runs on IOUs. Off Book adds up what AI companies owe off the balance sheet, grades their credit, and stress-tests what happens if OpenAI can't pay.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Off Book: the AI boom runs on IOUs">
+<meta name="twitter:description" content="The AI boom runs on IOUs. Off Book adds up what AI companies owe off the balance sheet, grades their credit, and stress-tests what happens if OpenAI can't pay.">
+<meta name="theme-color" content="#141820">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e8a34a'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23141820'%3EOB%3C/text%3E%3C/svg%3E">
+<style>[hidden]{display:none!important}body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: terminal-inspired but friendly. Dark slate by default, one amber accent, plain-English labels, numbers in mono. Single column of titled panels. */
+:root{
+  --bg:#0e1217; --panel:#151b23; --panel2:#1b232d; --line:#263140; --text:#e7ecf2; --muted:#93a0b0; --soft:#c3ccd7;
+  --accent:#f2a33a; --accent-ink:#1a1206; --blue:#79b8ff; --up:#3ccf8a; --down:#ff6b5e; --warn:#f2c94c; --violet:#b99cff;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f3f5f8; --panel:#ffffff; --panel2:#eef2f6; --line:#d8dfe7; --text:#141b24; --muted:#5d6977; --soft:#2c3744;
+  --accent:#c9740c; --accent-ink:#ffffff; --blue:#1f63c4; --up:#14864f; --down:#c4362a; --warn:#9a6a00; --violet:#6a45c2; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f3f5f8; --panel:#ffffff; --panel2:#eef2f6; --line:#d8dfe7; --text:#141b24; --muted:#5d6977; --soft:#2c3744;
+  --accent:#c9740c; --accent-ink:#ffffff; --blue:#1f63c4; --up:#14864f; --down:#c4362a; --warn:#9a6a00; --violet:#6a45c2; color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 56px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:2px solid var(--accent)}
+.top .in{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px;display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:8px;color:var(--text);font-weight:700;text-decoration:none;white-space:nowrap;font-size:16px;letter-spacing:.01em}
+.logo i{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:5px;background:var(--accent);color:var(--accent-ink);font:700 11px var(--mono);font-style:normal}
+.cmd{flex:1;min-width:0;display:flex;border:1px solid var(--line);border-radius:8px;background:var(--bg);overflow:hidden}
+.cmd input{flex:1;min-width:0;background:transparent;border:0;color:var(--text);font:500 16px var(--sans);padding:7px 10px;outline:none}
+.cmd input::placeholder{color:var(--muted)}
+.cmd button{background:var(--accent);color:var(--accent-ink);border:0;font:600 13px var(--sans);padding:0 14px;cursor:pointer}
+.top a.k{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}
+.tabs{background:var(--panel);border-bottom:1px solid var(--line)}
+.tabs .in{max-width:960px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tabs .in::-webkit-scrollbar{display:none}
+.tabs a{flex:none;color:var(--soft);text-decoration:none;font-size:13.5px;padding:9px 11px;border-bottom:2px solid transparent}
+.tabs a:hover{color:var(--text);border-bottom-color:var(--line)}
+.tabs:empty{display:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{margin:0;font-weight:600;text-wrap:balance}
+h1{font-size:clamp(24px,5.5vw,32px);line-height:1.15}
+p{margin:0}
+.num,td,.v{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)} .up{color:var(--up)} .down{color:var(--down)} .warn{color:var(--warn)}
+.prose{color:var(--soft);max-width:68ch}
+.note{font-size:13px;color:var(--muted);max-width:78ch}
+.purpose{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--panel);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.purpose b{color:var(--text)}
+.panel{border:1px solid var(--line);background:var(--panel);border-radius:10px;margin-top:14px;min-width:0;overflow:hidden;scroll-margin-top:110px}
+.ptitle{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ptitle h2{font-size:16px;display:flex;align-items:baseline;gap:8px}
+.ptitle h2 .n{font:600 11px var(--mono);color:var(--accent);letter-spacing:.04em}
+.ptitle .r{font-size:12.5px;color:var(--muted)}
+.pbody{padding:12px 14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.sub{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);font-weight:600}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{padding:8px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--muted);font:600 11.5px var(--sans);text-transform:uppercase;letter-spacing:.04em;background:var(--panel2)}
+th:first-child,td:first-child{text-align:left}
+td.l{text-align:left;white-space:normal;min-width:220px;font-family:var(--sans)}
+td.l small{display:block;color:var(--muted);font-size:12px;margin-top:3px;line-height:1.4}
+td.l small b{color:var(--soft);font-weight:600}
+tr.grp td{font:600 11.5px var(--sans);color:var(--accent);text-transform:uppercase;letter-spacing:.06em;padding-top:14px;background:transparent}
+tr.tot td{font-weight:600;border-top:2px solid var(--line)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line)}
+.kv div{background:var(--panel);padding:10px 12px;display:flex;flex-direction:column;min-width:0}
+.kv .l{font-size:12px;color:var(--muted)}
+.kv .v{font-size:17px}
+.est{color:var(--warn);font:600 9.5px var(--mono);margin-left:4px;vertical-align:1px}
+.when{font:12px var(--mono);color:var(--muted);white-space:nowrap}
+.tag{font:600 11px var(--mono);padding:1px 6px;border-radius:4px;border:1px solid;white-space:nowrap}
+.tag.ig{color:var(--up);border-color:color-mix(in srgb,var(--up) 55%,transparent)} .tag.xo{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 55%,transparent)} .tag.hy{color:var(--down);border-color:color-mix(in srgb,var(--down) 55%,transparent)} .tag.na{color:var(--muted);border-color:var(--line)}
+.sev{font:600 10.5px var(--sans);padding:2px 7px;border-radius:99px;white-space:nowrap;height:fit-content;text-transform:uppercase;letter-spacing:.04em}
+.sev.high{background:color-mix(in srgb,var(--down) 20%,transparent);color:var(--down)} .sev.med{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)} .sev.low{background:var(--panel2);color:var(--muted)}
+.issue{display:grid;grid-template-columns:72px minmax(0,1fr);gap:3px 12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.issue:last-child{border-bottom:0}
+.issue .t{font-weight:600}
+.issue .d{grid-column:2;color:var(--soft);font-size:14.5px}
+.news{display:flex;flex-direction:column;gap:0}
+.nitem{padding:12px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.nitem:last-child{border-bottom:0}
+.nitem .h{font-weight:600;font-size:15.5px;line-height:1.35}
+.nitem .h a{color:var(--text);text-decoration:none}
+.nitem .h a:hover{text-decoration:underline}
+.nitem .why{font-size:14px;color:var(--soft)}
+.nitem .why b{color:var(--accent);font-weight:600}
+.nitem .meta{font-size:12px;color:var(--muted)}
+.nitem .tks{display:flex;gap:6px;flex-wrap:wrap}
+.nitem .tks button{font:600 11px var(--mono);padding:1px 7px;border-radius:4px;border:1px solid var(--line);background:var(--panel2);color:var(--blue);cursor:pointer}
+.news3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
+.news3 .nitem{background:var(--panel);padding:14px;border:0}
+.news3 .rank{font:600 12px var(--mono);color:var(--accent)}
+.eqh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-top:14px}
+.eqh .tk{font:600 14px var(--mono);color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);padding:2px 8px;border-radius:5px}
+.eqh .px{font:500 24px var(--mono)}
+.eqh .chips{flex-basis:100%;display:flex;gap:6px;flex-wrap:wrap}
+.mon tbody tr{cursor:pointer}
+.mon tbody tr:hover td{background:var(--panel2)}
+.mon td.tk{font-weight:600;color:var(--accent)}
+.mon td.nm{font-family:var(--sans);text-align:left;color:var(--soft)}
+.sugg{border:1px solid var(--line);background:var(--panel);border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.sugg button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;font:14px var(--sans);color:var(--text);background:none;border:0;border-bottom:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.sugg button:hover{background:var(--panel2)}
+.sugg button b{color:var(--accent);font-family:var(--mono)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;border-radius:2px}
+.ladder text{font-family:var(--mono)}
+.factor{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) 46px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.factor small{display:block;color:var(--muted);font-size:12px}
+.bar{height:6px;background:var(--panel2);border-radius:3px;position:relative;overflow:hidden}
+.bar span{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.factor .r{text-align:right;font-family:var(--mono)}
+.net svg{width:100%;height:auto;max-width:460px;display:block;margin:0 auto}
+.net text{font-family:var(--mono);font-weight:600}
+.deal{padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.deal:last-child{border-bottom:0}
+.deal .h{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.deal .h b{font-weight:600}
+.deal .h .v{color:var(--accent)}
+.deal .d{color:var(--soft);font-size:14px}
+.deal.on{background:color-mix(in srgb,var(--accent) 12%,var(--panel));margin:0 -14px;padding:10px 11px;border-left:3px solid var(--accent)}
+.deal:hover{background:var(--panel2)}
+.dealgrid .dlist{padding-top:0}
+@media (min-width:900px){.dealgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);align-items:start}.dealgrid .net{position:sticky;top:90px}.dealgrid .dlist{padding-top:14px}}
+/* stress */
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mode{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel2);text-align:left;cursor:pointer;color:var(--text);font:inherit;display:flex;flex-direction:column;gap:2px;min-width:0}
+.mode .t{font-weight:600;font-size:14px}
+.mode .s{font-size:12px;color:var(--muted)}
+.mode .p{font:500 20px var(--mono);margin-top:4px}
+.mode .c{font:12px var(--mono)}
+.mode.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
+@media (max-width:560px){.modes{grid-template-columns:1fr}.news3{grid-template-columns:1fr}.top .k{padding-inline:2px;font-size:13px}.logo{font-size:0;gap:0}.cmd button{padding-inline:10px}}
+.big{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+@media (max-width:760px){.big{grid-template-columns:repeat(2,minmax(0,1fr))}.big .v{font-size:20px}}
+.big div{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.big .l{font-size:12px;color:var(--muted)}
+.big .v{font-size:24px}
+.big .s{font:12px var(--mono)}
+.cpbox{border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--panel2)}
+.cpbox .h{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.cpbox .h b{font-size:15px}
+.cpbox .why{font-size:13.5px;color:var(--soft)}
+.cpbox .ev{font:13px var(--mono);color:var(--text)}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:2px 10px;align-items:center}
+.ctl label{font-size:13.5px}
+.ctl label small{display:block;color:var(--muted);font-size:12px}
+.ctl output{text-align:right;color:var(--accent);font:600 13.5px var(--mono)}
+.ctl input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+.tog{display:flex;align-items:flex-start;gap:9px;font-size:14px;cursor:pointer}
+.tog input{accent-color:var(--accent);margin-top:4px;width:16px;height:16px}
+.tog small{display:block;color:var(--muted);font-size:12.5px}
+.ccard{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--panel);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.ccard > div{box-shadow:0 0 0 1px var(--line)}
+#stOut{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ccard div{background:var(--panel);padding:8px 10px;display:flex;flex-direction:column}
+.ccard .l{font-size:11.5px;color:var(--muted)}
+.ccard .v{font-size:15px}
+.ccard .hd{grid-column:1/-1;font-weight:600;font-size:14px;font-family:var(--sans)}
+.ccard .hd small{color:var(--muted);font-weight:400}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start}
+.two > *{min-width:0}
+.banner{border:1px solid color-mix(in srgb,var(--warn) 60%,transparent);background:color-mix(in srgb,var(--warn) 10%,var(--panel));color:var(--text);padding:10px 14px;font-size:13.5px;border-radius:8px;margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.banner b{color:var(--warn)}
+.btn{font:600 13px var(--sans);padding:7px 12px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:7px;cursor:pointer}
+.btn.ghost{background:none;color:var(--accent);border:1px solid var(--accent)}
+a{color:var(--blue)}
+details summary{cursor:pointer;color:var(--blue);font-size:13.5px}
+.sources{font-size:13px;color:var(--muted);padding-left:20px;margin:0}
+.sources li{margin:3px 0}
+ul.why{margin:0;padding-left:20px;color:var(--soft);font-size:14px}
+ul.why li{margin:4px 0}
+.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 18px;font-size:13.5px;color:var(--soft)}
+.glossary b{color:var(--text);display:block}
+@media (prefers-reduced-motion:no-preference){.mon tbody tr td,.mode{transition:background .12s,border-color .12s}}
+
+/* verdict + scenarios */
+.verdict{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.vword{font-size:20px;font-weight:700;margin:0;text-wrap:balance}
+.vword.high{color:var(--down)}.vword.med{color:var(--warn)}.vword.low{color:var(--up)}
+.vlist{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.5;max-width:75ch}
+.scns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.scn{position:relative;border:1px solid var(--line);border-top:3px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel2);text-align:left;cursor:pointer;color:var(--text);font:inherit;display:flex;flex-direction:column;gap:3px;min-width:0}
+.scn.bull{border-top-color:var(--up)}.scn.basec{border-top-color:var(--accent)}.scn.bear{border-top-color:var(--down)}
+.scn .tg{font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.scn .t{font-weight:600;font-size:13.5px;line-height:1.3}
+.scn .p{font:500 21px var(--mono);margin-top:4px}
+.scn .cs{display:flex;flex-direction:column;gap:3px}
+.scn .c{font:12px var(--mono)}
+.scn.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
+.scn .tip{display:none;position:absolute;left:0;right:auto;bottom:calc(100% + 6px);z-index:5;width:min(290px,80vw);background:var(--panel);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.45;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.25);flex-direction:column;gap:4px}
+.scn .tip b{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+.scn:hover .tip,.scn:focus-visible .tip{display:flex}
+.scns .scn:nth-child(n+4) .tip{left:auto;right:0}
+@media (max-width:900px){.scns{grid-template-columns:1fr;gap:6px}
+ .scn{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"tg p" "t p" "cs cs" "tip tip";column-gap:12px;row-gap:2px;padding:9px 12px}
+ .scn .tg{grid-area:tg}.scn .t{grid-area:t}.scn .p{grid-area:p;margin:0;text-align:right;align-self:center}.scn .cs{grid-area:cs;flex-direction:row;flex-wrap:wrap;gap:4px 14px}
+ .scn .tip{grid-area:tip;position:static;width:auto;box-shadow:none;margin-top:6px}.scn:hover .tip,.scn:focus-visible .tip{display:none}.scn.on .tip,.scn.on:hover .tip{display:flex}}
+/* valuation box */
+.vgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.vcell{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel2);display:flex;flex-direction:column;gap:3px;min-width:0}
+.vcell .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.vcell .v{font:500 26px var(--mono)}
+.vcell .s{font:12.5px var(--mono)}
+.gword{font:500 26px var(--mono)}
+.gauge{position:relative;height:10px;border-radius:5px;margin-top:8px;background:linear-gradient(90deg,var(--down),color-mix(in srgb,var(--down) 25%,var(--line)) 40%,var(--line) 50%,color-mix(in srgb,var(--up) 25%,var(--line)) 60%,var(--up))}
+.gauge .gmk{position:absolute;top:-5px;width:4px;height:20px;border-radius:2px;background:var(--text);transform:translateX(-50%);box-shadow:0 0 0 2px var(--panel2)}
+.gl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px}
+@media (max-width:760px){.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.vgrid .gcell{grid-column:1/-1}}
+@media (max-width:420px){.vcell{padding:10px}.vcell .v,.gword{font-size:21px}.vcell .s{font-size:11.5px}}
+/* assumption controls */
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 20px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.ctlfoot{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:-6px}
+.ctlfoot .note{margin:0}
+/* segmented control */
+.seg{display:flex;max-width:100%;width:max-content;overflow-x:auto;border:1px solid var(--line);border-radius:8px;scrollbar-width:none}
+.seg button{font:600 12.5px var(--sans);padding:7px 12px;background:none;border:0;border-right:1px solid var(--line);color:var(--soft);white-space:nowrap;cursor:pointer;flex:1 0 auto}
+.seg button:last-child{border-right:0}
+.seg button.on{background:color-mix(in srgb,var(--accent) 16%,var(--panel));color:var(--text);box-shadow:inset 0 -2px 0 var(--accent)}
+.seg.scpick{width:100%}.seg.scpick button{flex:1 1 0;min-width:0;padding-inline:6px}
+/* sensitivity grid */
+.sensw{max-width:100%}
+.sens{border-collapse:separate;border-spacing:3px;font:12.5px var(--mono);min-width:100%}
+.sens th{font-weight:600;text-align:right;padding:6px 8px;color:var(--muted);white-space:nowrap}
+.sens th small{color:var(--accent);font:600 10px var(--sans);text-transform:uppercase;letter-spacing:.04em}
+.sens th.corner{text-align:left;font:11px var(--sans)}
+.sens th.bc{color:var(--accent)}
+.sens td{text-align:right;padding:7px 8px;border-radius:4px;white-space:nowrap;color:var(--text)}
+.u2,.lg.u2{background:color-mix(in srgb,var(--up) 34%,transparent)}.u1{background:color-mix(in srgb,var(--up) 15%,transparent)}
+.d2,.lg.d2{background:color-mix(in srgb,var(--down) 34%,transparent)}.d1{background:color-mix(in srgb,var(--down) 15%,transparent)}
+.n0{background:var(--panel2)}
+.sens td.bse,.lg.bse{outline:2px solid var(--accent);outline-offset:-2px;font-weight:700}
+.sens td.tdy,.lg.tdy{outline:2px dashed var(--text);outline-offset:-2px;font-weight:700}
+.legend i.lg{border-radius:3px;width:12px;height:12px}
+@media (max-width:420px){.sens{font-size:11.5px;border-spacing:2px}.sens td,.sens th{padding:6px 5px}}
+.interp{margin:0;padding:10px 14px;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--panel));border-radius:0 8px 8px 0;font-size:15px;line-height:1.5;max-width:80ch}
+details.adv{border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+details.adv summary{cursor:pointer;font-weight:600}
+/* hero */
+.hero{display:flex;flex-direction:column;gap:12px;padding:22px 0 6px}
+.hero .kick{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.hero p{font-size:17px;line-height:1.5;margin:0;max-width:62ch;color:var(--soft)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.stat{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.stat .v{font:600 26px var(--mono);color:var(--accent)}
+.stat .l{font-size:13px;color:var(--soft);line-height:1.35}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+a.btn{text-decoration:none}
+.does{margin-bottom:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.does div{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel);font-size:14px;line-height:1.45}
+.does b{display:block;margin-bottom:3px}
+/* mobile company cards */
+.mcards{display:none;flex-direction:column;gap:8px;padding:10px}
+.mcard{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel2);display:grid;grid-template-columns:1fr auto;gap:4px 10px;cursor:pointer}
+.mcard .tk{font:600 14px var(--mono)}.mcard .nm{color:var(--muted);font-size:13px}
+.mcard .r{display:flex;gap:6px;flex-wrap:wrap;align-items:center;grid-column:1/-1;font-size:13px}
+@media (max-width:640px){.mon-wrap{display:none}.mcards{display:flex}}
+/* money circle */
+.circle svg{width:100%;height:auto;max-width:640px;display:block;margin:0 auto}
+.circle text{font:600 10px var(--mono)}
+.loops{display:flex;flex-wrap:wrap;gap:6px}
+.loops button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:999px;padding:5px 11px;font:12.5px var(--mono);cursor:pointer}
+.loops button.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--panel))}
+.method h3{font-size:16px;margin:14px 0 4px}
+.method p,.method li{font-size:15px;line-height:1.55;max-width:75ch}
+
+
+/* watchlist + alerts */
+.bell{position:relative;background:none;border:1px solid var(--line);border-radius:8px;color:var(--soft);width:36px;height:34px;display:grid;place-items:center;cursor:pointer;flex:none}
+.bell:hover,.bell[aria-expanded="true"]{color:var(--text);border-color:var(--accent)}
+.bell.hot{color:var(--accent)}
+.bell .bd{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--down);color:#fff;font:600 11px/18px var(--mono);text-align:center}
+.npanel{position:fixed;z-index:30;top:calc(env(safe-area-inset-top,0px) + 62px);right:max(12px,env(safe-area-inset-right,0px));width:min(420px,calc(100vw - 24px));max-height:min(78vh,700px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.35)}
+.nph{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
+.nph b{flex:1;font-size:15px}
+.nph .x,.nph .bk{background:none;border:0;color:var(--soft);cursor:pointer;font:inherit;font-size:14px;padding:2px 6px}
+.nph .x{font-size:20px;line-height:1}
+.npb{padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5}
+.npb p{margin:0}
+.nrow{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font:inherit;cursor:pointer}
+.nrow:hover{border-color:var(--accent)}
+.nrow .tk{font:600 13px var(--mono)}.nrow .nm{color:var(--soft);font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cnt{font:12px var(--mono);color:var(--muted)}.cnt.high{color:var(--down)}.cnt.med{color:var(--warn)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:10px;border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:8px;background:var(--panel2)}
+.steps li.high{border-left-color:var(--down)}.steps li.med{border-left-color:var(--warn)}.steps li.low{border-left-color:var(--blue)}
+.steps .sn{width:22px;height:22px;border-radius:50%;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font:600 11px var(--mono)}
+.steps p{margin:4px 0 6px;color:var(--soft);font-size:13.5px}
+.lnk{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.npf{display:flex;flex-wrap:wrap;gap:8px}
+.wbtn{border:1px solid var(--accent);background:none;color:var(--accent);border-radius:8px;padding:5px 12px;font:600 13px var(--sans,inherit);cursor:pointer;margin-left:auto}
+.wbtn.on{background:var(--accent);color:var(--accent-ink)}
+@media (max-width:560px){.top .km{display:none}.top .in{gap:8px}.bell{width:32px;height:32px}.npanel{top:calc(env(safe-area-inset-top,0px) + 56px)}}
+
+[hidden]{display:none!important}
+.thb{background:none;border:0;font:inherit;font-size:13px;white-space:nowrap;color:var(--muted);cursor:pointer;padding:0}
+</style>
+
+<header class="top"><div class="in">
+ <a class="logo" href="#home"><i>OB</i>Off Book</a>
+ <form class="cmd" id="hform" autocomplete="off"><input id="hq" type="search" placeholder="Ticker or company" aria-label="Search a stock by ticker or company name"><button type="submit">Search</button></form>
+ <a class="k km" href="#method">Method</a>
+ <a class="k" href="#about">About</a>
+ <button class="k thb" type="button" id="theme">Dark</button>
+ <button class="bell" type="button" id="bell" aria-label="Watchlist updates" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.5L4.5 15v1.5h15V15L18 12.5V9a6 6 0 0 0-6-6zm0 18a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 21z" fill="currentColor"/></svg><span class="bd" hidden></span></button>
+</div></header>
+<div class="npanel" id="npanel" role="dialog" aria-label="Watchlist updates" tabindex="-1" hidden></div>
+<nav class="tabs" id="tabs" aria-label="Sections"></nav>
+<main class="wrap" id="app"></main>
+
+<script>
+const ASOF="Nov 12, 2026";
+const NOTCH=["AAA","AA+","AA","AA-","A+","A","A-","BBB+","BBB","BBB-","BB+","BB","BB-","B+","B","B-","CCC"];
+const PD1Y=[0.00,0.01,0.02,0.03,0.04,0.05,0.07,0.10,0.15,0.25,0.40,0.60,1.0,2.0,3.5,6.0,25];
+const C=(o)=>o;
+const COS=[
+C({t:"NVDA",q:"Q2 FY27 · quarter to Jul 2026",biz:5,name:"NVIDIA",sector:"Semiconductors",rev:303,ebitda:200,debt:33.4,cash:56.6,interest:1.0,ocf:140,capex:10,offBS:133,backlog:null,loop:25,labRev:15,vendorFin:63,floatShare:.05,rating:"AA- / Aa2",notch:3,cds:78,
+ est:["ebitda","interest","ocf","capex","offBS","loop","labRev","vendorFin"],
+ story:"The most profitable company in the buildout, and increasingly its financier. On Nov 12, 2026, co-founder Jensen Huang resigned as CEO; CFO Colette Kress is interim CEO. NVIDIA now invests in, guarantees for and buys capacity from the same customers that buy its chips.",
+ issues:[["med","Sudden CEO change","Jensen Huang resigned on Nov 12, 2026 after an internal investigation; the board has no named successor. Q3 results are due Nov 17.","Nov 12, 2026"],["med","It is financing its own demand","A $30B OpenAI stake, CoreWeave and Nebius equity, a $6.3B CoreWeave capacity backstop and $25B of further equity commitments all recycle into GPU orders.","2025–2026"],
+ ["med","Cash is lagging profit","Q2 FY27 operating cash flow was $24.1B on $59.7B of net income. Receivables rose from $38.5B to $63.1B in one quarter."],
+ ["low","Guarantees sit outside the debt figure","$108.5B of guarantees, including $105B for SB Energy's Ohio campus, don't show up as debt but would if called."],
+ ["low","Balance sheet is still fortress-grade","$56.6B of cash against $33.4B of debt, and coverage near 200x."]]}),
+C({t:"MSFT",q:"Q1 FY27 · quarter to Sep 2026",biz:1,name:"Microsoft",sector:"Software & cloud",rev:340,ebitda:215,debt:35.5,cash:64.5,interest:2.4,ocf:196,capex:136,offBS:200,backlog:678,loop:45,labRev:15,vendorFin:13,floatShare:.15,rating:"AAA / Aaa",notch:0,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS","loop","labRev","vendorFin"],
+ story:"One of two AAA-rated US companies and still self-funding its buildout from cash flow. The issue is who sits behind its backlog.",
+ issues:[["med","OpenAI concentration in the backlog","A large share of the $678B commercial backlog traces to OpenAI, which Microsoft also part-owns. OpenAI committed an incremental $250B of Azure."],
+ ["med","Leases moved off the capex line","An accounting change shifts new data-center leases from finance to operating leases, cutting reported 2026 capex from ~$190B to ~$175B with no change in spending.","Jul 2026"],
+ ["low","Third-party capacity is slipping","Q1 FY27 capex came in light because some neocloud deliveries (CoreWeave, Nebius) were delayed."],
+ ["low","Still free-cash-flow positive","$18.6B of FCF in the September quarter, and guidance to stay positive through FY27."]]}),
+C({t:"AAPL",q:"Q4 FY26 · quarter to Sep 2026",biz:2,name:"Apple",sector:"Hardware",rev:478.8,ebitda:167,debt:95,cash:130,interest:4,ocf:120,capex:14,offBS:20,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.15,rating:"AA+ / Aaa",notch:1,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS"],
+ story:"The opposite of the AI borrowers: light capex, huge cash flow, and AI bought from partners rather than built. FY2026 revenue was $478.8B with $132.2B of net income.",
+ issues:[["low","It rents AI instead of building it","Apple licenses Google's Gemini for Siri rather than spending hundreds of billions on data centers, so the AI capex risk sits with its partners."],
+ ["med","Its biggest partner pays it","Google pays Apple roughly $20B a year to be Safari's default search engine. That income depends on antitrust remedies and on AI changing how people search.","2022 figure, still in force"],
+ ["low","Buybacks absorb most cash flow","Apple returned about $28B in the quarter, close to all of its operating cash flow, so cash is shrinking toward net-neutral by design."]]}),
+C({t:"GOOGL",q:"Q3 2026",biz:2,name:"Alphabet",sector:"Internet & cloud",rev:475,ebitda:205,debt:127,cash:265.1,interest:4.5,ocf:179.6,capex:159.8,offBS:150,backlog:519.5,loop:25,labRev:5,vendorFin:14,floatShare:.10,rating:"AA+ / Aa2",notch:1,cds:null,
+ est:["ebitda","interest","offBS","loop","labRev","vendorFin"],
+ story:"Free cash flow turned negative two quarters running as capex hit $51.4B in Q3. Debt nearly tripled this year, but $265B of cash and securities is a wide cushion.",
+ issues:[["med","Capex now exceeds operating cash","Q3 capex of $51.4B ran 121% of operating cash flow; trailing FCF fell 73% to $19.7B. 2027 capex is guided significantly higher."],
+ ["med","Debt went from $46.5B to $125.1B in nine months","Alphabet issued $85B of debt and $49.6B of equity and convertible preferred this year, including a 100-year sterling bond.","Jan–Sep 2026"],
+ ["low","Anthropic is both an investee and a customer","Alphabet owns part of Anthropic, and Anthropic is a major buyer of Google Cloud TPU capacity."],
+ ["low","Liquidity is exceptional","Cash and marketable securities of $265.1B exceed total debt twice over."]]}),
+C({t:"AMZN",q:"Q3 2026",biz:3,name:"Amazon",sector:"Retail & cloud",rev:780,ebitda:175,debt:170,cash:120,interest:6.5,ocf:168.3,capex:210.7,offBS:200,backlog:null,loop:30,labRev:5,vendorFin:8,floatShare:.15,rating:"AA / A1",notch:2,cds:null,
+ est:["ebitda","interest","offBS","loop","labRev","vendorFin"],
+ story:"AWS is growing 39%, but trailing free cash flow is a $42.4B outflow on ~$220B of 2026 capex, bridged with $115B of new long-term debt in nine months.",
+ issues:[["high","Burning cash to build","Q3 capex of $77.3B was 1.8x operating cash flow; Amazon borrowed $48.1B in that quarter alone."],
+ ["med","Stakes in both leading labs","Amazon holds OpenAI stock and Anthropic convertible notes (a $36B unrealized gain in Q3). Both are big AWS customers, OpenAI with a $138B commitment."],
+ ["med","$496B of obligations off the debt line","Lease and purchase obligations dwarf funded debt and are where the buildout's real fixed costs sit."],
+ ["low","Operating profit is at a record","13.9% operating margin and AWS at a 38.7% segment margin."]]}),
+C({t:"META",q:"Q3 2026",biz:3,name:"Meta Platforms",sector:"Internet",rev:242,ebitda:120,debt:81,cash:82.45,interest:3.8,ocf:133,capex:115,offBS:127,backlog:null,loop:5,labRev:0,vendorFin:0,floatShare:.10,rating:"AA- / Aa3",notch:3,cds:93,
+ est:["ebitda","interest","ocf","capex","offBS","loop"],
+ story:"First negative free-cash-flow quarter since its 2012 IPO. Meta is the customer in most of its loops, buying chips and capacity from AMD, Nebius and Blue Owl-financed campuses.",
+ issues:[["high","Commitments jumped to $825B","Future commitments rose from $643B to $825B in one quarter, about half of Meta's market value."],
+ ["med","Hyperion sits off the balance sheet","The $27B Hyperion data center was placed in a joint venture with Blue Owl. Meta is the tenant; the debt isn't on Meta's books."],
+ ["med","A litigation bill on top of capex","An $18.6B settlement with 52 attorneys general; $9.9B was charged in Q3.","Aug 2026"],
+ ["low","Ad business is strong","Revenue up 26%, price per ad up 14%."]]}),
+C({t:"AVGO",q:"Q3 FY26 · quarter to Aug 2026",biz:5,name:"Broadcom",sector:"Semiconductors",rev:89,ebitda:58,debt:59.4,cash:24.0,interest:3.1,ocf:42,capex:2,offBS:5,backlog:null,loop:35,labRev:15,vendorFin:0,floatShare:.15,rating:"BBB+ (est.)",notch:7,cds:null,
+ est:["ebitda","ocf","capex","offBS","loop","labRev","notch"],
+ story:"AI chip revenue tripled to $16.7B in Q3 FY26 on custom accelerators for Google, Meta and OpenAI. Leverage left over from the VMware deal is falling fast.",
+ issues:[["med","Few customers, very large orders","Custom accelerator revenue comes from a handful of hyperscalers and AI labs, including OpenAI's 10 GW co-development deal and Anthropic TPU orders."],
+ ["low","VMware debt is being paid down","$59.4B of debt against EBITDA approaching $60B; free cash flow was $13.7B in the quarter."],
+ ["low","No vendor financing","Unlike NVIDIA and AMD, Broadcom isn't paying customers to buy, so its revenue is cleaner."]]}),
+C({t:"TSLA",q:"Q3 2026",biz:10,name:"Tesla",sector:"Autos & AI",rev:112,ebitda:14,debt:8,cash:45.4,interest:0.35,ocf:22,capex:20,offBS:10,backlog:null,loop:5,labRev:0,vendorFin:0,floatShare:.20,rating:"BBB / Baa3",notch:8,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS"],
+ story:"Revenue was flat at $28B in Q3 and operating income fell to $718M, but $45.4B of cash against little debt keeps credit risk low. The open question is Terafab.",
+ issues:[["med","Terafab could cost $100B+","Musk described tens of billions of equipment spend through 2028 for a chip fab with SpaceX, with Tesla's share unresolved.","Q3 2026 call"],
+ ["med","Possible SpaceX combination","Special committees are reportedly exploring a merger; any deal would reshape the balance sheet."],
+ ["low","Cash covers debt several times over","$45.4B of cash and investments; 2026 capex cut to ~$20B and funded from operations."]]}),
+C({t:"ORCL",q:"Q1 FY27 · quarter to Aug 2026",biz:5,name:"Oracle",sector:"Software & cloud",rev:72,ebitda:38,debt:165,cash:25,interest:5.7,ocf:45,capex:95,offBS:261,backlog:664,loop:50,labRev:20,vendorFin:0,floatShare:.25,rating:"BBB- / Baa2 neg",notch:9,cds:288,cov:{label:"Revolver: EBITDA / net interest ≥ 3.0x",min:3.0},
+ est:["ebitda","ocf","capex","loop","labRev"],
+ story:"The most stretched investment-grade name in AI. S&P cut it to BBB- in July, one notch above junk, and the cost of insuring its debt against default hit a record 2.88% a year in October.",
+ issues:[["high","Half the backlog is one customer","Roughly half of a $664B backlog is OpenAI, which has committed ~$300B over five years. S&P names it as the central credit risk.","Contract Sep 2025; backlog Aug 2026"],
+ ["high","$261B of leases off the balance sheet","Data-center lease commitments exceed funded debt of ~$165B. Banks spent six months trying to sell down a $38B construction loan for Oracle-leased campuses.","Aug 2026; loan sell-down Oct 2026"],
+ ["high","Deeply negative free cash flow","Q1 FY27 FCF was −$5.4B on $28.5B of capex. S&P projects a ~$42B free operating cash flow deficit for FY27."],
+ ["med","A force majeure notice","Oracle reserved the right to delay lease payments on Project Jupiter in New Mexico, briefly blowing out spreads on related data-center debt.","Sep 2026"]]}),
+C({t:"LLY",q:"Q3 2026",biz:5,name:"Eli Lilly",sector:"Pharma",rev:86,ebitda:38,debt:49.5,cash:9.0,interest:1.6,ocf:30,capex:11,offBS:10,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.15,rating:"A+ (est.)",notch:4,cds:null,
+ est:["ebitda","interest","ocf","notch"],
+ story:"Q3 revenue rose 39% to $24.4B on Mounjaro and Zepbound, and 2026 guidance is $91–92B. Debt has climbed to fund manufacturing capacity.",
+ issues:[["med","Debt-funded factory buildout","Total debt is $49.5B against $9B of cash, after $11B of trailing capex on new plants."],
+ ["med","Two products carry the story","GLP-1 drugs drive most of the growth, so pricing pressure or a competitor would hit cash flow fast."],
+ ["low","Manufacturing take-or-pay","Supply agreements could require up to ~$10B of payments if volumes fall short.","FY2025 10-K"]]}),
+C({t:"WMT",q:"Q2 FY27 · quarter to Jul 2026",biz:3,name:"Walmart",sector:"Retail",rev:720,ebitda:45,debt:57.2,cash:11.5,interest:2.6,ocf:40,capex:27,offBS:15,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.10,rating:"AA / Aa2",notch:2,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS"],
+ story:"A steady, low-margin giant: Q2 FY27 revenue of $187.9B, guidance raised, no AI capex race. A useful control case.",
+ issues:[["low","Thin margins, huge scale","Operating margins near 5% mean small cost shocks matter, but cash flow is very stable."],
+ ["low","Leases are the main hidden obligation","Store leases add fixed costs beyond the $57.2B of debt."],
+ ["low","No circular exposure","Walmart buys technology; it doesn't finance its suppliers or customers."]]}),
+C({t:"NFLX",q:"Q3 2026",biz:6,name:"Netflix",sector:"Media",rev:48.5,ebitda:17,debt:15.1,cash:8.2,interest:0.75,ocf:10,capex:0.7,offBS:22,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.10,rating:"A / A3",notch:5,cds:null,
+ est:["ebitda","interest","ocf","offBS"],
+ story:"A former high-yield issuer now solidly investment grade, with a 34.6% operating margin and $2.9B of free cash flow in Q3.",
+ issues:[["med","Content commitments are the real debt","Multi-year content obligations are larger than funded debt and don't appear on the balance sheet."],
+ ["low","Refinancing, not adding","A $1B bond in Q3 funded a $1B maturity due in Q4."],
+ ["low","Ad growth trimmed","Full-year targets were cut on a weaker advertising outlook."]]}),
+C({t:"XOM",q:"Q3 2026",biz:6,name:"ExxonMobil",sector:"Energy",rev:330,ebitda:70,debt:34.3,cash:12.2,interest:1.0,ocf:60,capex:27,offBS:10,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.05,rating:"AA- / Aa2",notch:3,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS"],
+ story:"$25.7B of operating cash flow in Q3 and only $22.1B of net debt. Its AI link is power: it is marketing gas-fired, carbon-captured power for data centers.",
+ issues:[["med","Commodity prices drive everything","Q3 profit doubled on refining margins; the same margins can fall as fast."],
+ ["low","Very low leverage","Net debt of $22.1B against roughly $70B of EBITDA."],
+ ["low","Payouts are large but covered","$9.4B returned in Q3, below $19.1B of free cash flow."]]}),
+C({t:"COST",q:"FY2026 · year to Aug 2026",biz:3,name:"Costco",sector:"Retail",rev:303.2,ebitda:14.4,debt:6,cash:20.2,interest:0.15,ocf:13.5,capex:5.5,offBS:3,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.05,rating:"A+ / Aa3",notch:4,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS"],
+ story:"Net cash: $20.2B of cash against roughly $6B of debt. FY2026 revenue was $303.2B and net income $9.2B.",
+ issues:[["low","Net cash balance sheet","Cash exceeds debt more than three times over."],
+ ["low","Membership fees are the profit engine","Fee income is recurring and high-margin, which supports credit quality."]]}),
+C({t:"AMD",q:"Q3 2026",biz:7,name:"AMD",sector:"Semiconductors",rev:45,ebitda:13,debt:7.1,cash:15.8,interest:0.25,ocf:5,capex:2,offBS:3,backlog:null,loop:35,labRev:10,vendorFin:5,floatShare:.20,rating:"A- (est.)",notch:6,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS","loop","labRev","notch"],
+ story:"Data center revenue nearly doubled to $8.5B in Q3 as MI450 GPUs shipped. AMD paid for that demand with its own shares.",
+ issues:[["high","It handed customers up to 320M shares","Warrants at $0.01 a share to OpenAI and Meta vest as they deploy AMD GPUs. Fully exercised, OpenAI alone would own about 10%.","Oct 2025 and Feb 2026"],
+ ["med","Cash flow lagged the growth","Q3 free cash flow fell to $554M as inventory rose $3.0B ahead of a $17B Q4."],
+ ["med","Debt more than doubled","Total debt rose from $3.2B to $7.1B in Q3."],
+ ["low","Up to $5B into Anthropic","Another investment in a lab that plans to deploy AMD chips.","2026"]]}),
+C({t:"INTC",q:"Q3 2026",biz:10,name:"Intel",sector:"Semiconductors",rev:57,ebitda:18,debt:50.1,cash:54.0,interest:1.0,ocf:17,capex:14,offBS:10,backlog:null,loop:10,labRev:0,vendorFin:0,floatShare:.10,rating:"BBB (est.)",notch:8,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS","loop","notch"],
+ story:"Revenue grew 21% to $16.5B in Q3 and free cash flow was positive. Its shareholders now include the US government and NVIDIA.",
+ issues:[["med","Partners fund the fabs","Partner capital funds part of Intel's factories; it received $5.0B and paid out $14.4B to partners in nine months.","Jan–Sep 2026"],
+ ["med","Strategic owners, strategic strings","The US government (~10%) and NVIDIA ($5B stake, co-developed chips) are shareholders, which helps liquidity but ties strategy to them.","Aug–Sep 2025"],
+ ["low","Cash roughly matches debt","$54.0B of cash and investments against $50.1B of debt."]]}),
+C({t:"IBM",q:"Q3 2026",biz:5,name:"IBM",sector:"Software & services",rev:67,ebitda:17,debt:63.8,cash:11.1,interest:1.9,ocf:14,capex:1.5,offBS:6,backlog:null,loop:0,labRev:0,vendorFin:0,floatShare:.15,rating:"A- / A3",notch:6,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS"],
+ story:"Steady software growth and $7.8B of free cash flow so far this year, but acquisitions keep debt elevated.",
+ issues:[["med","Acquisition-driven leverage","$11.4B spent on acquisitions this year; cash fell $3.4B since year-end.","Jan–Sep 2026"],
+ ["low","$12.7B of debt funds customer financing","IBM Financing debt is backed by client receivables, so core leverage is lower than the headline."],
+ ["low","Free cash flow rising","Guidance is for full-year FCF up more than $1B."]]}),
+C({t:"DELL",q:"Q2 FY27 · quarter to Jul 2026",biz:9,name:"Dell Technologies",sector:"Hardware",rev:150,ebitda:15,debt:28,cash:8,interest:1.4,ocf:8,capex:3,offBS:2,backlog:95,loop:40,labRev:20,vendorFin:0,floatShare:.20,rating:"BBB / Baa2",notch:8,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS","loop","labRev"],
+ story:"Revenue rose 58% to $47B in Q2 FY27 on AI servers, with a record $95B AI backlog. Its customers include neoclouds that are themselves debt-funded.",
+ issues:[["high","Its customers borrow to pay it","Large AI server orders come from neoclouds and labs like CoreWeave and xAI that fund purchases with debt and vendor support.","2025–2026"],
+ ["med","Working capital swings","Q2 operating cash flow was $2.2B on $47B of revenue as inventory built for the backlog."],
+ ["low","Backlog gives visibility","$60.9B of AI orders in one quarter."]]}),
+C({t:"CRWV",q:"Q3 2026",biz:12,name:"CoreWeave",sector:"AI cloud",rev:9.8,ebitda:6.1,debt:46.9,cash:4,interest:4.4,ocf:6,capex:30,offBS:30,backlog:132.5,loop:65,labRev:25,vendorFin:0.35,floatShare:.50,rating:"High yield",notch:12,cds:1000,
+ est:["ebitda","ocf","capex","offBS","loop","labRev","notch"],
+ story:"The purest circular-financing credit: NVIDIA is its supplier, shareholder and backstop customer at once. Revenue grew 168% in Q3, but $46.9B of debt costs ~$1.1B a quarter in interest.",
+ issues:[["high","Interest eats the profit","Q4 interest is guided at $1.05–1.15B against Q3 adjusted operating income of $379M; Q3 net loss was $709M."],
+ ["high","Two customers dominate","Microsoft was about two-thirds of 2025 revenue; OpenAI contracts total $22.4B.","2025 revenue; contracts 2025"],
+ ["high","Insuring its debt costs over 10% a year","Credit default swaps, which insure lenders against a default, cost more than 10% of the amount a year. That price signals real default risk despite a $132.5B backlog.","Oct 2026"],
+ ["med","Funding has shifted to customers","No new parent-level unsecured debt at current yields; ~$9B of customer prepayments due in three months."]]}),
+C({t:"NBIS",q:"Q3 2026 · reported Nov 12, 2026",biz:12,name:"Nebius",sector:"AI cloud",rev:2.2,ebitda:0.8,debt:9,cash:6,interest:0.3,ocf:1.2,capex:22,offBS:5,backlog:46,loop:30,labRev:0,vendorFin:0,floatShare:.30,rating:"Not rated",notch:null,cds:null,
+ est:["ebitda","interest","ocf","capex","offBS","loop"],
+ story:"Q3 revenue jumped 571% to $980.8M and beat estimates, but Nebius cut 2026 revenue guidance to $3.0–3.2B because third-party data centers were late, and the stock fell sharply. It is spending far more on data centers than it earns, funded by convertible notes, share sales and customer prepayments.",
+ issues:[["high","Capex is many times revenue","2026 capex of $20B+ against $3.0–3.2B of revenue; 2027 revenue is guided at $12–13B, so funding has to keep coming.","Q3 2026 call, Nov 12, 2026"],
+ ["high","Late capacity already cost it revenue","Guidance was trimmed from $3.0–3.4B because partner data centers slipped. Revenue depends on buildings it doesn't control.","Nov 12, 2026"],
+ ["med","Two customers carry the backlog","Microsoft ($17.4–19.4B) and Meta (up to ~$27B).","Sep 2025 and 2026"],
+ ["med","NVIDIA is investor and supplier","NVIDIA put $2B into Nebius in March and sells it the GPUs.","Mar 2026"]]}),
+];
+const NODES={WULF:"TeraWulf",CIFR:"Cipher Mining",INTX:"Intersect Power",WIZ:"Wiz",IREN:"IREN",NSCL:"Nscale",LMBD:"Lambda",SCALE:"Scale AI",SMSG:"Samsung",SFTB:"SoftBank",OAI:"OpenAI",ANTH:"Anthropic",SPV:"Blue Owl JV",DEV:"Data-center developers",XAI:"xAI",SPX:"SpaceX",GOV:"US government"};
+const DEALS=[
+ {dt:"Q1 2026",a:"NVDA",b:"OAI",kind:"equity",val:30,out:"NVIDIA bought a $30B stake in OpenAI",back:"OpenAI committed ~5 GW of NVIDIA systems"},
+ {dt:"Aug 2026",a:"NVDA",b:"OAI",kind:"back",val:105,out:"NVIDIA guarantees $105B for SB Energy's Ohio campus",back:"The campus serves OpenAI demand"},
+ {dt:"Oct 2025",a:"AMD",b:"OAI",kind:"equity",val:null,vl:"6 GW",out:"AMD granted a warrant for up to 160M shares at $0.01",back:"OpenAI deploys up to 6 GW of AMD GPUs"},
+ {dt:"Feb 2026",a:"AMD",b:"META",kind:"equity",val:100,out:"AMD granted Meta a warrant for up to 160M shares",back:"Meta buys ~6 GW of AMD compute over five years"},
+ {dt:"2026",a:"AMD",b:"ANTH",kind:"equity",val:5,out:"AMD may invest up to $5B in Anthropic",back:"Anthropic plans a multi-gigawatt AMD deployment"},
+ {dt:"Sep 2025",a:"OAI",b:"ORCL",kind:"buy",val:300,out:"OpenAI committed ~$300B of Oracle cloud over five years",back:"Oracle borrows to build it, then buys NVIDIA GPUs"},
+ {dt:"2025–2026",a:"ORCL",b:"NVDA",kind:"buy",val:null,vl:"GPUs",out:"Oracle buys NVIDIA GPUs to fill OpenAI capacity",back:"NVIDIA is also an OpenAI shareholder"},
+ {dt:"2025",a:"ORCL",b:"DEV",kind:"back",val:56,out:"Oracle leases campuses financed by bank loans ($38B TX/WI, $18B NM)",back:"Developers' lenders depend on Oracle's rent"},
+ {dt:"Mar–Sep 2025",a:"OAI",b:"CRWV",kind:"buy",val:22.4,out:"OpenAI contracts with CoreWeave total $22.4B",back:"CoreWeave gave OpenAI $350M of equity"},
+ {dt:"Sep 2025; Jan 2026",a:"NVDA",b:"CRWV",kind:"back",val:8.3,out:"NVIDIA owns ~9–11.5% and added $2B of equity",back:"NVIDIA agreed to buy up to $6.3B of unsold capacity through 2032"},
+ {dt:"Oct 2025",a:"MSFT",b:"OAI",kind:"equity",val:250,out:"Microsoft is a major OpenAI shareholder",back:"OpenAI committed an incremental $250B of Azure"},
+ {dt:"2023–2025",a:"MSFT",b:"CRWV",kind:"buy",val:null,vl:"~⅔ of rev",out:"Microsoft rents CoreWeave capacity",back:"About two-thirds of CoreWeave's 2025 revenue"},
+ {dt:"Sep 2025",a:"MSFT",b:"NBIS",kind:"buy",val:19.4,out:"Microsoft contracted $17.4–19.4B of Nebius capacity",back:"Nebius borrows and raises equity to build it"},
+ {dt:"Nov 2025–2026",a:"META",b:"NBIS",kind:"buy",val:27,out:"Meta contracted up to ~$27B of Nebius capacity",back:"Nebius builds it with outside funding"},
+ {dt:"Mar 2026",a:"NVDA",b:"NBIS",kind:"equity",val:2,out:"NVIDIA invested $2B in Nebius (Mar 2026)",back:"Nebius buys NVIDIA GPUs"},
+ {dt:"Nov 2025; Feb 2026",a:"OAI",b:"AMZN",kind:"buy",val:138,out:"OpenAI committed $138B to AWS ($38B in Nov 2025, plus $100B over 8 years in Feb 2026)",back:"Includes ~2 GW of Amazon's own Trainium chips"},
+ {dt:"Feb 2026",a:"AMZN",b:"OAI",kind:"equity",val:50,out:"Amazon is investing $50B in OpenAI: $15B up front, $35B once conditions are met",back:"The money is tied to OpenAI's bigger AWS commitment; if the partnership ends, the $35B goes too"},
+ {dt:"2023–2024",a:"AMZN",b:"ANTH",kind:"equity",val:null,vl:"notes",out:"Amazon holds Anthropic convertible notes",back:"Anthropic trains on AWS"},
+ {dt:"2023–2025",a:"GOOGL",b:"ANTH",kind:"equity",val:null,vl:"tens of $B",out:"Alphabet is a large Anthropic investor",back:"Anthropic buys Google Cloud TPU capacity"},
+ {dt:"Q4 2025",a:"ANTH",b:"AVGO",kind:"buy",val:21,out:"Anthropic placed ~$21B of TPU rack orders (reported 2025)",back:"Broadcom builds the TPUs it co-designs with Google"},
+ {dt:"Oct 2025",a:"OAI",b:"AVGO",kind:"buy",val:null,vl:"10 GW",out:"OpenAI and Broadcom co-develop 10 GW of custom accelerators",back:"Value undisclosed"},
+ {dt:"Ongoing",a:"GOOGL",b:"AVGO",kind:"buy",val:null,vl:"TPUs",out:"Google's TPUs are co-designed and supplied by Broadcom",back:"Broadcom's largest custom-chip customer"},
+ {dt:"2022 figure; Gemini deal 2025",a:"GOOGL",b:"AAPL",kind:"buy",val:20,out:"Google pays Apple ~$20B a year to be Safari's default search",back:"Apple licenses Gemini for Siri"},
+ {dt:"Oct 2025",a:"META",b:"SPV",kind:"back",val:27,out:"Hyperion data center moved into a JV with Blue Owl",back:"Debt stays off Meta's balance sheet; Meta is the tenant"},
+ {dt:"Sep 2025",a:"NVDA",b:"INTC",kind:"equity",val:5,out:"NVIDIA bought a $5B stake in Intel",back:"Intel builds x86 CPUs for NVIDIA platforms"},
+ {dt:"Aug 2025",a:"GOV",b:"INTC",kind:"equity",val:8.9,out:"The US government took ~10% of Intel",back:"Converted CHIPS Act grants into equity"},
+ {dt:"2025",a:"DELL",b:"XAI",kind:"buy",val:null,vl:"servers",out:"Dell sells AI servers to xAI",back:"xAI funds purchases with debt and equity"},
+ {dt:"2024–2025",a:"DELL",b:"CRWV",kind:"buy",val:null,vl:"servers",out:"Dell sells AI servers to CoreWeave",back:"CoreWeave funds them with asset-backed debt"},
+ {dt:"Nov 2026 (reported)",a:"NVDA",b:"ANTH",kind:"equity",val:10,out:"NVIDIA is to buy $10B of Anthropic shares in a private sale alongside its IPO",back:"Anthropic is a large buyer of NVIDIA-based compute"},
+ {dt:"Nov 2026 (reported)",a:"GOOGL",b:"ANTH",kind:"equity",val:10,out:"Google is to buy $10B of Anthropic shares in the IPO private sale",back:"Anthropic buys Google Cloud TPU capacity"},
+ {dt:"Nov 2026 (reported)",a:"AMD",b:"ANTH",kind:"equity",val:null,vl:"part of $26B",out:"AMD joins the $26B private share sale alongside Anthropic's IPO",back:"Anthropic plans a multi-gigawatt AMD deployment"},
+ {dt:"Nov 2026 (reported)",a:"AVGO",b:"ANTH",kind:"equity",val:null,vl:"part of $26B",out:"Broadcom joins the $26B private share sale alongside Anthropic's IPO",back:"Anthropic buys TPU racks Broadcom builds"},
+ {dt:"Nov 2026 (reported)",a:"MSFT",b:"ANTH",kind:"equity",val:null,vl:"part of $26B",out:"Microsoft joins the $26B private share sale alongside Anthropic's IPO",back:"Anthropic models are sold through Microsoft's cloud"},
+ {dt:"Q3 2026",a:"TSLA",b:"SPX",kind:"back",val:null,vl:"tens of $B",out:"Tesla and SpaceX plan the Terafab chip fab",back:"Cost split unresolved; merger being explored"},
+ {dt:"2015; value Jun 2026",a:"GOOGL",b:"SPX",kind:"equity",val:94.1,out:"Alphabet owns about 6% of SpaceX, worth $94.1B on Jun 30, 2026 (it paid $900M in 2015)",back:"Most of it is locked up after SpaceX's June 2026 IPO, and swings in its value move Alphabet's reported profit"},
+ {dt:"Jun 2026",a:"GOOGL",b:"SPX",kind:"buy",val:29.4,out:"Google pays SpaceX $920M a month for about 110,000 NVIDIA GPUs, Oct 2026 to Jun 2029",back:"Google calls it bridge capacity for Gemini Enterprise; either side can exit on 90 days' notice after Dec 31, 2026"},
+ {dt:"Oct 2025; Apr 2026",a:"ANTH",b:"GOOGL",kind:"buy",val:null,vl:"1 GW + 3.5 GW",out:"Anthropic rents up to 1 million Google TPUs (Oct 2025), then about 3.5 GW more from 2027 (Apr 2026)",back:"Broadcom says the added capacity depends on Anthropic's continued commercial success"},
+ {dt:"Aug 2025",a:"META",b:"GOOGL",kind:"buy",val:10,out:"Meta signed a six-year Google Cloud deal worth over $10B",back:"Meta rents Google capacity for AI instead of building all of it"},
+ {dt:"Feb 2026 (reported)",a:"META",b:"GOOGL",kind:"buy",val:null,vl:"multi-$B",out:"Meta agreed to rent Google TPUs in a multi-year deal (reported by The Information)",back:"Talks on Meta buying TPUs for its own data centers were reported separately"},
+ {dt:"Aug 2025",a:"GOOGL",b:"WULF",kind:"back",val:3.2,out:"Google backstops $3.2B of Fluidstack's lease payments at TeraWulf",back:"In return Google got warrants for about 14% of TeraWulf; the backstop helped TeraWulf sell $3.2B of junk bonds"},
+ {dt:"Sep 2025",a:"GOOGL",b:"CIFR",kind:"back",val:1.4,out:"Google backstops $1.4B of Fluidstack's lease payments at Cipher Mining",back:"In return Google got warrants for about 5.4% of Cipher"},
+ {dt:"Mar 2026",a:"GOOGL",b:"INTX",kind:"equity",val:4.75,out:"Alphabet bought power developer Intersect for $4.75B cash plus debt",back:"Brings several gigawatts of power and data-center projects in-house"},
+ {dt:"Mar 2026",a:"GOOGL",b:"WIZ",kind:"equity",val:32,out:"Google closed its $32B purchase of cloud-security company Wiz",back:"The largest deal in Google's history, paid in cash"},
+ {dt:"Apr 2026",a:"ANTH",b:"AVGO",kind:"buy",val:null,vl:"3.5 GW",out:"Broadcom will supply about 3.5 GW of Google-designed TPU capacity to Anthropic from 2027",back:"Broadcom says it depends on Anthropic's continued commercial success"},
+ {dt:"Nov 2025",a:"ANTH",b:"MSFT",kind:"buy",val:30,out:"Anthropic committed to buy $30B of Azure compute, with an option on up to 1 GW more",back:"In the same deal Microsoft agreed to invest up to $5B and NVIDIA up to $10B in Anthropic"},
+ {dt:"Nov 2025",a:"MSFT",b:"IREN",kind:"buy",val:9.7,out:"Microsoft signed a five-year, $9.7B GPU cloud contract with IREN, 20% paid up front",back:"IREN buys $5.8B of Dell servers with NVIDIA chips to deliver it"},
+ {dt:"Oct 2025–2026",a:"MSFT",b:"NSCL",kind:"buy",val:43.8,out:"Microsoft's contracts with Nscale total up to $43.8B through 2033 (per Nscale's filing)",back:"Microsoft has since walked away from some Nscale sites that hit power delays"},
+ {dt:"Nov 2025",a:"MSFT",b:"LMBD",kind:"buy",val:null,vl:"multi-$B",out:"Microsoft signed a multibillion-dollar NVIDIA capacity deal with Lambda",back:"Lambda raises outside money to build it"},
+ {dt:"Nov 2025",a:"IREN",b:"DELL",kind:"buy",val:5.8,out:"IREN is buying $5.8B of NVIDIA GB300 servers from Dell",back:"Paid for partly with Microsoft's prepayment"},
+ {dt:"Nov 2025",a:"NVDA",b:"ANTH",kind:"equity",val:10,out:"NVIDIA committed to invest up to $10B in Anthropic",back:"Anthropic's first 1 GW runs on NVIDIA Grace Blackwell and Vera Rubin systems"},
+ {dt:"Feb 2026",a:"META",b:"NVDA",kind:"buy",val:null,vl:"tens of $B",out:"Meta agreed to buy millions of NVIDIA chips over several years, including Vera Rubin",back:"Reported as NVIDIA's largest known customer commitment"},
+ {dt:"Sep 2025",a:"META",b:"CRWV",kind:"buy",val:14.2,out:"Meta signed up to $14.2B of CoreWeave capacity through Dec 2031",back:"CoreWeave borrows to build it; the deal lowered its reliance on Microsoft"},
+ {dt:"Jun 2025",a:"META",b:"SCALE",kind:"equity",val:14.3,out:"Meta paid $14.3B for 49% of Scale AI",back:"Scale's CEO joined Meta to run its new superintelligence lab"},
+ {dt:"Sep 2025 (reported)",a:"META",b:"ORCL",kind:"buy",val:20,out:"Meta reportedly agreed to about $20B of Oracle cloud",back:"Oracle builds more capacity with borrowed money"},
+ {dt:"Oct 2025",a:"ORCL",b:"AMD",kind:"buy",val:null,vl:"50,000 GPUs",out:"Oracle will deploy 50,000 AMD MI450 GPUs starting late 2026",back:"Gives Oracle a second chip supplier besides NVIDIA"},
+ {dt:"Jul 2025",a:"TSLA",b:"SMSG",kind:"buy",val:16.5,out:"Tesla signed a $16.5B chip-making contract with Samsung running to 2033",back:"Samsung's Texas plant builds Tesla's AI6 chips"},
+ {dt:"Aug 2025",a:"SFTB",b:"INTC",kind:"equity",val:2,out:"SoftBank bought $2B of Intel shares",back:"Came days before the US government took its stake"},
+];
+const SOURCES=[
+ ["Oracle Q1 FY27 results","https://www.oracle.com/news/announcement/q1fy27-earnings-release-2026-09-10/"],
+ ["S&P cuts Oracle to BBB-","https://ppc.land/s-p-cuts-oracle-to-bbb-as-ai-buildout-widens-cash-deficit-to-42bn/"],
+ ["Oracle default-insurance cost hits a record; CoreWeave tops 10%","https://www.securitasglobal.com/risk-perspectives/oracle-cds-record-288-basis-points-ai-debt/"],
+ ["Oracle debt and lease commitments","https://nexfinitynews.com/oracle-debt-and-openai-contracts-what-rising-cds-spreads-signal-in-2026/"],
+ ["CoreWeave Q3 2026","https://convergedigest.com/coreweave-q3-2026-earnings-financing-nvidia-backlog/"],
+ ["Meta Q3 2026","https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/"],
+ ["Amazon Q3 2026","https://aboutamazon.com/news/company-news/amazon-earnings-q3-2026-report"],
+ ["Alphabet Q3 2026","https://fourweekmba.com/ai-google-cloud-revenue-doubles-to-30-7b-as-capex-hits-51-4b/"],
+ ["Microsoft Q1 FY27","https://winbuzzer.com/2026/10/29/microsofts-free-cash-flow-beats-forecasts-despite-ai-spending-xcxwbn/"],
+ ["NVIDIA Q2 FY27 CFO commentary","https://s201.q4cdn.com/141608511/files/doc_financials/2027/Q227/Q2FY27-CFO-Commentary.pdf"],
+ ["AMD Q3 2026","https://beancount.io/blog/2026/11/08/amd-fy2026-q3-earnings-analysis"],
+ ["Apple FY Q4 2026","https://www.mactrast.com/2026/11/apple-posts-fiscal-q4-2026-results-30-7b-profit-on-114-5b-revenue/amp/"],
+ ["Broadcom Q3 FY26","https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-third-quarter-fiscal-year-2026-financial"],
+ ["Tesla Q3 2026","https://www.indmoney.com/blog/us-stocks/tesla-stock-q3-earnings-analysis-tsla"],
+ ["Intel Q3 2026","https://www.intc.com/news-events/press-releases/detail/1786/intel-reports-third-quarter-2026-financial-results"],
+ ["IBM Q3 2026","https://finviz.com/news/405858/ibm-releases-third-quarter-results"],
+ ["Dell Q2 FY27","https://pulse2.com/dell-technologies-q2-revenue-hits-record-47-billion-as-ai-server-backlog-reaches-95-billion-and-fy27-outlook-rises-to-192-billion/"],
+ ["Netflix Q3 2026","https://beancount.io/blog/2026/10/20/netflix-fy2026-q3-earnings-analysis"],
+ ["Walmart Q2 FY27","https://www.zacks.com/stock/news/2977891/walmart-q2-earnings-top-estimates-fiscal-2027-view-lifted"],
+ ["ExxonMobil Q3 2026","https://investor.exxonmobil.com/company-information/press-releases/detail/1213/exxonmobil-announces-third-quarter-2026-results"],
+ ["Costco FY2026","https://pulse2.com/costco-reports-93-9-billion-in-q4-sales-and-297-2-billion-in-fiscal-2026-sales-as-net-income-reaches-9-2-billion/"],
+ ["Eli Lilly Q3 2026","https://sec-api.io/insights/eli-lilly-lly-q3-2026-earnings-sec-filing-analysis"],
+ ["Nebius Q3 2026 results (CNBC)","https://www.cnbc.com/2026/11/12/nebius-q3-earnings-report-2026.html"],
+ ["NVIDIA CEO transition (press release)","https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/"],
+ ["Anthropic IPO and private share sale","https://hervecuviliez.substack.com/p/market-news-thursday-12-november",["NVDA","GOOGL","AMD","AVGO","MSFT","AMZN"]],
+ ["OpenAI Q3 revenue ~$10B","https://theedgemalaysia.com/node/825231",["ORCL","MSFT","AMZN","NVDA","AMD","AVGO","CRWV"]],
+ ["OpenAI cash-burn forecast through 2030","https://letsdatascience.com/news/openai-forecasts-278-billion-cash-burn-through-2030-e7b0b3d7",["ORCL","MSFT","AMZN","NVDA","AMD","AVGO","CRWV"]],
+ ["Guide to AI circular deals (Bloomberg)","https://www.bloomberg.com/graphics/2026-ai-circular-deals/"],
+ ["Alphabet discloses a $94.1B SpaceX stake (The Motley Fool)","https://www.fool.com/investing/2026/07/27/googl-stake-spacex-941-billion-anthropic-even-more/",["GOOGL"]],
+ ["Google to pay SpaceX $920M a month for compute (The Next Web)","https://thenextweb.com/news/google-spacex-920-million-month-compute-deal",["GOOGL"]],
+ ["Anthropic expands Google and Broadcom TPU deal (Anthropic)","https://anthropic.com/news/google-broadcom-partnership-compute",["GOOGL","AVGO"]],
+ ["Google backstops TeraWulf, takes 14% stake (Cointelegraph)","https://cointelegraph.com/news/google-largest-shareholder-terawulf-ai-data-center-fluidstack?rand=50490",["GOOGL"]],
+ ["Google backstops Cipher Mining (Fortune)","https://fortune.com/crypto/2025/09/25/google-fluidstack-cipher-mining-bitcoin-miner-ai-data-centers",["GOOGL"]],
+ ["Alphabet completes Intersect acquisition (Cleary Gottlieb)","https://www.clearygottlieb.com/news-and-insights/news-listing/alphabet-completes-4-75-billion-acquisition-of-intersect-power",["GOOGL"]],
+ ["Google completes acquisition of Wiz (Google Cloud)","https://www.googlecloudpresscorner.com/2026-03-11-Google-Completes-Acquisition-of-Wiz",["GOOGL"]],
+ ["Meta rents Google TPUs (SiliconANGLE)","https://siliconangle.com/2026/02/26/google-meta-reportedly-strike-new-multibillion-dollar-ai-chip-deal/",["GOOGL","META"]],
+ ["Anthropic commits $30B to Azure; Microsoft and NVIDIA invest (Built In)","https://builtin.com/articles/anthropic-microsoft-nvidia-partnership-20251118",["MSFT","NVDA"]],
+ ["Microsoft signs $9.7B deal with IREN (Reuters via Yahoo Finance)","https://finance.yahoo.com/news/microsoft-signs-9-7-billion-110844856.html",["MSFT","DELL"]],
+ ["Microsoft's neocloud contracts: Nscale, Nebius, IREN (AI Weekly / Bloomberg)","https://aiweekly.co/alerts/microsoft-pulls-back-from-neocloud-bets-with-nscale-nebius-iren",["MSFT","NBIS"]],
+ ["Amazon invests $50B in OpenAI, expands AWS deal (GeekWire)","https://www.geekwire.com/2026/amazon-invests-50b-in-openai-deepens-aws-partnership/",["AMZN"]],
+ ["Meta signs $14.2B CoreWeave deal; $10B Google Cloud deal (Bisnow)","https://www.bisnow.com/news/national/data-center/meta-signs-142b-deal-with-with-ai-cloud-firm-coreweave-131206",["META","CRWV","GOOGL"]],
+ ["NVIDIA at 16.9× next-12-month earnings at $204.64 (TIKR, Nov 2, 2026)","https://www.tikr.com/blog/nvidias-fiscal-2028-revenue-estimate-is-up-25-since-june-heres-what-november-17-has-to-prove",["NVDA"]],
+ ["Microsoft at 26.7× FY27 and 22.1× FY28 earnings (Trefis, Nov 6, 2026)","https://www.trefis.com/stock/msft/articles2/623291/what-are-microsoft-investors-betting-on/2026-11-06",["MSFT"]],
+ ["Oracle raises FY27 adjusted EPS guidance to $8.05 vs FactSet $8.02 (MarketScreener, Jun 10, 2026)","https://www.marketscreener.com/news/orcl-oracle-raises-fiscal-2027-adjusted-eps-guidance-to-8-05-vs-factset-est-of-8-02-ce7f5cdbdc8af721",["ORCL"]],
+ ["Palantir next-12-month EPS estimate about $1.90 (TIKR, Oct 2, 2026)","https://www.tikr.com/blog/palantir-stock-rose-60-in-q3-heres-why-it-still-trades-at-roughly-half-its-year-start-earnings-multiple",["PLTR"]],
+];
+
+
+
+/* ===== valuation inputs (Off Book estimates unless a source is given) =====
+   m   = method: "pe" values next-12-month earnings per share; "ev" values next-12-month EBITDA
+         (used when reported earnings are negative or swamped by depreciation)
+   pe  = fair forward P/E; ev = fair forward company value ÷ EBITDA (used as a cross-check when m is "pe")
+   g   = expected earnings growth over the next 12 months, %
+   eps1 = consensus / guided next-12-month EPS where we found one (then g is implied from it); src says where
+   e0  = trailing EPS to start from when reported profit is distorted by one-off gains
+   why = one line on how the multiple was chosen */
+const VAL={
+ NVDA:{m:"pe",pe:20,ev:17,eps1:12.11,src:"consensus implied by 16.9× next-12-month earnings at $204.64 (TIKR, Nov 2, 2026)",why:"AI chip leaders trade around 20–35× next-year earnings. Off Book uses 20× because these may be peak-cycle profits and the CEO has just left."},
+ MSFT:{m:"pe",pe:28,ev:19,eps1:20.6,src:"blend of 26.7× FY27 and 22.1× FY28 earnings (Trefis, Nov 6, 2026), applied to today's price",why:"Mega-cap software has traded around 25–32×. A AAA balance sheet and steady double-digit growth put it in the upper half."},
+ AAPL:{m:"pe",pe:29,ev:21,g:9,why:"Apple has mostly traded at 25–32× with high-single-digit growth. 29× is the middle of that range."},
+ GOOGL:{m:"pe",pe:23,ev:14,g:12,e0:10.9,why:"Reported profit is larger than cash operating profit, so it includes one-off investment gains. Off Book starts from about $10.90 a share of operating earnings. Internet peers trade 20–26×."},
+ AMZN:{m:"pe",pe:28,ev:15,g:15,e0:10.2,why:"Excludes the ~$36B paper gain on its Anthropic notes. Amazon has traded 28–40×; 28× allows for capex running ahead of cash flow."},
+ META:{m:"pe",pe:21,ev:12,g:12,why:"Ad-funded internet peers trade 18–25×. Capex close to operating cash flow keeps it mid-range."},
+ AVGO:{m:"pe",pe:28,ev:22,g:30,why:"Reported earnings are held down by acquisition amortization. AI chip peers trade 20–35×."},
+ TSLA:{m:"pe",pe:45,ev:30,g:20,why:"Car makers trade 6–12× and mega-cap growth stocks 25–40×, so 45× is already generous. The rest of the price is a bet on robotaxis and robots that aren't in earnings yet."},
+ ORCL:{m:"pe",pe:18,ev:13,eps1:8.05,src:"company guidance for fiscal 2027 adjusted EPS, $8.05 vs FactSet consensus of $8.02 (Jun 10, 2026)",why:"Software peers trade 22–30×, but Oracle carries heavy debt, negative free cash flow and OpenAI concentration, so 18×."},
+ LLY:{m:"pe",pe:32,ev:24,g:30,why:"Big pharma trades 13–18×. Weight-loss drug growth of 30%+ earns a premium; patents and drug pricing cap it."},
+ WMT:{m:"pe",pe:30,ev:17,g:9,why:"Retailers trade 18–25×. Ads and e-commerce earn Walmart a premium, but not the 46× it trades at on trailing earnings."},
+ NFLX:{m:"pe",pe:26,ev:18,g:15,why:"The streaming leader, growing earnings about 15% a year. 24–30× has been its recent range."},
+ XOM:{m:"pe",pe:14,ev:7,g:2,why:"Oil majors trade 11–15× and earnings follow the oil price."},
+ COST:{m:"pe",pe:42,ev:26,g:10,why:"Costco has long traded 40–50× for steady growth and loyal members. 42× is the low end."},
+ AMD:{m:"pe",pe:35,ev:28,g:55,why:"AI chip peers trade 20–35×. AMD gets the top of the range because its OpenAI and Meta deployments are only starting to show in earnings."},
+ INTC:{m:"ev",pe:22,ev:9,g:15,why:"Reported earnings are negative, so Off Book values cash operating profit. Chipmakers that own fabs trade 8–12× EBITDA, and the foundry turnaround is unproven."},
+ IBM:{m:"pe",pe:21,ev:15,g:6,why:"Mature software and services peers trade 18–24×."},
+ DELL:{m:"pe",pe:15,ev:10,g:15,why:"Hardware makers trade 12–18×. AI server margins are thin, around 10%."},
+ CRWV:{m:"ev",pe:20,ev:8,g:60,why:"Loses money after depreciation, so Off Book values cash operating profit. GPUs wear out in about six years and most EBITDA goes to replacing them; asset-heavy hosting peers trade 7–10× EBITDA."},
+ NBIS:{m:"ev",pe:20,ev:10,g:200,why:"Valued like CoreWeave, with a premium for faster growth and less debt. 2026 revenue guidance of $3.0–3.2B implies EBITDA roughly tripling."},
+ SMCI:{m:"pe",pe:9,ev:7,g:0,why:"Server makers trade 12–18×. The market pays under 5× because profit isn't turning into cash and one customer is 44% of sales; Off Book uses 9×."},
+ PLTR:{m:"pe",pe:60,ev:50,eps1:1.90,src:"next-12-month EPS estimate of about $1.90 (TIKR, Oct 2, 2026)",why:"Fast-growing software trades 40–90× next-year earnings. 60× already assumes several more years of 40%+ growth."},
+ TSM:{m:"pe",pe:22,ev:12,g:25,why:"The leading chip foundry has traded 16–26× next-year earnings. 22× reflects AI-driven growth, held back by Taiwan risk and heavy plant spending."},
+ ARM:{m:"pe",pe:45,ev:40,g:25,why:"Arm earns royalties with almost no factories, so it trades far above chip makers: 50–90× in recent years. Off Book uses 45×, in line with the fastest software companies, since growth is closer to 25% than 50%."},
+ ANET:{m:"pe",pe:32,ev:26,g:20,why:"Arista has traded 28–40× on steady 20%+ growth and no debt. Two cloud customers make up a large share of sales, so 32×."},
+ VRT:{m:"pe",pe:28,ev:20,g:25,why:"Electrical-equipment peers trade 20–28×. Vertiv's data-center backlog earns the top of that range."},
+ CEG:{m:"pe",pe:20,ev:12,g:10,why:"Regulated utilities trade 15–18×. Nuclear power sold to data centers on long contracts earns a premium, to about 20×."},
+ MU:{m:"pe",pe:10,ev:5,g:15,why:"Memory makers trade 8–12× at the top of the cycle, because prices that rise this fast tend to fall."},
+};
+/* sector defaults for researched or estimated companies without their own entry (first match wins) */
+const VSEC=[
+ [/cloud.*(ai|gpu)|ai cloud|neocloud|data.?cent|hosting|miner/i,{m:"ev",pe:20,ev:9,g:30},"AI clouds and data-center hosts"],
+ [/semi|chip|memory|foundry/i,{m:"pe",pe:20,ev:13,g:15},"chips"],
+ [/software|saas|cyber/i,{m:"pe",pe:28,ev:20,g:12},"software"],
+ [/internet|online|media|stream/i,{m:"pe",pe:22,ev:14,g:10},"internet and media"],
+ [/hardware|server|network|equipment/i,{m:"pe",pe:16,ev:11,g:10},"hardware"],
+ [/retail|consumer|staple/i,{m:"pe",pe:22,ev:13,g:6},"retail and consumer"],
+ [/pharma|biotech|health|medical/i,{m:"pe",pe:18,ev:13,g:8},"health care"],
+ [/energy|oil|gas|utilit|power|nuclear/i,{m:"pe",pe:15,ev:9,g:4},"energy and power"],
+ [/bank|financ|insur|broker/i,{m:"pe",pe:12,ev:10,g:6},"financials"],
+ [/./,{m:"pe",pe:18,ev:12,g:7},"anything else"]];
+
+const BASE={rev:0,margin:0,rate:0,lab:0,capex:0};
+const step=(x,cuts,vals)=>{for(let i=0;i<cuts.length;i++) if(x<cuts[i]) return vals[i]; return vals[vals.length-1]};
+const F={scale:e=>e>=150?1:e>=75?3:e>=30?5:e>=10?7:e>=3?10:13,lev:x=>step(x,[0.5,1,1.5,2,3,4,5,6,8],[0,2,4,6,8,10,12,13,15,16]),
+ cov:x=>x>40?0:x>20?2:x>12?4:x>8?6:x>5?8:x>3?10:x>2?12:x>1.5?14:16,fcf:x=>x>0.6?0:x>0.3?3:x>0.1?6:x>0?8:x>-0.1?10:x>-0.3?12:15,
+ loop:x=>step(x,[10,25,40,60],[2,5,8,11,14]),vf:x=>step(x,[0.05,0.15,0.3,0.6],[2,5,8,11,14])};
+const W={biz:.15,scale:.10,lev:.17,adj:.13,cov:.13,fcf:.12,loop:.12,vf:.08};
+const FACTORS=[["biz","Business risk","Industry cyclicality and market position (analyst judgment)"],["scale","Scale","EBITDA, $B"],["lev","Leverage","Debt / EBITDA"],["adj","Leverage incl. hidden obligations","(Debt + 70% of leases + joint-venture debt + guarantees) / EBITDA"],["cov","Interest coverage","EBITDA / interest"],["fcf","Free cash flow / debt","(Op. cash flow − capex) / debt"],["loop","Loop dependency","% of backlog tied to AI labs funded inside the loop"],["vf","Vendor financing given","Equity and backstops paid to customers / EBITDA"]];
+function cdsNotch(s){if(s==null)return null;return step(s,[26,46,71,101,141,191,261,351,501,801],[1,3,5,7,8,9,10,12,13,14,15])}
+const band=n=>n<=9?(n>=7?"xo":"ig"):"hy";
+const bandCol=n=>band(n)==="ig"?"var(--good)":band(n)==="xo"?"var(--warn)":"var(--bad)";
+function metrics(c,s){s=s||BASE;
+ const labLoss=c.rev*(c.labRev/100)*(s.lab/100), revG=c.rev*(1+s.rev/100), m2=(c.ebitda/c.rev)*(1+s.margin/100);
+ const e=revG*m2-labLoss*0.8, intr=c.interest+c.debt*c.floatShare*s.rate/10000;
+ const ocf=c.ocf+(e-c.ebitda)*0.85-(intr-c.interest)*0.85, capex=c.capex*(1-s.capex/100), fcf=ocf-capex;
+ const newDebt=Math.max(0,(c.ocf-c.capex)-fcf), debt=c.debt+newDebt, ep=Math.max(e,0.01);
+ const v={biz:c.biz??7,scale:e,lev:debt/ep,adj:(debt+(c.hid??hidden(c).total))/ep,cov:e/Math.max(intr,0.01),fcf:fcf/Math.max(c.fcfDebt??debt,0.01),loop:c.loop,vf:c.vendorFin/ep};
+ const n={biz:c.biz??7,scale:F.scale(e),lev:e<=0?16:F.lev(v.lev),adj:e<=0?16:F.lev(v.adj),cov:F.cov(v.cov),fcf:F.fcf(v.fcf),loop:F.loop(v.loop),vf:F.vf(v.vf)};
+ let w=0;for(const k in W)w+=W[k]*n[k];let model=Math.max(0,Math.min(16,Math.round(w)));
+ let cov=null;if(c.cov){const net=e/Math.max(intr-c.cash*0.04,0.01);cov={label:c.cov.label,val:net,min:c.cov.min,head:(net-c.cov.min)/c.cov.min};if(net<c.cov.min)model=Math.max(model,13)}
+ if(e<=0)model=16; /* losing money at the cash-profit level: lowest grade */
+ if(e>0){if(v.adj>20)model=16;else if(v.adj>12)model=Math.max(model,14);else if(v.adj>8)model=Math.max(model,11)} /* leverage this high caps the grade */
+ return {rev:revG-labLoss,e,intr,ocf,capex,fcf,debt,newDebt,v,n,raw:w,model,pd:PD1Y[model],cov};
+}
+
+
+/* ===== market data (fallback; live.json overrides daily) ===== */
+let MKT={
+ AAPL:{px:355.63,mc:5168.1,pe:38.2,chg:2.04,d:"Nov 11, 2026"},NVDA:{px:166.3,mc:4008,pe:21.1,chg:-4.3,d:"Nov 12, 2026 (approx. close)"},MSFT:{px:521.13,mc:3870.0,pe:27.9,chg:-2.26,d:"Nov 11, 2026"},
+ GOOGL:{px:293.45,mc:3574.8,pe:14.5,chg:2.11,d:"Nov 11, 2026"},AMZN:{px:266.17,mc:2878.1,pe:20.8,chg:-1.74,d:"Nov 11, 2026"},META:{px:628.77,mc:1607.3,pe:20.4,chg:-1.97,d:"Nov 11, 2026"},
+ AVGO:{px:345.22,mc:1648.0,pe:36.2,chg:3.99,d:"Nov 11, 2026"},TSLA:{px:390.82,mc:1544.8,pe:347,chg:2.91,d:"Nov 11, 2026"},ORCL:{px:128.40,mc:388.2,pe:17.8,chg:8.83,d:"Nov 11, 2026"},
+ LLY:{px:1437.76,mc:1352.6,pe:44.3,chg:0.35,d:"Nov 11, 2026"},WMT:{px:125.67,mc:1000.1,pe:45.1,chg:0.10,d:"Nov 11, 2026"},NFLX:{px:64.54,mc:265.0,pe:18.6,chg:2.02,d:"Nov 11, 2026"},
+ XOM:{px:166.71,mc:680.0,pe:17.1,chg:1.36,d:"Nov 11, 2026"},COST:{px:1087.61,mc:482.0,pe:51.3,chg:2.01,d:"Nov 11, 2026"},AMD:{px:552.90,mc:906.8,pe:86.8,chg:7.32,d:"Nov 11, 2026"},
+ INTC:{px:62.47,mc:332.0,pe:null,chg:7.52,d:"Nov 11, 2026"},IBM:{px:253.44,mc:239.5,pe:null,chg:null,d:"Oct 26, 2026"},DELL:{px:328.53,mc:208.9,pe:null,chg:null,d:"Nov 6, 2026"},
+ CRWV:{px:55.00,mc:30.3,pe:null,chg:null,d:"Nov 11, 2026 (estimate)"},NBIS:{px:129.49,mc:35.4,pe:null,chg:null,d:"Nov 6, 2026; fell sharply after Nov 12 results"}};
+
+/* ===== who owes the money: chance they fall short, and how much they'd still pay =====
+   p = chance over the contract's life that the customer can't pay in full (%)
+   rec = share of the contract still paid if they do fall short (%) */
+const CP={
+ OAI:{n:"OpenAI",p:35,rec:50,why:"About $10B of revenue last quarter (≈$50B a year) against roughly $1.4T of compute commitments, and its own forecast of $278B of cash burn through 2030. Its CFO warned in April that some commitments may not be met without faster growth."},
+ ANTH:{n:"Anthropic",p:15,rec:60,why:"About $17B of revenue last quarter and already operating profitably, with a ~$60B IPO raise under way. Still has ~$500B of planned compute spending."},
+ HYP:{n:"Big Tech customers (Microsoft, Meta and peers)",p:5,rec:85,why:"Highly rated, very profitable buyers. The risk is that they cancel or delay capacity, not that they can't pay."},
+ NEO:{n:"Neoclouds and AI startups (xAI, CoreWeave and peers)",p:30,rec:50,why:"Fast-growing but heavily borrowed buyers that fund purchases with debt and vendor support."},
+ OTH:{n:"All other customers",p:10,rec:80,why:"A broad mix of enterprise customers. Some contracts get renegotiated or cancelled in a downturn."},
+ GOOG:{n:"Google (search deal)",p:15,rec:40,why:"US antitrust remedies could cut or end Google's default-search payments to Apple."},
+};
+const RISKY=15; // counterparties at or above this chance are assumed to fall short in the stress case
+/* commitments ledger. dir in = owed TO the company; out = owed BY it.
+   m = profit margin on the contract (so cost to deliver = total × (1 − m));
+   drop = share of lost revenue that still hits profit (costs already committed) */
+const L=(id,dir,kind,label,total,yrs,dt,o)=>Object.assign({id,dir,kind,label,total,yrs,dt},o||{});
+const CM={
+ ORCL:[L("oai","in","contract","OpenAI cloud contract",300,5,"Sep 2025",{cp:"OAI",m:.25,drop:.8}),L("rpo","in","contract","Other contracted backlog",364,5,"Aug 2026",{cp:"OTH",m:.3,drop:.6,est:1}),
+  L("lease","out","lease","Data-center lease commitments",261,15,"Aug 2026"),L("dev","out","memo","Bank construction loans behind Oracle-leased campuses",56,0,"2025",{note:"Developers' debt, repaid from Oracle's rent, so already inside the leases above"})],
+ MSFT:[L("oai","in","contract","OpenAI Azure commitment",250,7,"Oct 2025",{cp:"OAI",m:.35,drop:.8,est:1}),L("rpo","in","contract","Other commercial backlog",428,5,"Sep 2026",{cp:"OTH",m:.4,drop:.6,est:1}),
+  L("lease","out","lease","Data-center leases",200,15,"Sep 2026",{est:1}),L("neo","out","purchase","Neocloud capacity (Nscale up to $43.8B, Nebius $17.4B, IREN $9.7B, CoreWeave, Lambda)",85,5,"2025–2026",{est:1})],
+ GOOGL:[L("anth","in","contract","Anthropic cloud and TPU commitments",100,5,"2025",{cp:"ANTH",m:.35,drop:.8,est:1}),L("rpo","in","contract","Other Google Cloud backlog",414,5,"Jun 2026",{cp:"OTH",m:.4,drop:.6,est:1}),
+  L("lease","out","lease","Data-center leases",150,15,"Sep 2026",{est:1}),
+  L("spx","out","purchase","SpaceX GPU capacity ($920M a month, Oct 2026 to Jun 2029)",29.4,3,"Jun 2026"),L("bks","out","guarantee","Lease backstops for Fluidstack at TeraWulf and Cipher Mining",4.6,0,"Aug–Sep 2025",{cp:"NEO"})],
+ AMZN:[L("oai","in","contract","OpenAI AWS commitment",138,7,"Nov 2025–2026",{cp:"OAI",m:.35,drop:.8}),
+  L("lease","out","lease","Lease obligations",200,15,"Jun 2026",{est:1}),L("pur","out","purchase","Purchase obligations",296,5,"Jun 2026",{est:1})],
+ META:[L("hyp","out","jv","Hyperion data-center joint venture (Blue Owl)",27,0,"Oct 2025"),L("amd","out","purchase","AMD GPU purchase (6 GW)",100,5,"Feb 2026"),L("nbis","out","purchase","Nebius capacity contract",27,5,"Nov 2025–2026"),
+  L("lease","out","lease","Other leases",100,15,"Sep 2026",{est:1}),L("tot","out","memo","Total future commitments (reported)",825,0,"Sep 2026",{note:"Includes the lines above"})],
+ NVDA:[L("lab","in","contract","Sales tied to OpenAI, directly or through clouds",135,3,"2025–2026",{cp:"OAI",m:.6,drop:.7,est:1}),
+  L("sup","out","purchase","Supply and capacity commitments",366,4,"Jul 2026"),L("sbe","out","guarantee","SB Energy Ohio campus guarantee (OpenAI demand)",105,0,"Aug 2026",{cp:"OAI"}),
+  L("lps","out","guarantee","Land, power and shell guarantees for AI clouds",3.5,0,"Jul 2026",{cp:"NEO"}),L("cloud","out","purchase","Cloud capacity it agreed to buy (incl. CoreWeave backstop)",36,6,"Jul 2026"),
+  L("eq","out","purchase","Committed equity investments",25,2,"Jul 2026")],
+ AMD:[L("oai","in","contract","OpenAI 6 GW GPU deployment",90,5,"Oct 2025",{cp:"OAI",m:.45,drop:.5,est:1}),L("meta","in","contract","Meta 6 GW GPU purchase",100,5,"Feb 2026",{cp:"HYP",m:.45,drop:.5}),
+  L("war","out","warrant","Warrants to OpenAI and Meta at $0.01",0,0,"Oct 2025; Feb 2026",{shares:0.32}),L("anth","out","purchase","Anthropic investment (up to)",5,1,"2026")],
+ AVGO:[L("anth","in","contract","Anthropic TPU rack orders",21,2,"Q4 2025",{cp:"ANTH",m:.55,drop:.6}),L("oai","in","contract","OpenAI custom accelerators (10 GW)",40,4,"Oct 2025",{cp:"OAI",m:.55,drop:.6,est:1})],
+ CRWV:[L("oai","in","contract","OpenAI contracts",22.4,5,"Mar–Sep 2025",{cp:"OAI",m:.25,drop:.8}),L("oth","in","contract","Microsoft, Meta and other contracts",110.1,5,"Sep 2026",{cp:"HYP",m:.25,drop:.8}),
+  L("nvb","in","memo","NVIDIA backstop: buys unsold capacity",6.3,0,"Sep 2025",{note:"Softens a shortfall, up to $6.3B through 2032"}),L("lease","out","lease","Data-center leases",30,10,"Sep 2026",{est:1})],
+ NBIS:[L("msft","in","contract","Microsoft capacity contract",19.4,5,"Sep 2025",{cp:"HYP",m:.3,drop:.8}),L("meta","in","contract","Meta capacity contract",27,5,"Nov 2025–2026",{cp:"HYP",m:.3,drop:.8}),L("lease","out","lease","Data-center leases",5,10,"2026",{est:1})],
+ DELL:[L("neo","in","contract","AI server backlog: neoclouds and labs (xAI, CoreWeave)",40,1,"Jul 2026",{cp:"NEO",m:.1,drop:.12,est:1}),L("oth","in","contract","AI server backlog: other customers",55,1,"Jul 2026",{cp:"OTH",m:.1,drop:.12,est:1})],
+ AAPL:[L("goog","in","contract","Google default-search payments (per year)",20,1,"2022 figure",{cp:"GOOG",m:1,drop:1}),L("pur","out","purchase","Supplier purchase commitments",20,1,"Sep 2026",{est:1})],
+ TSLA:[L("tfab","out","purchase","Terafab chip-fab share (Tesla portion)",20,3,"Q3 2026",{est:1}),L("smsg","out","purchase","Samsung chip-making contract (AI6)",16.5,8,"Jul 2025")],
+ INTC:[L("jv","out","jv","Fab joint ventures with financial partners",20,0,"2022–2026",{est:1})],
+ IBM:[L("lease","out","lease","Leases",6,8,"Sep 2026",{est:1})],
+ LLY:[L("top","out","purchase","Manufacturing take-or-pay",10,8,"FY2025 10-K")],
+ WMT:[L("lease","out","lease","Store and distribution leases",15,10,"Jul 2026",{est:1})],
+ COST:[L("lease","out","lease","Warehouse leases",3,10,"Aug 2026",{est:1})],
+ NFLX:[L("cont","out","purchase","Content obligations",22,3,"Sep 2026",{est:1})],
+ XOM:[L("lease","out","lease","Leases and other",10,10,"Sep 2026",{est:1})],
+};
+/* one-line explainers: why it's off the books, and why Off Book counts it */
+const WHY={
+ contract:["Revenue is only booked as the service is delivered, so signed-but-unpaid contracts aren't on the balance sheet.","It's only worth something if the customer can actually pay."],
+ lease:["The lease starts counting as debt only when the building is handed over, and many of these data centers aren't finished yet.","The company has already signed for years of rent it can't easily walk away from, so lenders treat it like debt."],
+ jv:["The debt sits in a separate company this firm doesn't control, so it isn't consolidated.","This company is the tenant whose rent pays that debt back."],
+ guarantee:["It's only a promise to pay if someone else can't, so nothing is owed today.","If the other side fails, the bill lands here."],
+ purchase:["Nothing is owed until the goods or service are delivered.","It's a signed promise to spend cash in the coming years."],
+ warrant:["The shares don't exist until the customer earns and exercises them.","Each new share shrinks existing shareholders' slice."],
+ memo:["Shown for context.",""],
+};
+
+/* ===== daily live data (news, prices, researched tickers) ===== */
+const LIVE0={updated:"Nov 12, 2026, 5:30 PM CT",news:[
+ {title:"Jensen Huang resigns as NVIDIA CEO; CFO Colette Kress named interim CEO",date:"Nov 12, 2026",src:"NVIDIA press release",url:"https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/",why:"The world's most valuable chipmaker, and the biggest financier of its own customers, has no permanent CEO five days before earnings. The stock fell as much as 13% intraday.",tk:["NVDA"]},
+ {title:"Anthropic opens IPO roadshow at up to ~$1.4T, with a $26B private sale to its own suppliers",date:"Nov 12, 2026",src:"Market News newsletter",url:"https://hervecuviliez.substack.com/p/market-news-thursday-12-november",why:"AMD, Broadcom, Google, Microsoft, NVIDIA and others are buying shares in a customer that buys their chips and cloud: another loop in the AI money circle.",tk:["NVDA","GOOGL","AMD","AVGO","MSFT"]},
+ {title:"OpenAI's quarterly revenue reportedly tops $10B for the first time, but losses stay heavy",date:"Nov 11, 2026",src:"Bloomberg via The Edge",url:"https://theedgemalaysia.com/node/825231",why:"OpenAI is the customer behind hundreds of billions of contracts at Oracle, Microsoft, AMD and CoreWeave. Faster revenue growth makes those contracts more likely to be paid.",tk:["ORCL","MSFT","AMD","CRWV","AMZN"]},
+ {title:"Nebius revenue jumps 571%, but it trims 2026 guidance as partner data centers run late",date:"Nov 12, 2026",src:"Quartz",url:"https://qz.com/nebius-revenue-beat-571-percent-growth-111226",why:"Neoclouds borrow and sell shares to build capacity before customers pay. When buildings slip, revenue slips too, while the bills keep coming.",tk:["NBIS","CRWV","MSFT","META"]},
+],co:{
+ NVDA:{news:[{t:"Jensen Huang resigned as CEO and board member; Colette Kress is interim CEO. Q3 results are due Nov 17.",d:"Nov 12, 2026",url:"https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/"},{t:"Reported to buy $10B of Anthropic shares in its IPO private sale.",d:"Nov 12, 2026",url:"https://hervecuviliez.substack.com/p/market-news-thursday-12-november"}]},
+ NBIS:{news:[{t:"Q3 revenue rose 571% to $980.8M, beating estimates, but 2026 guidance was cut to $3.0–3.2B on late third-party capacity. Shares fell sharply.",d:"Nov 12, 2026",url:"https://qz.com/nebius-revenue-beat-571-percent-growth-111226"}]},
+ ORCL:{news:[{t:"OpenAI's reported $10B quarter makes its $300B Oracle commitment look more fundable, but it still loses money heavily.",d:"Nov 11, 2026",url:"https://theedgemalaysia.com/node/825231"}]},
+ MSFT:{news:[{t:"Microsoft said OpenAI-linked engagements brought in about $10B in the September quarter, roughly 11% of revenue.",d:"Nov 2026",url:"https://cryptobriefing.com/openai-revenue-hits-10-billion-q3/"},{t:"Joins the $26B private share sale alongside Anthropic's IPO.",d:"Nov 12, 2026",url:"https://hervecuviliez.substack.com/p/market-news-thursday-12-november"}]},
+ GOOGL:{news:[{t:"Reported to buy $10B of Anthropic shares in its IPO private sale; Anthropic is also a major Google Cloud customer.",d:"Nov 12, 2026",url:"https://hervecuviliez.substack.com/p/market-news-thursday-12-november"}]},
+ AMD:{news:[{t:"Joins the $26B private sale of Anthropic shares; Anthropic plans a multi-gigawatt AMD deployment.",d:"Nov 12, 2026",url:"https://hervecuviliez.substack.com/p/market-news-thursday-12-november"}]},
+ AVGO:{news:[{t:"Joins the $26B private sale of Anthropic shares; Broadcom builds the TPU racks Anthropic buys.",d:"Nov 12, 2026",url:"https://hervecuviliez.substack.com/p/market-news-thursday-12-november"}]},
+},px:{},extra:{}};
+let LIVE=LIVE0;
+
+/* ===== helpers ===== */
+const S={ai:{},sc:{},cp:{},dealSel:null};
+try{const x=JSON.parse(localStorage.getItem("ob4:ai")||"{}");if(x&&typeof x==="object")S.ai=x}catch(e){}
+const saveAI=()=>{try{localStorage.setItem("ob4:ai",JSON.stringify(S.ai))}catch(e){}};
+const extras=()=>Object.values(LIVE.extra||{});
+const all=()=>COS.concat(extras().filter(c=>!COS.some(x=>x.t===c.t)),Object.values(S.ai).filter(c=>!(LIVE.extra||{})[c.t]&&!COS.some(x=>x.t===c.t)));
+const find=t=>all().find(c=>c.t===t);
+const nm=id=>NODES[id]||(find(id)?.name)||id;
+const fx=(x,d=1)=>x==null||!isFinite(x)?"—":x.toFixed(d);
+const fb=x=>x==null||!isFinite(x)?"—":(x<0?"−":"")+"$"+(Math.abs(x)>=1000?(Math.abs(x)/1000).toFixed(2)+"T":(Math.abs(x)>=100?Math.abs(x).toFixed(0):Math.abs(x).toFixed(1))+"B");
+const fp=x=>x==null||!isFinite(x)?"—":"$"+x.toFixed(2);
+const pct=(a,b)=>(!isFinite(a)||!isFinite(b)||b===0||a==null||b==null)?null:(a/b-1)*100;
+const fpc=x=>x==null||!isFinite(x)?"—":(x>0?"+":"")+x.toFixed(1)+"%";
+const cls=(x,goodUp=true)=>x==null||Math.abs(x)<0.05?"":((x>0)===goodUp?"up":"down");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const E=(c,f)=>c.est&&c.est.includes(f)?'<span class="est" title="Estimate">EST</span>':"";
+const tag=(n,l)=>n==null?`<span class="tag na">${esc(l||"Not rated")}</span>`:`<span class="tag ${band(n)}">${esc(l||NOTCH[n])}</span>`;
+const lines=c=>(c.ai||c.researched)?(c.cm||[]):(CM[c.t]||[]);
+const mkt=c=>(LIVE.px||{})[c.t]||((c.ai||c.researched)?(c.mkt||null):(MKT[c.t]||null));
+const deals=c=>(c.ai||c.researched)?(c.deals||[]):DEALS;
+const cpOf=k=>{const b=CP[k]||CP.OTH,o=S.cp[k]||{};return {...b,...o,k}};
+const cpKey=l=>l.cp||(l.lab?"NEO":"OTH");
+
+/* ===== stress engine ===== */
+/* one definition of hidden obligations, used everywhere: 70% of leases + JV debt + guarantees */
+function hidden(c){const Ls=lines(c).filter(l=>l.dir==="out");if(!Ls.length)return {lease:0,jv:0,gu:0,total:0.5*(c.offBS||0),fallback:true};
+ const s=k=>Ls.filter(l=>l.kind===k).reduce((a,l)=>a+l.total,0);const lease=s("lease")*0.7,jv=s("jv"),gu=s("guarantee");return {lease,jv,gu,total:lease+jv+gu,fallback:false}}
+const AI_CP=new Set(["OAI","ANTH","NEO"]);
+/* each scenario: pay = how customers pay; rest = change in the rest of the business (credit view, trailing figures);
+   dg = change in next-year earnings growth, in points: a + b × |expected growth|; mx = multiple vs the fair multiple */
+const SCEN=[
+ {k:"bull",name:"Bull case",tag:"Bull",pay:"full",rest:10,ramp:true,dg:[5,.25],mx:1.2,
+  short:"Faster growth, premium multiple",
+  needs:["Every customer pays in full and on time, and new contracts reach full speed","Earnings grow 5 points plus a quarter faster than expected","Investors pay 20% above the fair multiple"]},
+ {k:"base",name:"Base case",tag:"Base",pay:"full",rest:0,dg:[0,0],mx:1,
+  short:"Expected growth, fair multiple",
+  needs:["Earnings grow as expected (consensus where we found it, otherwise Off Book's estimate)","Investors pay the fair multiple for the sector","Every customer pays what it signed, as forecasts assume"]},
+ {k:"bear1",name:"Customers pay a bit less",tag:"Bear 1",pay:"exp",rest:-3,dg:[-2,-.15],mx:.9,
+  short:"Each customer pays its expected share",
+  needs:["Each customer pays its expected share: in full if it doesn't fall short, its partial share if it does, weighted by the odds","Growth runs 2 points plus 15% below expected","Investors pay 10% below the fair multiple"]},
+ {k:"bear2",name:"Main customer falls short",tag:"Bear 2",pay:"stress",rest:-5,dg:[-5,-.3],mx:.8,
+  short:"The riskiest customer pays only part",
+  needs:["Customers with a 15% or higher chance of falling short pay only their partial share; the rest pay their expected share","Growth runs 5 points plus 30% below expected","Investors pay 20% below the fair multiple"]},
+ {k:"bear3",name:"AI spending slump",tag:"Bear 3",pay:"winter",rest:-15,dg:[-15,-.7],mx:.65,
+  short:"AI budgets cut across the industry",
+  needs:["AI labs and neoclouds pay only their partial share; big tech customers pay halfway between that and in full","Growth runs 15 points plus 70% below expected","Investors pay 35% below the fair multiple"]}];
+const scen=k=>SCEN.find(s=>s.k===k)||SCEN[1];
+const DEF=()=>({sel:"base",warr:false,mult:null,g:null,sens:"g"});
+function sc(c){return S.sc[c.t]||(S.sc[c.t]=DEF())}
+function paidPct(l,pay){if(pay==="full")return 100;const q=cpOf(cpKey(l)),ex=(100-q.p)+q.p*q.rec/100;
+ if(pay==="exp")return ex;if(pay==="stress")return q.p>=RISKY?q.rec:ex;
+ if(pay==="winter"){const k=cpKey(l),st2=q.p>=RISKY?q.rec:ex,w=AI_CP.has(k)?q.rec:k==="HYP"||k==="GOOG"?(100+q.rec)/2:ex;return Math.min(st2,w)} /* never milder than Bear 2 */
+ return 100}
+const calledPct=(l,pay)=>100-paidPct(l,pay);
+/* contracts signed recently whose revenue is mostly not in the last 12 months yet: only the bull case adds them */
+const FWD=new Set(["ORCL.oai","MSFT.oai","GOOGL.anth","AMZN.oai","AMD.oai","AMD.meta","AVGO.oai","NBIS.msft","NBIS.meta"]);
+const isFwd=(c,l)=>FWD.has(c.t+"."+l.id);
+const aiExposed=c=>(c.loop||0)>0||(c.labRev||0)>0||lines(c).some(l=>l.dir==="in"&&l.kind==="contract"&&AI_CP.has(cpKey(l)));
+function run(c,st,k){
+ const S00=scen(k||st.sel),soft=S00.k.startsWith("bear")&&!aiExposed(c),S0=soft?{...S00,rest:Math.round(S00.rest*0.4),soft:true}:S00,m=mkt(c),Ls=lines(c),hid=hidden(c);let lossRev=0,lossE=0,pvLost=0,fwdRev=0,fwdE=0;const per=[];
+ const ann9=n=>n<=1?1:(1-Math.pow(1.09,-n))/0.09;
+ Ls.filter(l=>l.dir==="in"&&l.kind==="contract").forEach(l=>{const pp=paidPct(l,S0.pay),ann=l.total/Math.max(l.yrs,1),ramp=isFwd(c,l)?0.5:1,lr=ann*(1-pp/100)*ramp,drop=l.drop??.8,le=lr*drop,mg=l.m??.3,cost=l.total*(1-mg),paid=l.total*pp/100;
+  const costKept=cost-(l.total-paid)*(1-drop),profit=paid-costKept;lossRev+=lr;lossE+=le;pvLost+=(le/ramp)*ann9(l.yrs)*0.83;
+  if(S0.ramp&&isFwd(c,l)){fwdRev+=ann*0.5;fwdE+=ann*0.5*mg}
+  per.push({l,pp,lr,le,cost,costKept,paid,profit,full:l.total*mg,q:cpOf(cpKey(l))})});
+ const margin=c.ebitda/c.rev,restRev=c.rev*S0.rest/100,restE=restRev*margin;
+ const rev2=Math.max(c.rev+fwdRev-lossRev+restRev,0),e2=c.ebitda+fwdE-lossE+restE,dE=c.ebitda-e2;
+ const guars=Ls.filter(l=>l.kind==="guarantee"),guarDebt=guars.reduce((a,l)=>a+l.total*calledPct(l,S0.pay)/100,0),guarT=guars.reduce((a,l)=>a+l.total,0);
+ const cashGap=Math.max(0,dE*0.83);
+ const debt2=c.debt+guarDebt+cashGap,int2=c.interest+(guarDebt+cashGap)*0.06;
+ const ocf2=c.ocf-dE*0.83-(int2-c.interest)*0.83,fcf=c.ocf-c.capex,fcf2=ocf2-c.capex;
+ const hid2=Math.max(0,hid.total-guarDebt);
+ const war=Ls.filter(l=>l.kind==="warrant").reduce((a,l)=>a+(l.shares||0),0);
+ const o={S:S0,per,lossRev,lossE,fwdRev,fwdE,pvLost,rev2,e2,dE,guarDebt,guarT,cashGap,debt2,int2,ocf2,fcf,fcf2,hid,hid2,war};
+ o.cr0=metrics(c);o.cr=metrics({...c,rev:Math.max(rev2,0.01),ebitda:e2,debt:debt2,interest:int2,ocf:ocf2,hid:hid2});
+ if(o.cr.model<o.cr0.model&&!S0.ramp&&S0.rest<=0)o.cr={...o.cr,model:o.cr0.model,pd:o.cr0.pd}; /* a bad case never improves the rating */
+ if(m&&m.px>0&&m.mc>0){const sh=m.mc/m.px,ni=m.pe>0?m.mc/m.pe:null;
+  Object.assign(o,{sh,sh2:sh+(st.warr?war:0),ni,ni2:ni!=null?ni-dE*0.83-(int2-c.interest)*0.83:null})}
+ return o;
+}
+/* ===== valuation: what fundamentals support =====
+   Fair value = next-12-month earnings × a fair multiple.
+   P/E method: EPS next 12 months × fair forward P/E.
+   EV method (when earnings are negative or swamped by depreciation): EBITDA next 12 months × fair EV/EBITDA − net debt, per share.
+   Customer shortfalls come off as the value of profit lost over each contract's life (9% discount, 17% tax),
+   plus any guarantees called, so a one-off hit isn't capitalized forever. */
+const vsec=sec=>(VSEC.find(([re])=>re.test(sec||""))||VSEC[VSEC.length-1])[1];
+function vin(c){const own=VAL[c.t]||(c.val&&(c.val.pe>0||c.val.ev>0)?{m:"pe",...vsec(c.sector),...c.val}:null);return own?{...own,own:true}:{...vsec(c.sector),why:`No company-specific inputs yet, so Off Book uses defaults for ${c.sector||"its sector"}.`,own:false}}
+/* static per-company setup: shares, starting earnings, method, default multiple and growth */
+function vbase(c){const m=mkt(c);if(!m||!(m.px>0)||!(m.mc>0))return null;
+ const v=vin(c),sh=m.mc/m.px,nd=c.debt-c.cash,e0=v.e0??(m.pe>0?m.px/m.pe:null);let meth=v.m==="ev"?"ev":"pe";
+ if(meth==="pe"&&!(e0>0))meth="ev";
+ if(meth==="ev"&&!(c.ebitda>0))return {m,v,sh,nd,meth:null};
+ const base=meth==="pe"?e0:c.ebitda,g0=meth==="pe"&&v.eps1>0&&v.m!=="ev"?(v.eps1/e0-1)*100:(v.g??7),fair0=meth==="pe"?v.pe:v.ev;
+ return {m,v,sh,nd,meth,e0,base,g0:Math.round(g0*10)/10,fair0,sourced:meth==="pe"&&v.eps1>0}}
+const unit=b=>b&&b.meth==="ev"?"× EBITDA":"× earnings";
+const munit=b=>b&&b.meth==="ev"?"company value ÷ EBITDA":"P/E";
+/* the user's settings (or the defaults) */
+function vset(c){const b=vbase(c),st=sc(c);if(!b||!b.meth)return {b,mult:null,g:null};
+ return {b,mult:st.mult??b.fair0,g:st.g??b.g0}}
+/* contract shortfall effects for valuation; paid(l) = % of the contract paid */
+function hit(c,paid){let lossE=0,pv=0,guar=0;const ann9=n=>n<=1?1:(1-Math.pow(1.09,-n))/0.09;
+ lines(c).forEach(l=>{if(l.dir==="in"&&l.kind==="contract"){const ann=l.total/Math.max(l.yrs,1),ramp=isFwd(c,l)?0.5:1,le=ann*(1-paid(l)/100)*(l.drop??.8);lossE+=le*ramp;pv+=le*ann9(l.yrs)*0.83}
+  else if(l.kind==="guarantee")guar+=l.total*(100-paid(l))/100});
+ const dInt=(guar+lossE*0.83)*0.06;return {lossE,pv,guar,dInt,lostNI:(lossE+dInt)*0.83}}
+/* price for one multiple, growth and shortfall; returns {px, earn (after shortfall), losing, wiped} */
+function priceAt(c,b,mult,g,h,sh2){h=h||{lossE:0,pv:0,guar:0,lostNI:0};sh2=sh2||b.sh+(sc(c).warr?lines(c).filter(l=>l.kind==="warrant").reduce((s,l)=>s+(l.shares||0),0):0);const gr=Math.max(g,-90)/100;
+ const pre=b.meth==="pe"?b.base*(1+gr)*b.sh:b.base*(1+gr),earn=b.meth==="pe"?(pre-h.lostNI)/sh2:pre-h.lossE;
+ const eq=(b.meth==="pe"?pre*mult:pre*mult-b.nd)-h.pv-h.guar;
+ if(!(earn>0))return {px:null,earn,losing:true,wiped:false,eq};
+ return {px:Math.max(0,eq)/sh2,earn,losing:false,wiped:eq<=0,eq}}
+/* scenario growth and multiple */
+function scenGM(c,s,g,mult,soft){const k=soft?0.4:1,dg=(s.dg[0]+s.dg[1]*Math.abs(g))*k,mx=1+(s.mx-1)*k;return {g:Math.max(g+dg,-90),mult:mult*mx}}
+/* full scenario: credit (run) + valuation */
+function vscen(c,k,over){const st=sc(c),r=run(c,st,k),vs=vset(c),b=vs.b,o={r,b};if(!b||!b.meth){o.losing=!b?false:true;o.nov=!b;return o}
+ const mult=over?.mult??vs.mult,g=over?.g??vs.g,gm=scenGM(c,scen(k),g,mult,r.S.soft),h=hit(c,l=>paidPct(l,r.S.pay)),sh2=b.sh+(st.warr?r.war:0);
+ const p=priceAt(c,b,gm.mult,gm.g,h,sh2);Object.assign(o,p,{g:gm.g,mult:gm.mult,h,sh2,fairPx:null});
+ if(r.e2<=0){o.losing=true;o.px=null;o.wiped=false}
+ return o}
+/* headline: fair value vs price */
+function fairView(c){const vs=vset(c),b=vs.b;if(!b)return null;if(!b.meth)return {b,losing:true};
+ const p=priceAt(c,b,vs.mult,vs.g),earn1=b.base*(1+vs.g/100),mktMult=b.meth==="pe"?b.m.px/earn1:(b.m.mc+b.nd)/earn1;
+ const impG=b.meth==="pe"?(b.m.px/(vs.mult*b.base)-1)*100:(((b.m.mc+b.nd)/vs.mult)/b.base-1)*100;
+ const cross=b.meth==="pe"&&c.ebitda>0&&b.v.ev?Math.max(0,c.ebitda*(1+vs.g/100)*b.v.ev-b.nd)/b.sh:null,hid=hidden(c).total;
+ const crossH=cross!=null?Math.max(0,c.ebitda*(1+vs.g/100)*b.v.ev-b.nd-hid)/b.sh:null;
+ const mc=mainCp(c),risk=mc?priceAt(c,b,vs.mult,vs.g,hit(c,l=>cpKey(l)===mc?paidPct(l,"exp"):100)):null;
+ return {b,...vs,...p,earn1,mktMult,impG,gap:p.px!=null?pct(p.px,b.m.px):null,cross,crossH,hid,mc,risk}}
+/* the customer that matters most: biggest expected loss on the default assumptions (stable while sliders move) */
+function mainCp(c){const t={};lines(c).forEach(l=>{if((l.dir==="in"&&l.kind==="contract")||l.kind==="guarantee"){const k=cpKey(l),q=CP[k]||CP.OTH;t[k]=(t[k]||0)+l.total*q.p*(100-q.rec)}});
+ const ks=Object.keys(t).sort((a,b)=>t[b]-t[a]);return ks.length&&t[ks[0]]>0?ks[0]:null}
+const gaugeWord=x=>x==null?"":x>=50?"trades far below what next year's earnings support; the market likely doubts those earnings will last":x>=30?"looks deeply undervalued":x>=10?"looks undervalued":x>-10?"looks about fairly valued":x>-30?"looks overvalued":x>-50?"looks deeply overvalued":"trades far above what next year's earnings support; the price rests on a longer-term story that a one-year view can't value";
+const fm=x=>x==null||!isFinite(x)?"n/m":(x>=100||Math.abs(x-Math.round(x))<0.05?x.toFixed(0):x.toFixed(1))+"×";
+/* rounded price for prose: whole dollars from $100 up */
+const fpr=x=>x==null||!isFinite(x)?"—":x>=100?"$"+Math.round(x).toLocaleString("en-US"):"$"+x.toFixed(2);
+const fpcr=x=>x==null||!isFinite(x)?"—":(x>0.5?"+":x<-0.5?"−":"")+Math.abs(x).toFixed(0)+"%";
+const fg=x=>(x>0?"+":x<0?"−":"")+Math.abs(x).toFixed(Math.abs(x)<10&&x%1?1:0)+"%";
+const CPSHORT={OAI:"OpenAI",ANTH:"Anthropic",HYP:"Big Tech",NEO:"Neocloud customers",OTH:"Other customers",GOOG:"Google"};
+const cpShort=k=>CPSHORT[k]||(CP[k]?CP[k].n.split(/[ (]/)[0]:k);
+
+/* one line per scenario, analyst voice */
+function interp(c,o){const r=o.r,S0=r.S,n0=r.cr0.model,n1=r.cr.model,de=c.ebitda?(r.e2/c.ebitda-1)*100:0,b=o.b;
+ const worst=r.per.filter(p=>p.pp<99.5).sort((a,b)=>b.le-a.le)[0];
+ const nw=n=>["","one notch","two notches","three notches"][n]||n+" notches";
+ const rat=n1===n0?`the rating holds at ${NOTCH[n0]}`:n1<n0?`the rating rises to ${NOTCH[n1]}`:(n0<=9&&n1>9)?`the rating drops ${nw(n1-n0)} to ${NOTCH[n1]}, which is junk`:`the rating slips ${nw(n1-n0)} to ${NOTCH[n1]}`;
+ const gtxt=o.g!=null?`earnings ${o.g>=0?"grow":"shrink"} ${fx(Math.abs(o.g),0)}%`:"";
+ let cause;
+ if(S0.k==="base")cause=o.g!=null?`On expected growth of ${fx(o.g,0)}%`:"With nothing changed";
+ else if(S0.k==="bull")cause=r.per.length?`If contracts land on time and ${gtxt}`:`If ${gtxt} and investors pay up`;
+ else if(worst&&S0.k!=="bear3")cause=`If ${worst.q.n} pays ${fx(worst.pp,0)}% of what it signed`;
+ else if(S0.k==="bear3")cause=aiExposed(c)?`If AI budgets are cut and AI customers pay part of their bills`:`In a broad slowdown where ${gtxt||"sales fall"}`;
+ else cause=`If growth slows${gtxt?` and ${gtxt}`:""}`;
+ const prof=S0.k==="base"||S0.k==="bull"?"":r.e2<=0?", cash profit turns negative":Math.abs(de)<0.5?"":`, cash profit ${de>0?"rises":"falls"} ${fx(Math.abs(de),0)}%`;
+ const m=b&&b.m;let px="";
+ if(o.nov)px="";else if(o.losing)px=". With the business losing money there are no earnings to value";
+ else if(o.wiped)px=`. At ${fm(o.mult)} ${munit(b)}, debt and called guarantees exceed the business's value: the shares could be worth nothing`;
+ else if(o.px!=null)px=`. At ${fm(o.mult)} ${b.meth==="ev"?"EBITDA":"earnings"} the shares are worth about ${fpr(o.px)}, ${fpcr(pct(o.px,m.px))} vs today`;
+ return `${cause}${prof?prof+" and":","} ${rat}${px}.`}
+
+/* ===== watchlist + alerts (saved in this browser only) ===== */
+const WKEY="ob-watch-v1",WTH={px:5,fair:5,bear:10,gap:10};
+let WL={};try{const raw=JSON.parse(localStorage.getItem(WKEY)||"{}");if(raw&&typeof raw==="object"&&!Array.isArray(raw))Object.entries(raw).forEach(([t,v])=>{if(v&&typeof v==="object"&&v.snap&&typeof v.snap==="object")WL[t]=v})}catch(e){WL={}}
+function wSave(){try{localStorage.setItem(WKEY,JSON.stringify(WL))}catch(e){}}
+const watching=t=>!!WL[t];
+/* snapshot with default assumptions, so the viewer's own slider moves never trigger an alert */
+function snap(c){const cp0=S.cp,sc0=S.sc[c.t];S.cp={};S.sc[c.t]=DEF();
+ try{const m=mkt(c),f=fairView(c),bs=vscen(c,"base"),b2=vscen(c,"bear2"),b3=vscen(c,"bear3"),cr=metrics(c),news=((LIVE.co||{})[c.t]?.news||[]).map(n=>n.url||n.t).concat((LIVE.news||[]).filter(x=>(x.tk||[]).includes(c.t)).map(x=>x.url));
+  return {at:new Date().toISOString(),px:m?.px??null,d:m?.d||"",q:c.q||"",fair:f&&!f.losing?(f.px??null):null,base:bs.losing?null:(bs.px??null),bear2:b2.losing?null:(b2.px??null),bear3:b3.losing?null:(b3.px??null),
+   rating:cr.model,agency:c.notch??null,hid:hidden(c).total,debt:c.debt,ebitda:c.ebitda,news}}
+ finally{S.cp=cp0;if(sc0)S.sc[c.t]=sc0;else delete S.sc[c.t]}}
+function watchToggle(t){if(WL[t])delete WL[t];else{const c=find(t);if(c)WL[t]={snap:snap(c)}}wSave();drawBell()}
+const chgPct=(a,b)=>a&&b!=null&&a!==0?(b/a-1)*100:null;
+/* compare saved snapshot with today; each change explains itself */
+function changes(t){const w=WL[t],c=find(t);if(!w||!c)return [];const o=w.snap,n=snap(c),out=[];
+ const add=(sev,title,body,jump)=>out.push({sev,title,body,jump});
+ if(n.q&&o.q&&n.q!==o.q)add("high",`New results: ${n.q}`,`${esc(c.name)} reported new numbers since you started watching (it was ${esc(o.q)}). Revenue, debt and cash were refreshed, so everything below may have moved.`,"fa");
+ if(n.rating!==o.rating){const up=n.rating<o.rating,lev0=o.ebitda>0?(o.debt+o.hid)/o.ebitda:null,lev1=n.ebitda>0?(n.debt+n.hid)/n.ebitda:null;
+  add("high",`Off Book rating ${up?"up":"down"}: ${NOTCH[o.rating]} → ${NOTCH[n.rating]}`,`${lev0!=null&&lev1!=null&&Math.abs(lev1-lev0)>=0.1?`Debt including hidden obligations went from ${fx(lev0)}× to ${fx(lev1)}× a year's cash profit. `:""}${(o.rating<=9)!==(n.rating<=9)?`That crosses the line between investment grade and junk, which changes who can own the bonds and what the company pays to borrow.`:`Lower grades mean higher borrowing costs and less room for error.`}`,"cr")}
+ if(n.agency!==o.agency&&n.agency!=null&&o.agency!=null)add("high",`Agency rating changed: ${NOTCH[o.agency]} → ${NOTCH[n.agency]}`,`S&P, Moody's or Fitch moved their view. Compare it with the Off Book rating on the stock page.`,"cr");
+ const dp=chgPct(o.px,n.px);if(dp!=null&&Math.abs(dp)>=WTH.px){const g0=o.fair?chgPct(o.px,o.fair):null,g1=n.fair?chgPct(n.px,n.fair):null;
+  add(Math.abs(dp)>=10?"high":"med",`Price ${dp>0?"up":"down"} ${fx(Math.abs(dp),0)}%: ${fp(o.px)} → ${fp(n.px)}`,`${g0!=null&&g1!=null?`Against fair value it went from ${fpc(g0)} to ${fpc(g1)}. `:""}${g1!=null?(g1>10?"It now trades below what fundamentals support.":g1<-10?"It now trades above what fundamentals support.":"It now trades close to fair value."):""}`,"vd")}
+ const df=chgPct(o.fair,n.fair);if(df!=null&&Math.abs(df)>=WTH.fair)add("med",`Fair value ${df>0?"up":"down"} ${fx(Math.abs(df),0)}%: ${fp(o.fair)} → ${fp(n.fair)}`,`Earnings expectations, debt or contracts changed. The scenarios and sensitivity table use the new figure.`,"vd");
+ else if(o.fair!=null&&n.fair==null)add("high","Fair value can no longer be worked out",`Earnings or cash profit turned negative, so a multiple can't price it.`,"vd");
+ [["bear2","Bear 2 (a big customer falls short)"],["bear3","Bear 3 (AI winter)"]].forEach(([k,l])=>{const d=chgPct(o[k],n[k]);if(d!=null&&Math.abs(d)>=WTH.bear)add("med",`Stress result moved: ${l} ${fp(o[k])} → ${fp(n[k])}`,`The downside case is now ${fx(Math.abs(d),0)}% ${d>0?"less":"more"} severe. ${d<0?"Something raised the stakes: new commitments, more debt, or a customer that matters more.":"Exposure came down or earnings grew."}`,"st");
+  else if(o[k]!=null&&n[k]==null)add("high",`In ${l} the business now loses money`,`The downside case got much worse: cash profit turns negative.`,"st")});
+ const dh=chgPct(o.hid,n.hid);if(dh!=null&&Math.abs(dh)>=10&&Math.abs(n.hid-o.hid)>1)add("med",`Hidden obligations ${dh>0?"up":"down"}: ${fb(o.hid)} → ${fb(n.hid)}`,`Leases, joint-venture debt or guarantees changed. These don't show up as debt but have to be paid.`,"obs");
+ const fresh=((LIVE.co||{})[t]?.news||[]).filter(x=>!(o.news||[]).includes(x.url||x.t));
+ fresh.forEach(x=>add("low",`News: ${x.t}`,`${x.d?x.d+". ":""}<a href="${esc(x.url||"#")}" target="_blank" rel="noopener">Read the source</a>`,"ov"));
+ const top=(LIVE.news||[]).filter(x=>(x.tk||[]).includes(t)&&!(o.news||[]).includes(x.url));
+ top.forEach(x=>add("low",`In today's top stories: ${x.title}`,`${esc(x.why||"")} <a href="${esc(x.url)}" target="_blank" rel="noopener">Read it</a>`,"ov"));
+ const rank={high:0,med:1,low:2};return out.sort((a,b)=>rank[a.sev]-rank[b.sev])}
+function allChanges(){return Object.keys(WL).map(t=>({t,c:find(t),ch:changes(t)})).filter(x=>x.c)}
+function markSeen(t){const c=find(t);if(c&&WL[t]){WL[t].snap=snap(c);wSave()}}
+/* bell + panel */
+function drawBell(){try{drawBell0()}catch(e){}}
+function drawBell0(){const b=document.getElementById("bell");if(!b)return;const n=allChanges().reduce((a,x)=>a+x.ch.filter(y=>y.sev!=="low").length,0),all=allChanges().reduce((a,x)=>a+x.ch.length,0);
+ b.querySelector(".bd").textContent=all?String(all):"";b.querySelector(".bd").hidden=!all;b.classList.toggle("hot",n>0);b.setAttribute("aria-label",all?`${all} watchlist update${all>1?"s":""}`:"Watchlist updates");
+ const p=document.getElementById("npanel");if(p&&!p.hidden)p.innerHTML=panelHTML()}
+function panelHTML(){const L=allChanges();const sel=S.nsel;
+ if(!L.length)return `<div class="nph"><b>Watchlist</b><button type="button" class="x" data-nclose aria-label="Close">×</button></div><div class="npb"><p>You're not watching any stocks yet. Open a stock and press <b>Watch</b>. When its numbers or stress test change in a way that matters, it shows up here.</p><p class="note">Your watchlist is saved in this browser only.</p></div>`;
+ if(sel&&WL[sel]){const x=L.find(y=>y.t===sel),ch=x?x.ch:[];const s0=WL[sel].snap;
+  return `<div class="nph"><button type="button" class="bk" data-nsel="">← All</button><b>${esc(x.c.name)}</b><button type="button" class="x" data-nclose aria-label="Close">×</button></div><div class="npb">
+  <p class="note">Compared with ${new Date(s0.at).toLocaleDateString(undefined,{month:"short",day:"numeric"})}, when you last marked it as seen or started watching.</p>
+  ${ch.length?`<ol class="steps">${ch.map((y,i)=>`<li class="${y.sev}"><span class="sn">${i+1}</span><div><b>${esc(y.title)}</b><p>${y.body}</p><button type="button" class="lnk" data-ngo="${esc(sel)}|${y.jump}">Show me on the page →</button></div></li>`).join("")}</ol>
+  <div class="npf"><button type="button" class="btn" data-nseen="${esc(sel)}">Got it, mark as seen</button><button type="button" class="btn ghost" data-ngo="${esc(sel)}|vd">Open ${esc(sel)}</button><button type="button" class="btn ghost" data-wtoggle="${esc(sel)}">Stop watching</button></div>`
+  :`<p>Nothing material has changed. Off Book flags price moves of ${WTH.px}%+, fair value moves of ${WTH.fair}%+, stress results moving ${WTH.bear}%+, any rating change, new results and new company news.</p><div class="npf"><button type="button" class="btn ghost" data-ngo="${esc(sel)}|vd">Open ${esc(sel)}</button><button type="button" class="btn ghost" data-wtoggle="${esc(sel)}">Stop watching</button></div>`}</div>`}
+ return `<div class="nph"><b>Watchlist updates</b><button type="button" class="x" data-nclose aria-label="Close">×</button></div><div class="npb">${L.map(x=>{const hi=x.ch.filter(y=>y.sev==="high").length,m=mkt(x.c);
+  return `<button type="button" class="nrow" data-nsel="${esc(x.t)}"><span class="tk">${esc(x.t)}</span><span class="nm">${esc(x.c.name)}${m?` · ${fp(m.px)}`:""}</span><span class="cnt ${hi?"high":x.ch.length?"med":""}">${x.ch.length?x.ch.length+" change"+(x.ch.length>1?"s":""):"No change"}</span></button>`}).join("")}
+  ${L.some(x=>x.ch.length)?`<div class="npf"><button type="button" class="btn ghost" data-nseen="*">Mark all as seen</button></div>`:""}<p class="note">Saved in this browser only. Checked against each evening's data refresh.</p></div>`}
+function openPanel(open){const p=document.getElementById("npanel"),b=document.getElementById("bell");p.hidden=!open;b.setAttribute("aria-expanded",open);if(open){p.innerHTML=panelHTML();p.focus()}}
+function watchBtn(c){if(c.ai)return "";const on=watching(c.t);return `<button type="button" class="wbtn${on?" on":""}" data-wtoggle="${esc(c.t)}" aria-pressed="${on}">${on?"✓ Watching":"+ Watch"}</button>`}
+function watchHome(){let L=[];try{L=allChanges()}catch(e){return ""}if(!L.length)return "";
+ return `<div class="panel"><div class="ptitle"><h2>Your watchlist</h2><span class="r">Saved in this browser</span></div><div class="tbl"><table class="mon"><tbody>${L.map(x=>{const m=mkt(x.c),f=fairView(x.c),g=f&&f.px!=null&&m?pct(f.px,m.px):null,hi=x.ch.filter(y=>y.sev==="high").length;
+  return `<tr data-open="${esc(x.t)}" tabindex="0"><td class="tk">${esc(x.t)}</td><td class="nm">${esc(x.c.name)}</td><td class="num">${fp(m?.px)}</td><td class="num ${cls(g)}">${g==null?"n/m":g>=0?fx(g,0)+"% below fair value":fx(-g,0)+"% above fair value"}</td><td>${tag(metrics(x.c).model)}</td><td>${x.ch.length?`<button type="button" class="lnk ${hi?"down":""}" data-nsel="${esc(x.t)}">${x.ch.length} change${x.ch.length>1?"s":""}</button>`:'<span class="muted">No change</span>'}</td></tr>`}).join("")}</tbody></table></div></div>`}
+document.addEventListener("click",e=>{
+ const bell=e.target.closest("#bell");if(bell){const p=document.getElementById("npanel");S.nsel=null;openPanel(p.hidden);return}
+ const wt=e.target.closest("[data-wtoggle]");if(wt){watchToggle(wt.dataset.wtoggle);document.querySelectorAll(`[data-wtoggle="${wt.dataset.wtoggle}"]`).forEach(b=>{const on=watching(wt.dataset.wtoggle);if(b.classList.contains("wbtn")){b.classList.toggle("on",on);b.textContent=on?"✓ Watching":"+ Watch";b.setAttribute("aria-pressed",on)}});const p=document.getElementById("npanel");if(!p.hidden){if(!watching(wt.dataset.wtoggle))S.nsel=null;p.innerHTML=panelHTML()}if(location.hash==="#home"||!location.hash){const y=window.scrollY;render(true);window.scrollTo(0,y)}return}
+ const ns=e.target.closest("[data-nsel]");if(ns){e.stopPropagation();S.nsel=ns.dataset.nsel||null;openPanel(true);return}
+ if(e.target.closest("[data-nclose]")){openPanel(false);return}
+ const nseen=e.target.closest("[data-nseen]");if(nseen){const t=nseen.dataset.nseen;(t==="*"?Object.keys(WL):[t]).forEach(markSeen);S.nsel=null;drawBell();openPanel(true);if(location.hash==="#home"||!location.hash){const y=window.scrollY;render(true);window.scrollTo(0,y)}return}
+ const go=e.target.closest("[data-ngo]");if(go){const [t,j]=go.dataset.ngo.split("|");openPanel(false);const h="#co-"+t.toLowerCase();const jump=()=>{const el=document.getElementById(j);if(el)el.scrollIntoView({behavior:"smooth"})};if(location.hash!==h){location.hash=h;setTimeout(jump,250)}else jump();return}
+ const p=document.getElementById("npanel");if(p&&!p.hidden&&!e.target.closest("#npanel"))openPanel(false)},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const p=document.getElementById("npanel");if(p&&!p.hidden){openPanel(false);document.getElementById("bell").focus()}}});
+
+/* ===== shared pieces ===== */
+const PURPOSE=`<div class="purpose"><p><b>Why it's worth your time:</b> fund analysts spend days pulling this out of filings before they buy. Here it's one page per stock: what the company really owes, whether today's price makes sense, and how far it could fall if the AI money slows.</p><p class="note">Not a stock recommendation or investment advice. <a href="#method">How it works</a></p></div>`;
+const WHYOFF=`<details class="panel"><summary class="pbody" style="display:block"><b>Why are things off the balance sheet? (It isn't hiding anything.)</b></summary><div class="pbody" style="padding-top:0"><p class="prose">Accounting rules say what goes on the balance sheet and when. A lease is recorded when the building is handed over, not when it's signed. Revenue is booked as work is delivered, not when a contract is signed. A guarantee is a promise, not a debt, until someone fails to pay. A joint venture the company doesn't control keeps its own books. Companies disclose all of these in the footnotes of their 10-K and 10-Q filings. Off Book reads those footnotes and adds the items up, so you can see them next to the reported numbers. Showing them is not an accusation that any company is misreporting.</p></div></details>`;
+const live=t=>((LIVE.co||{})[t]||{}).news||[];
+
+function ladder(c,m){
+ const W0=374,cw=W0/17,y=36;const bc=n=>band(n)==="ig"?"var(--up)":band(n)==="xo"?"var(--warn)":"var(--down)";
+ let g="";for(let i=0;i<17;i++){g+=`<rect x="${i*cw+1}" y="${y}" width="${cw-2}" height="9" rx="2" fill="${bc(i)}" opacity="${i===m.model?1:0.25}"/>`;
+  if(i%2===0||i===9)g+=`<text x="${(i+0.5)*cw}" y="${y-18}" font-size="9" text-anchor="middle" fill="var(--muted)">${NOTCH[i]}</text>`}
+ g+=`<line x1="${10*cw}" x2="${10*cw}" y1="${y-8}" y2="${y+46}" stroke="var(--muted)" stroke-dasharray="2 3"/><text x="${10*cw+4}" y="${y+56}" font-size="9" fill="var(--muted)">junk / high yield →</text>`;
+ const x=n=>(n+0.5)*cw;
+ if(c.notch!=null)g+=`<path d="M${x(c.notch)-6} ${y-13} L${x(c.notch)+6} ${y-13} L${x(c.notch)} ${y-3}Z" fill="var(--text)"/>`;
+ g+=`<circle cx="${x(m.model)}" cy="${y+18}" r="6" fill="var(--accent)"/>`;
+ const cn=cdsNotch(c.cds);if(cn!=null)g+=`<path d="M${x(cn)} ${y+27} l7 7 l-7 7 l-7 -7Z" fill="var(--violet)"/>`;
+ return `<div class="tbl"><svg class="ladder" viewBox="0 0 ${W0} 100" width="100%" style="min-width:320px;display:block" role="img" aria-label="Rating ladder from AAA to CCC">${g}</svg></div>
+ <div class="legend"><span><i style="background:var(--text)"></i>Agency rating: ${esc(c.rating)}</span><span><i style="background:var(--accent);border-radius:50%"></i>Off Book rating: ${NOTCH[m.model]}</span><span><i style="background:var(--violet);transform:rotate(45deg)"></i>Bond market: ${cn!=null?NOTCH[cn]:"not actively traded"}</span></div>`;
+}
+
+/* ===== home ===== */
+function newsCard(n,i){return `<div class="nitem"><span class="rank">${i+1}</span><span class="h"><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></span><span class="why"><b>Why it matters:</b> ${esc(n.why)}</span><span class="meta">${esc(n.src)} · ${esc(n.date)}</span>${n.tk&&n.tk.length?`<span class="tks">${n.tk.map(t=>`<button type="button" data-open="${esc(t)}">${esc(t)}</button>`).join("")}</span>`:""}</div>`}
+/* ===== AI money circle ===== */
+function circleData(){const E=DEALS.map((d,i)=>({a:d.a,b:d.b,i,d}));const nodes=[...new Set(E.flatMap(e=>[e.a,e.b]))];
+ const out={};E.forEach(e=>{(out[e.a]=out[e.a]||[]).push(e)});const loops=[],seen=new Set();
+ const dfs=(start,cur,path,depth)=>{(out[cur]||[]).forEach(e=>{if(e.b===start&&path.length>=1){const ns=[start,...path.map(p=>p.b)];const key=[...ns].sort().join(">")+"|"+[...path.map(p=>p.i),e.i].sort().join(",");if(!seen.has(key)){seen.add(key);loops.push([...path,e])}}
+  else if(depth<4&&!path.some(p=>p.a===e.b)&&e.b!==start&&!path.some(p=>p.b===e.b))dfs(start,e.b,[...path,e],depth+1)})};
+ nodes.forEach(n=>dfs(n,n,[],1));
+ const uniq=[],sig=new Set();loops.forEach(L=>{const s=[...new Set(L.map(e=>e.a))].sort().join("-");if(!sig.has(s)){sig.add(s);uniq.push(L)}});
+ uniq.forEach(L=>L.val=L.reduce((a,e)=>a+(e.d.val||0),0));uniq.sort((x,y)=>y.length-x.length||y.val-x.val);
+ return {E,nodes,loops:uniq,total:uniq.length}}
+function moneyCircle(c){const all0=circleData(),E=all0.E,loops=all0.loops.filter(L=>L.some(e=>e.a===c.t||e.b===c.t)).slice(0,8);
+ if(!loops.length)return "";
+ const key="loop-"+c.t,sel=Math.min(S[key]??0,loops.length-1),L=loops[sel];
+ const nodes=[...new Set(loops.flatMap(L=>L.flatMap(e=>[e.a,e.b])))].sort((a,b)=>(a===c.t?-1:b===c.t?1:0));
+ const R=Math.max(150,nodes.length*20),cx=R+70,cy=R+40,P={};nodes.forEach((n,i)=>{const t=-Math.PI/2+i*2*Math.PI/nodes.length;P[n]=[cx+R*Math.cos(t),cy+R*Math.sin(t)]});
+ const inL=e=>L.some(x=>x.i===e.i),onN=n=>L.some(x=>x.a===n||x.b===n);
+ const col={equity:"var(--accent)",buy:"var(--muted)",back:"var(--violet)"};
+ const used=E.filter(e=>loops.some(L=>L.some(x=>x.i===e.i)));
+ const edges=used.map(e=>{const [x1,y1]=P[e.a],[x2,y2]=P[e.b],h=inL(e),dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;
+  return `<line x1="${x1+ux*36}" y1="${y1+uy*14}" x2="${x2-ux*40}" y2="${y2-uy*18}" stroke="${col[e.d.kind]}" stroke-width="${h?3.2:1.2}" opacity="${h?1:0.18}" marker-end="url(#ar${h?"h":""}-${c.t})"/>`}).join("");
+ const lab=n=>NODES[n]?NODES[n].split(" ")[0]:n;
+ const ns=nodes.map(n=>{const [x,y]=P[n],h=onN(n),me=n===c.t;return `<g opacity="${h?1:0.35}"><rect x="${x-40}" y="${y-13}" width="80" height="26" rx="6" fill="${me?"color-mix(in srgb,var(--accent) 18%,var(--panel))":"var(--panel)"}" stroke="${h?"var(--accent)":"var(--line)"}" stroke-width="${h||me?2:1}"/><text x="${x}" y="${y+4}" text-anchor="middle" fill="var(--text)">${esc(lab(n).slice(0,10))}</text></g>`}).join("");
+ const steps=L.map(e=>`<li><b>${esc(nm(e.a))} → ${esc(nm(e.b))}</b>: ${esc(e.d.out)}${e.d.val?` (${fb(e.d.val)})`:""} <span class="muted">${esc(e.d.dt||"")}</span></li>`).join("");
+ const name=x=>x.map(e=>esc(lab(e.a))).join(" → ")+" → "+esc(lab(x[0].a));
+ return `<div class="panel circle" id="circle"><div class="ptitle"><h2>${esc(c.name)}'s money loops</h2><span class="r">${loops.length} loop${loops.length===1?"":"s"} that run through ${esc(c.t)}</span></div><div class="pbody">
+ <p class="prose">A loop is when money goes around in a circle: for example a supplier invests in a customer, the customer signs a big contract, and that contract pays the supplier back. These are the loops ${esc(c.name)} is part of, built from the dated deals above. Pick one to trace it.</p>
+ <div class="loops">${loops.map((x,k)=>`<button type="button" class="${k===sel?"on":""}" data-loop="${k}">${name(x)}</button>`).join("")}</div>
+ <svg viewBox="0 0 ${2*cx} ${2*cy}" role="img" aria-label="Money loops involving ${esc(c.name)}"><defs><marker id="ar-${c.t}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--muted)"/></marker><marker id="arh-${c.t}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--accent)"/></marker></defs>${edges}${ns}</svg>
+ <div class="legend" style="justify-content:center"><span><i style="background:var(--accent)"></i>Invests in / owns a stake</span><span><i style="background:var(--muted)"></i>Pays for chips or cloud</span><span><i style="background:var(--violet)"></i>Guarantees or backstops</span></div>
+ <div class="sub">How this loop works</div><ol class="why">${steps}</ol><p class="note">Why it matters for credit: if one company in the loop can't pay, ${esc(c.name)} can lose a customer and an investment at the same time.</p></div></div>`}
+
+function home(){
+ const rows=COS.map(c=>{const m=mkt(c),b=metrics(c),owed=(CM[c.t]||[]).filter(l=>l.dir==="in"&&l.kind==="contract").reduce((a,l)=>a+l.total,0),h=hidden(c);
+  return `<tr data-open="${c.t}" tabindex="0"><td class="tk">${c.t}</td><td class="nm">${esc(c.name)}</td><td>${fp(m?.px)}</td><td class="${cls(m?.chg)}">${m?.chg!=null?fpc(m.chg):"—"}</td><td>${tag(c.notch,c.notch==null?"Not rated":NOTCH[c.notch])}</td><td>${tag(b.model)}</td><td>${fb(c.debt)}</td><td>${fb(h.total)}</td><td>${owed?fb(owed):"—"}</td></tr>`}).join("");
+ const cards=COS.map(c=>{const m=mkt(c),b=metrics(c),h=hidden(c);return `<div class="mcard" data-open="${c.t}" tabindex="0" role="button"><span><span class="tk">${c.t}</span> <span class="nm">${esc(c.name)}</span></span><span class="num">${fp(m?.px)} <span class="${cls(m?.chg)}">${m?.chg!=null?fpc(m.chg):""}</span></span>
+  <span class="r">${tag(b.model,"Off Book "+NOTCH[b.model])} <span class="muted">Agency ${c.notch==null?"NR":NOTCH[c.notch]}</span> · <span>Hidden ${fb(h.total)}</span></span></div>`}).join("");
+ const ex=all().filter(c=>!COS.some(x=>x.t===c.t)).sort((a,b)=>(b.researched?1:0)-(a.researched?1:0));
+ const totH=COS.reduce((a,c)=>a+hidden(c).total,0),totD=COS.reduce((a,c)=>a+c.debt,0),nLoops=circleData().total,junk=COS.filter(c=>c.notch!=null&&c.notch<=9&&metrics(c).model>9).map(c=>c.name);
+ const n=COS.length+extras().length;
+ return `<section class="hero"><span class="kick">Off Book</span><h1>The AI boom runs on IOUs. See who owes what.</h1>
+ <p>The AI giants owe more than their balance sheets show: leases on data centers, guarantees, and deals where suppliers fund their own customers. Off Book reads the 10-K footnotes, adds it all up, and shows what happens to the stock if a customer like OpenAI can't pay.</p>
+ <div class="stats"><div class="stat"><span class="v">${fb(totH)}</span><span class="l">in obligations off the balance sheets of ${COS.length} AI-exposed companies, next to ${fb(totD)} of reported debt</span></div>
+ <div class="stat"><span class="v">${nLoops}</span><span class="l">circular money loops traced between AI companies</span></div>
+ <div class="stat"><span class="v">${junk.length}</span><span class="l">${junk.length===1?"company":"companies"} rated investment grade by the agencies that Off Book grades as junk${junk.length?": "+esc(junk.join(", ")):""}</span></div></div></section>
+ ${PURPOSE}
+ ${watchHome()}
+ <div class="panel"><div class="ptitle"><h2>Top 4 AI stories today</h2><span class="r">Updated ${esc(LIVE.updated||"")}</span></div><div class="news3">${(LIVE.news||[]).slice(0,4).map(newsCard).join("")}</div></div>
+ <div class="panel"><div class="ptitle"><h2>20 AI-exposed large companies</h2><span class="r">Click a company · $ in billions</span></div>
+ <div class="mon-wrap"><div class="tbl"><table class="mon"><thead><tr><th>Ticker</th><th style="text-align:left">Company</th><th>Share price</th><th>Today</th><th>Agency rating</th><th>Off Book rating</th><th>Debt</th><th>Hidden</th><th>Owed to it</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+ <div class="mcards">${cards}</div>
+ <div class="pbody"><div class="glossary"><div><b>Debt</b>Loans and bonds on the balance sheet.</div><div><b>Hidden</b>70% of leases, plus joint-venture debt and guarantees: obligations not counted as debt.</div><div><b>Owed to it</b>Contracts customers have signed but not yet paid.</div><div><b>Off Book rating</b>Our credit grade, AAA (safest) to CCC. BBB- and above is investment grade; BB+ and below is junk.</div></div>
+ <p class="note">Prices are the latest close we have; dates show on each company page.</p></div></div>
+ ${ex.length?`<div class="panel"><div class="ptitle"><h2>More stocks</h2><span class="r">${ex.filter(c=>c.researched).length} researched from filings · ${(LIVE.queue||[]).length} on the research list, ${PER_DAY} added a day</span></div><div class="tbl"><table class="mon"><tbody>${ex.map(c=>`<tr data-open="${esc(c.t)}" tabindex="0"><td class="tk">${esc(c.t)}</td><td class="nm">${esc(c.name)}</td><td>${c.researched?'<span class="up">Researched</span>':'<span class="warn">Estimate</span>'}</td><td class="num">${mkt(c)?fp(mkt(c).px):"—"}</td><td>${tag(metrics(c).model)}</td></tr>`).join("")}</tbody></table></div></div>`:""}
+ ${WHYOFF}`;
+}
+function matches(q){q=q.trim().toLowerCase();if(!q)return[];return all().filter(c=>c.t.toLowerCase().startsWith(q)||c.name.toLowerCase().includes(q)).slice(0,6)}
+function suggestHTML(q){const ms=matches(q),qq=q.trim();if(!qq)return"";const exact=all().some(c=>c.t.toLowerCase()===qq.toLowerCase()||c.name.toLowerCase()===qq.toLowerCase());
+ return `<div class="sugg">${ms.map(c=>`<button type="button" data-open="${esc(c.t)}"><span><b>${esc(c.t)}</b> ${esc(c.name)}</span>${tag(metrics(c).model)}</button>`).join("")}${exact?"":`<button type="button" data-q="${esc(qq)}"><span>Look up <b>${esc(qq.toUpperCase())}</b></span><span class="muted">not researched yet</span></button>`}</div>`}
+const ALIAS={google:"GOOGL",goog:"GOOGL",facebook:"META",fb:"META",supermicro:"SMCI","super micro":"SMCI",taiwan:"TSM",tsmc:"TSM",exxon:"XOM",lilly:"LLY",constellation:"CEG",arista:"ANET",vertiv:"VRT",micron:"MU",coreweave:"CRWV",nebius:"NBIS"};
+function go(q){q=ALIAS[q.trim().toLowerCase()]||q;const ms=matches(q),qq=q.trim();if(!qq)return;const ex=all().find(c=>c.t.toLowerCase()===qq.toLowerCase()||c.name.toLowerCase()===qq.toLowerCase())||(ms.length===1?ms[0]:null);
+ if(ex){location.hash="co-"+ex.t.toLowerCase();return}location.hash="q-"+encodeURIComponent(qq.toLowerCase())}
+const PER_DAY=5;
+function pending(q){const pv=Object.entries(NODES).find(([k,n])=>n.toLowerCase()===q.toLowerCase()||k.toLowerCase()===q.toLowerCase());
+ if(pv){const [id,n]=pv,ds=DEALS.filter(d=>d.a===id||d.b===id),cos=[...new Set(ds.map(d=>d.a===id?d.b:d.a))].filter(t=>find(t));
+  return `<div class="panel"><div class="ptitle"><h2>${esc(n)} is ${id==="GOV"?"not a company":"a private company"}</h2></div><div class="pbody"><p class="prose">It has no public stock or filings, so Off Book can't grade it directly. It does show up in ${ds.length} deal${ds.length===1?"":"s"} with these covered companies:</p>
+  <div class="tks" style="display:flex;flex-wrap:wrap;gap:6px">${cos.map(t=>`<button class="btn ghost" type="button" data-open="${esc(t)}">${esc(t)}</button>`).join("")}</div><p class="note">Open one to see how much it depends on ${esc(n)} and what happens if ${esc(n)} pays less.</p></div></div>`}
+ const T=q.toUpperCase(),Q=(LIVE.queue||[]).map(x=>String(x).toUpperCase()),i=Q.indexOf(T),days=i<0?null:Math.ceil((i+1)/PER_DAY),n=extras().length;
+ return `<div class="panel"><div class="ptitle"><h2>${esc(T)} isn't researched yet</h2></div><div class="pbody">
+ <p class="prose">${i>=0?`It's <b>number ${i+1}</b> on the research list. Off Book adds ${PER_DAY} companies a day from their latest filings and closing prices, so ${esc(T)} should arrive in <b>about ${days} day${days===1?"":"s"}</b>.`:`It isn't on the research list yet. Off Book adds ${PER_DAY} companies a day from their latest filings, in the order on the list below.`}</p>
+ <p class="prose">Right now Off Book covers ${COS.length+n} companies from current filings: the 20 AI-exposed large companies plus ${n} more.</p>
+ <div style="display:flex;flex-wrap:wrap;gap:10px">${window.claude?`<button class="btn" type="button" data-ask="${esc(q)}">See an estimated report now</button>`:""}<a class="btn ghost" href="#home">Back to researched stocks</a></div>
+ <p class="note">The estimated report is written instantly by an AI model from what it already knows. That knowledge stops at an earlier date and it can't look up today's price, so its figures are often a year or more old. Researched reports use the latest filings instead.</p>
+ ${Q.length?`<div class="sub">Next on the research list</div><p class="note">${Q.slice(0,15).map((x,j)=>`${j+1}. ${esc(x)}`).join(" · ")}${Q.length>15?` · and ${Q.length-15} more`:""}</p>`:""}</div></div>`}
+
+/* ===== any other ticker ===== */
+async function ask(q){
+ location.hash="run";const app=document.getElementById("app");
+ app.innerHTML=`<div class="panel"><div class="ptitle"><h2>Analyzing ${esc(q.toUpperCase())}</h2></div><div class="pbody"><p class="prose" id="lmsg">Reading what's known about this company's financials, commitments and deals. This can take up to a minute.</p><div><button class="btn ghost" type="button" id="lcancel">Cancel</button></div></div></div>`;
+ const ctl=new AbortController();S.asking=true;document.getElementById("lcancel").onclick=()=>{ctl.abort();S.asking=false;location.hash="home"};
+ let sample=null;try{sample=await window.claude?.use?.("sample")}catch(e){}
+ const msg=document.getElementById("lmsg");if(!msg||location.hash!=="#run"||ctl.signal.aborted)return;
+ if(!sample){S.asking=false;msg.textContent="Instant analysis isn't available in this view. The 20 covered companies and any researched stocks are available now.";return}
+ const prompt=`You are a senior credit analyst who reads 10-Ks and 10-Qs closely. The user searched "${q}". Identify the US-listed public company. Give last-twelve-months figures in US$ billions from the most recent filing you know of, and say exactly which quarter that is in "q" (e.g. "Q2 2026"). Estimate when unsure and list estimated fields in "est". Reply with only one JSON object:
+{"t":"TICKER","name":"","sector":"","q":"","rev":0,"ebitda":0,"debt":0,"cash":0,"interest":0,"ocf":0,"capex":0,"offBS":0,"backlog":null,"loop":0,"labRev":0,"vendorFin":0,"floatShare":0.15,"biz":7,"rating":"S&P / Moody's or Not rated","notch":null,"cds":null,"est":[],"story":"2 plain-English sentences on the credit picture","issues":[["high|med|low","title","detail with numbers","date or quarter"]],"deals":[{"dt":"month year","a":"TICKER or name","b":"TICKER or name","kind":"equity|buy|back","val":null,"vl":"","out":"","back":""}],"cm":[{"id":"short","dir":"in|out","kind":"contract|lease|jv|guarantee|purchase|warrant","label":"","total":0,"yrs":5,"dt":"month year","cp":"OAI|ANTH|HYP|NEO|OTH","m":0.3,"drop":0.8,"shares":0}],"mkt":{"px":0,"mc":0,"pe":null,"d":"date of that price"}}
+Definitions: offBS = leases, guarantees, purchase obligations and JV debt outside funded debt. loop = % of backlog tied to counterparties this company or its suppliers fund. labRev = % of revenue from AI labs. vendorFin = $ of equity, warrants or backstops given to customers. biz = business-risk notch 0-16 (1 very stable, 12 speculative). notch = agency rating index into [AAA,AA+,AA,AA-,A+,A,A-,BBB+,BBB,BBB-,BB+,BB,BB-,B+,B,B-,CCC] or null. cds = 5-year CDS in bp or null. cm = material commitments: dir "in" = signed contracts customers owe it (cp = who owes: OAI OpenAI, ANTH Anthropic, HYP big tech, NEO neoclouds/startups, OTH other; m = profit margin; drop = share of lost revenue that still hits profit), "out" = what it owes (shares for warrants in billions). mkt = the last share price, market cap ($B) and trailing P/E you know, with its date. Issues = what doesn't show on the balance sheet. If not a real public company reply {"error":"reason"}.`;
+ try{const r=await sample.json(prompt,{signal:ctl.signal,cache:{gcTime:86400000}});
+  if(!r||r.error||!r.t||!isFinite(+r.rev)||!isFinite(+r.ebitda)){msg.textContent=(r&&r.error)?r.error:"Couldn't identify that company. Try the ticker.";return}
+  const n=(o,k,d=0)=>isFinite(+o?.[k])&&o?.[k]!==null?+o[k]:d,str=v=>String(v??"");
+  const c={t:str(r.t).toUpperCase().slice(0,8),name:str(r.name||r.t),sector:str(r.sector),q:str(r.q),rev:Math.max(n(r,"rev"),0.01),ebitda:n(r,"ebitda"),debt:n(r,"debt"),cash:n(r,"cash"),interest:Math.max(n(r,"interest"),0.001),ocf:n(r,"ocf"),capex:n(r,"capex"),offBS:n(r,"offBS"),backlog:r.backlog==null?null:n(r,"backlog",null),loop:Math.min(100,n(r,"loop")),labRev:Math.min(100,n(r,"labRev")),vendorFin:n(r,"vendorFin"),floatShare:Math.min(1,Math.max(0,n(r,"floatShare",.15))),biz:Number.isInteger(r.biz)?Math.min(16,Math.max(0,r.biz)):7,rating:str(r.rating||"Not rated"),notch:Number.isInteger(r.notch)&&r.notch>=0&&r.notch<=16?r.notch:null,cds:r.cds==null?null:n(r,"cds",null),
+   est:Array.isArray(r.est)?r.est.map(str):[],story:str(r.story),issues:Array.isArray(r.issues)?r.issues.filter(i=>Array.isArray(i)&&i.length>=3).slice(0,5).map(i=>[["high","med","low"].includes(i[0])?i[0]:"med",str(i[1]),str(i[2]),str(i[3])]):[],
+   deals:Array.isArray(r.deals)?r.deals.filter(d=>d&&d.a&&d.b).slice(0,8).map(d=>({dt:str(d.dt),a:str(d.a),b:str(d.b),kind:["equity","buy","back"].includes(d.kind)?d.kind:"buy",val:d.val==null?null:n(d,"val",null),vl:str(d.vl),out:str(d.out),back:str(d.back)})):[],
+   cm:Array.isArray(r.cm)?r.cm.filter(l=>l&&l.label).slice(0,10).map((l,i)=>({id:"l"+i,dir:l.dir==="in"?"in":"out",kind:["contract","lease","jv","guarantee","purchase","warrant"].includes(l.kind)?l.kind:"purchase",label:str(l.label),total:n(l,"total"),yrs:Math.max(0,n(l,"yrs",5)),dt:str(l.dt),cp:CP[l.cp]?l.cp:"OTH",m:Math.min(1,Math.max(0,n(l,"m",.3))),drop:Math.min(1,Math.max(0,n(l,"drop",.8))),shares:n(l,"shares"),est:1})):[],
+   mkt:r.mkt&&n(r.mkt,"px")>0&&n(r.mkt,"mc")>0?{px:n(r.mkt,"px"),mc:n(r.mkt,"mc"),pe:r.mkt.pe==null?null:n(r.mkt,"pe",null),d:str(r.mkt.d)}:null,ai:true,ranAt:new Date().toISOString().slice(0,10)};
+  if(COS.some(x=>x.t===c.t)||(LIVE.extra||{})[c.t]){location.hash="co-"+c.t.toLowerCase();return}
+  S.ai[c.t]=c;saveAI();location.hash="co-"+c.t.toLowerCase();
+ }catch(e){if(e.code==="cancelled")return;msg.textContent=e.code==="not_granted"||e.code==="sampling_disabled"?"Instant analysis wasn't allowed for this page. The 20 covered companies are available now.":e.code==="rate_limited"?"Too many requests right now. Try again in a minute.":"The analysis didn't finish. Try again."}
+}
+
+/* ===== deals ===== */
+function directDeals(c){return deals(c).map((d,i)=>({d,i})).filter(x=>x.d.a===c.t||x.d.b===c.t).sort((x,y)=>(y.d.val||0)-(x.d.val||0))}
+const DEAL_LIMIT=8;
+function egoGraph(c,dd){
+ const others=[];dd.forEach(({d})=>{const o=d.a===c.t?d.b:d.a;if(!others.includes(o))others.push(o)});
+ const R=Math.max(120,others.length*13),cx=R+50,cy=R+25,P={};P[c.t]=[cx,cy];others.forEach((id,i)=>{const a=-Math.PI/2+i*2*Math.PI/Math.max(others.length,1);P[id]=[cx+R*Math.cos(a),cy+R*Math.sin(a)]});
+ const col={equity:"var(--accent)",buy:"var(--muted)",back:"var(--violet)"};const sel=S.dealSel;
+ const edges=dd.map(({d,i})=>{const o=d.a===c.t?d.b:d.a,on=sel===i;return `<line x1="${cx}" y1="${cy}" x2="${P[o][0]}" y2="${P[o][1]}" stroke="${col[d.kind]}" stroke-width="${on?4:1.8}" opacity="${sel!=null&&!on?0.2:0.9}"/><line data-deal="${i}" x1="${cx}" y1="${cy}" x2="${P[o][0]}" y2="${P[o][1]}" stroke="transparent" stroke-width="14" style="cursor:pointer"><title>${esc(d.out)}</title></line>`}).join("");
+ const nodes=Object.keys(P).map(id=>{const[x,y]=P[id],me=id===c.t;const lab=me?id:(NODES[id]?NODES[id].split(" ")[0]:id.slice(0,8));const hot=sel!=null&&(me||dd.find(z=>z.i===sel&&(z.d.a===id||z.d.b===id)));
+  return `<g opacity="${sel!=null&&!hot?0.35:1}"><rect x="${x-36}" y="${y-13}" width="72" height="26" rx="6" fill="var(--panel)" stroke="${me?"var(--accent)":find(id)?"var(--text)":"var(--muted)"}" ${find(id)||me?"":'stroke-dasharray="3 2"'}/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="10.5" fill="${me?"var(--accent)":"var(--text)"}">${esc(lab)}</text></g>`}).join("");
+ return `<svg viewBox="0 0 ${2*cx} ${2*cy}" role="img" aria-label="Direct deals around ${esc(c.name)}">${edges}${nodes}</svg><div class="legend" style="justify-content:center"><span><i style="background:var(--accent)"></i>Stake, warrants or acquisition</span><span><i style="background:var(--muted)"></i>Purchase commitment</span><span><i style="background:var(--violet)"></i>Backstop or guarantee</span></div>`;
+}
+
+/* ===== why Off Book differs from the agencies ===== */
+const AGENCY_WHY={TSLA:"Agencies also weigh things this scorecard doesn't: car sales swing with the economy, margins have been falling, and a lot rides on one CEO.",AVGO:"Agencies still weigh the debt Broadcom took on to buy VMware and how fast it is being repaid.",AMD:"Agencies weigh how cyclical chip demand is and AMD's smaller scale next to NVIDIA.",LLY:"Agencies weigh how much of Lilly's profit rests on a few weight-loss drugs."};
+function gapWhy(c,b,gap){const name={biz:"business risk",scale:"size",lev:"reported leverage",adj:"leverage including hidden obligations",cov:"interest coverage",fcf:"free cash flow against debt",loop:"dependence on circular AI deals",vf:"financing it gives its own customers"};
+ const val=k=>k==="lev"||k==="adj"||k==="cov"?(b.v[k]>99?">99":fx(b.v[k]))+"x":k==="fcf"?fx(b.v.fcf*100,0)+"% of debt":k==="loop"?b.v.loop+"% of backlog":k==="scale"?fb(b.v.scale)+" of EBITDA":k==="vf"?fx(b.v.vf*100,0)+"% of EBITDA":"";
+ let ks=Object.keys(W).filter(k=>k!=="biz").map(k=>({k,s:W[k]*(b.n[k]-c.notch)})).filter(x=>gap>0?x.s>0:x.s<0).sort((x,y)=>Math.abs(y.s)-Math.abs(x.s));
+ if(ks[0]&&ks[1]&&["lev","adj"].includes(ks[0].k)&&["lev","adj"].includes(ks[1].k))ks.splice(1,1);ks=ks.slice(0,2);
+ const why=ks.map(x=>`${name[x.k]} (${val(x.k)})`).join(" and ");
+ return gap>0?`Off Book is lower mainly because of ${why||"what sits off the books"}.`:`Off Book is higher mainly because of ${why||"its strong numbers"}. ${AGENCY_WHY[c.t]||"Agencies also weigh things a numbers-only scorecard can't, like how lasting the business is, management and legal risks."}`}
+/* ===== sources per company ===== */
+const SRCKW={ORCL:["Oracle"],CRWV:["CoreWeave"],META:["Meta"],AMZN:["Amazon"],GOOGL:["Alphabet","Google"],MSFT:["Microsoft"],NVDA:["NVIDIA"],AMD:["AMD"],AAPL:["Apple"],AVGO:["Broadcom"],TSLA:["Tesla"],INTC:["Intel"],IBM:["IBM"],DELL:["Dell"],NFLX:["Netflix"],WMT:["Walmart"],XOM:["ExxonMobil"],COST:["Costco"],LLY:["Lilly"],NBIS:["Nebius"]};
+const PRIV_KW={OAI:"OpenAI",ANTH:"Anthropic"};
+function srcFor(c){if(c.ai||c.researched)return (c.sources||[]).concat(SOURCES.filter(s=>s[2]&&s[2].includes(c.t)).map(s=>[s[0],s[1]]));
+ const kw=SRCKW[c.t]||[c.name],ties=new Set(directDeals(c).map(({d})=>d.a===c.t?d.b:d.a)),out=[];
+ SOURCES.forEach(s=>{const [t,u,tk]=s;const own=tk?tk.includes(c.t):kw.some(k=>new RegExp("\\b"+k+"\\b").test(t));const rel=/circular/i.test(t)&&ties.size>0;
+  if(own||rel)out.push([t,u])});return out}
+/* ===== company report ===== */
+const SECS=[["vd","Bottom line"],["ov","Overview"],["fa","Financials"],["obs","Commitments"],["dl","Deals"],["circle","Money loops"],["cr","Credit"],["st","Stress test"],["src","Sources"]];
+function report(c){
+ const m=mkt(c),b=metrics(c),fcf=c.ocf-c.capex,nd=c.debt-c.cash,Ls=lines(c),cn=cdsNotch(c.cds);
+ const kv=(l,v,k)=>`<div><span class="l">${l}${k?E(c,k):""}</span><span class="v">${v}</span></div>`;
+ const head=`<div class="eqh"><span class="tk">${esc(c.t)}</span><h1>${esc(c.name)}</h1>${watchBtn(c)}</div>
+ <div class="eqh" style="margin-top:6px">${m?`<span class="px">${fp(m.px)}</span><span class="${cls(m.chg)} num">${m.chg!=null?fpc(m.chg)+" today":""}</span><span class="muted">Market value ${fb(m.mc)} · price as of ${esc(m.d)}</span>`:'<span class="muted">No share price available</span>'}
+ <span class="chips">${tag(c.notch,"Agency "+c.rating)} ${tag(b.model,"Off Book rating "+NOTCH[b.model])} ${cn!=null?tag(cn,"Bond market "+NOTCH[cn]):""}<span class="muted" style="font-size:13px">${esc(c.sector)}</span></span></div>
+ ${c.ai?`<div class="banner"><span><b>Estimated report.</b> Instant analysis uses an AI model's built-in knowledge, which ends at an earlier date and can't browse live data. These figures reflect <b>${esc(c.q||"an earlier quarter")}</b> and the price is from <b>${esc(c.mkt?.d||"an earlier date")}</b>, so they may be out of date.</span><span>Stocks on the researched list (the 20 covered companies plus any added to the daily refresh) use the latest filings and closing prices instead.</span><span><button class="btn ghost" type="button" data-refresh="${esc(c.t)}">Run it again</button></span></div>`:""}
+ ${c.researched?`<div class="banner" style="border-color:var(--line);background:var(--panel)"><span>Researched on request from the latest filings · ${esc(c.q||"")} · updated ${esc(c.updated||LIVE.updated||"")}</span></div>`:""}`;
+ // overview + news + under the hood
+ const news=live(c.t);
+ const ov=`<div class="panel" id="ov"><div class="ptitle"><h2><span class="n">01</span>Overview and what's under the hood</h2><span class="r">Updated daily</span></div><div class="pbody">
+ <p class="prose">${esc(c.story)}</p>
+ <div><div class="sub">Latest news</div><div class="news">${news.length?news.map(n=>`<div class="nitem"><span>${n.url?`<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.t)}</a>`:esc(n.t)}</span><span class="meta">${esc(n.d)}</span></div>`).join(""):`<div class="nitem"><span class="muted">No company-specific news since the last refresh (${esc(LIVE.updated||"")}).</span></div>`}</div></div>
+ <div><div class="sub">What's under the hood</div><p class="note" style="margin:4px 0 2px">What the balance sheet doesn't show.</p>${(c.issues||[]).map(([s,t,d,dt])=>`<div class="issue"><span class="sev ${s}">${s==="high"?"High":s==="med"?"Watch":"Low"}</span><span><span class="t">${esc(t)}</span> <span class="when">${esc(dt||c.q||"")}</span></span><span class="d">${esc(d)}</span></div>`).join("")||'<p class="muted">None listed.</p>'}</div></div></div>`;
+ const fa=`<div class="panel" id="fa"><div class="ptitle"><h2><span class="n">02</span>Financials</h2><span class="r">Last 12 months through ${esc(c.q||"latest quarter")} · $ in billions</span></div>
+ <div class="kv">${kv("Revenue",fb(c.rev),"rev")}${kv("EBITDA (cash operating profit)",fb(c.ebitda),"ebitda")}${kv("Cash from operations",fb(c.ocf),"ocf")}${kv("Capital spending",fb(c.capex),"capex")}${kv("Free cash flow",`<span class="${fcf<0?"down":""}">${fb(fcf)}</span>`)}${kv("Total debt",fb(c.debt),"debt")}${kv("Cash and investments",fb(c.cash),"cash")}${kv("Years of profit to repay net debt",c.ebitda>0?(nd<=0?"Net cash":fx(nd/c.ebitda)+" yrs"):"—")}${kv("Annual interest",fb(c.interest),"interest")}${kv("Signed future revenue",c.backlog?fb(c.backlog):"—")}
+ ${m&&c.ebitda>0?kv("Company value ÷ EBITDA",fx((m.mc+nd)/c.ebitda)+"x")+kv("Price ÷ earnings (P/E)",m.pe?fx(m.pe)+"x":"n/m"):""}</div>
+ <div class="pbody"><p class="note">${fcf<0?`It spends ${fb(-fcf)} a year more on capital projects than its operations bring in, so the gap is funded with cash, debt or new shares.`:`Operations cover capital spending with ${fb(fcf)} a year to spare.`} Revenue, debt and cash are as reported (revenue summed over the last four quarters); EST marks figures Off Book estimated or calculated.</p></div></div>`;
+ // commitments
+ const ins=Ls.filter(l=>l.dir==="in"),outs=Ls.filter(l=>l.dir==="out");
+ const kt={contract:"Contract",lease:"Lease",jv:"Joint-venture debt",guarantee:"Guarantee",purchase:"Purchase",warrant:"Warrants",memo:"Note"};
+ const row=l=>{const w=WHY[l.kind]||WHY.memo;return `<tr><td class="l">${esc(l.label)}${l.est?'<span class="est">EST</span>':""}${l.note?`<small>${esc(l.note)}</small>`:l.kind==="memo"?"":`<small><b>Why it's off the books:</b> ${esc(w[0])}</small><small><b>Why we count it:</b> ${esc(w[1])}</small>`}</td><td>${kt[l.kind]}</td><td>${l.kind==="warrant"?(l.shares*1000).toFixed(0)+"M shares":fb(l.total)}</td><td>${l.yrs?l.yrs+" yrs":"—"}</td><td class="when">${esc(l.dt)}</td></tr>`};
+ const tIn=ins.filter(l=>l.kind==="contract").reduce((a,l)=>a+l.total,0),capable=outs.filter(l=>l.kind==="lease").reduce((a,l)=>a+l.total,0)*0.7+outs.filter(l=>l.kind==="jv").reduce((a,l)=>a+l.total,0),guarT=outs.filter(l=>l.kind==="guarantee").reduce((a,l)=>a+l.total,0);
+ const HD=hidden(c),onb=c.debt+HD.total;
+ const obs=`<div class="panel" id="obs"><div class="ptitle"><h2><span class="n">03</span>Commitments on and off the books</h2><span class="r">$ in billions, face value</span></div>
+ ${Ls.length?`<div class="tbl"><table><thead><tr><th>Item</th><th>Type</th><th>Amount</th><th>Term</th><th>Signed</th></tr></thead><tbody>
+ ${ins.length?`<tr class="grp"><td colspan="5">Owed to ${esc(c.name)}: signed, not yet paid</td></tr>${ins.map(row).join("")}<tr class="tot"><td>Total signed future revenue</td><td></td><td>${fb(tIn)}</td><td></td><td></td></tr>`:""}
+ ${outs.length?`<tr class="grp"><td colspan="5">Owed by ${esc(c.name)}: not counted as debt</td></tr>${outs.map(row).join("")}`:""}</tbody></table></div>`:'<div class="pbody"><p class="prose">No material off-balance-sheet commitments mapped.</p></div>'}
+ <div class="pbody"><div class="tbl"><table><thead><tr><th>If it all went on the books</th><th>Reported</th><th>Off Book view</th></tr></thead><tbody>
+ <tr><td>Total debt</td><td>${fb(c.debt)}</td><td class="${onb>c.debt+0.05?"down":""}">${fb(onb)}</td></tr>
+ <tr><td>Debt ÷ EBITDA</td><td>${fx(c.debt/c.ebitda)}x</td><td class="${onb>c.debt+0.05?"down":""}">${fx(onb/c.ebitda)}x</td></tr></tbody></table></div>
+ ${HD.fallback&&HD.total>0.05?`<p class="note">No itemized leases, joint ventures or guarantees are mapped yet, so the Off Book view uses an estimate: 50% of about ${fb(c.offBS)} of off-balance-sheet items (EST).</p>`:""}<p class="note">Leases count at 70% of face value (roughly what the future rent is worth today); joint-venture debt and guarantees at 100%. Purchase commitments aren't debt, but they are cash already promised.</p></div></div>
+ ${WHYOFF}`;
+ // deals
+ const ddAll=directDeals(c),more=ddAll.length-DEAL_LIMIT,dd=S.dealAll===c.t||more<=0?ddAll:ddAll.slice(0,DEAL_LIMIT);
+ const dls=`<div class="panel" id="dl"><div class="ptitle"><h2><span class="n">04</span>Deals with other companies</h2><span class="r">${ddAll.length} deal${ddAll.length===1?"":"s"}, biggest first · tap one to highlight it</span></div>
+ ${dd.length?`<div class="dealgrid"><div class="pbody net">${egoGraph(c,dd)}</div><div class="pbody dlist">${dd.map(({d,i})=>{const o=d.a===c.t?d.b:d.a;return `<div class="deal${S.dealSel===i?" on":""}" data-deal="${i}" role="button" tabindex="0"><div class="h"><b>${esc(nm(o))}</b><span class="v num">${d.val?fb(d.val):esc(d.vl||"")}</span><span class="when">${esc(d.dt||"")}</span></div><div class="d">${esc(d.out)}. ${esc(d.back)}.</div></div>`}).join("")}${more>0?`<div><button class="btn ghost" type="button" data-dealall="${esc(c.t)}">${S.dealAll===c.t?"Show the "+DEAL_LIMIT+" biggest only":"Show all "+ddAll.length+" deals"}</button></div>`:""}</div></div>`:'<div class="pbody"><p class="prose">No circular or related-party deals mapped. For credit, that is good news.</p></div>'}</div>`;
+ // credit
+ const fac=FACTORS.map(([k,n,d])=>{const nn=b.n[k];const val=k==="biz"?NOTCH[b.v.biz]:k==="scale"?fb(b.v.scale):k==="loop"?b.v.loop+"%":k==="fcf"?fx(b.v.fcf*100,0)+"%":k==="vf"?fx(b.v.vf*100,0)+"%":(b.v[k]>99?">99":fx(b.v[k]))+"x";
+  const col=band(nn)==="ig"?"var(--up)":band(nn)==="xo"?"var(--warn)":"var(--down)";return `<div class="factor"><div>${n} <span class="muted num">${val}</span><small>${d} · weight ${Math.round(W[k]*100)}%</small></div><div class="bar"><span style="width:${(1-nn/16)*100}%;background:${col}"></span></div><div class="r">${NOTCH[nn]}</div></div>`}).join("");
+ const gap=c.notch==null?null:b.model-c.notch;
+ const cr=`<div class="panel" id="cr"><div class="ptitle"><h2><span class="n">05</span>Credit: agency rating vs Off Book rating</h2><span class="r">Chance of default within a year at this grade ≈ ${fx(b.pd,2)}%</span></div><div class="pbody">${ladder(c,b)}
+ <p class="prose">${gap==null?`No agency rates it; the Off Book rating is ${NOTCH[b.model]}.`:gap>=2?`The Off Book rating is ${gap} notches below the agencies.`:gap<=-2?`The Off Book rating is ${-gap} notches above the agencies.`:(c.notch<=9)!==(b.model<=9)?`The Off Book rating is ${Math.abs(gap)} notch${Math.abs(gap)===1?"":"es"} ${gap>0?"below":"above"} the agencies, and that crosses the most important line in credit: ${gap>0?"the agencies call it investment grade (BBB- or better), while Off Book puts it in junk (BB+ or lower)":"Off Book sees investment grade (BBB- or better) where the agencies see junk"}.`:"The Off Book rating and the agencies broadly agree."}${gap!=null&&Math.abs(gap)>=2?" "+gapWhy(c,b,gap):""}${cn!=null?` Lenders pay ${(c.cds/100).toFixed(2)}% a year to insure its debt against default, a price usually seen for companies rated ${NOTCH[cn]}.`:""}</p>
+ ${fac}<p class="note">Each factor maps to a grade and the weighted average gives the Off Book rating (${fx(b.raw)} → ${NOTCH[b.model]}). A covenant breach caps it at B+, and negative EBITDA means CCC. The last two factors measure circular financing, which agencies don't score directly.</p>
+ <details><summary>How to read ratings</summary><p class="prose" style="margin-top:8px">Ratings run from AAA (safest) to CCC. BBB- and above is "investment grade"; below that is "junk" or high yield, where the chance of default rises quickly. "Bond market" uses credit default swaps, insurance lenders buy against a default, priced as a yearly percentage of the debt insured: at 2.88%, insuring $1M costs $28,800 a year.</p></details></div></div>`;
+ const st=`<div class="panel" id="st"><div class="ptitle"><h2><span class="n">06</span>Stress test in detail</h2><span class="r">$ in billions</span></div><div class="pbody" id="stBody">${stressBody(c)}</div></div>`;
+ const SRC=srcFor(c);const src=SRC.length?`<div class="panel" id="src"><div class="ptitle"><h2><span class="n">07</span>Sources</h2><span class="r">${SRC.length} for ${esc(c.name)}</span></div><div class="pbody"><ol class="sources">${SRC.map(([t,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join("")}</ol><p class="note">Amounts are as reported where available; items marked EST are estimates. Shortfall odds, fair multiples and growth rates are Off Book's assumptions; change them at the top of the page.</p></div></div>`:"";
+ return head+verdict(c)+ov+fa+obs+dls+moneyCircle(c)+cr+st+src+`<p class="note" style="margin-top:20px">Not a stock recommendation. <a href="#home">Back to all stocks</a></p>`;
+}
+
+/* ===== valuation, scenarios and sensitivity (top of page) ===== */
+function valBox(c){const f=fairView(c),m=mkt(c);
+ if(!f)return `<p class="note">No share price on file, so there's no valuation, only the credit view.</p>`;
+ const b=f.b;if(f.losing)return `<p class="interp">${esc(c.name)} loses money before interest and depreciation, so there are no earnings to put a multiple on. The scenarios show the credit side only.</p>`;
+ const eu=b.meth==="pe",e1=eu?`${fp(f.earn1)} a share`:`${fb(f.earn1)} of EBITDA`,gap=f.gap;
+ const fv=f.wiped?"$0":fp(f.px),pos=gap==null?50:Math.max(2,Math.min(98,(Math.max(-60,Math.min(60,gap))+60)/120*100));
+ const s1=`At ${fpr(m.px)}, investors pay ${fm(f.mktMult)} the ${e1} ${esc(c.name)} is expected to ${eu?"earn":"make"} over the next 12 months.`;
+ const s2=f.wiped?` At a fair ${fm(f.mult)}, net debt is larger than the business is worth.`:` At a fair ${fm(f.mult)} it's worth about ${f.wiped?"$0":fpr(f.px)}, so the stock ${gaugeWord(gap)} (${fpcr(gap)}).`;
+ const ig=f.impG,gw=x=>Math.abs(x)<0.5?"stay flat":x>=0?`grow ${fx(x,0)}%`:`fall ${fx(-x,0)}%`,EW=eu?"earnings":"EBITDA";
+ const s3=ig<f.g-5?` Today's price holds up at ${fm(f.mult)} even if ${EW} ${gw(ig)} instead of the expected ${fx(f.g,0)}%, so the market is pricing in a slowdown or more risk than the sector.`:ig>f.g+5?` To justify today's price at ${fm(f.mult)}, ${EW} would need to ${gw(ig)} next year, against ${fx(f.g,0)}% expected: the market is paying for growth beyond the next year.`:` The price lines up with expected growth of ${fx(f.g,0)}%.`;
+ const src=b.sourced?`Next-12-month EPS of ${fp(b.v.eps1)}: ${esc(b.v.src)}.`:`Growth of ${fg(b.g0)} is an Off Book estimate.`;
+ const mcN=f.mc?cpOf(f.mc).n:null;
+ const extra=[f.cross!=null?`Cross-check on cash profit: at ${fm(b.v.ev)} company value ÷ EBITDA, about ${fpr(f.cross)} a share${f.hid>0.5?`, or ${fpr(f.crossH)} if the ${fb(f.hid)} of hidden obligations count as debt`:""}.`:"",
+  f.risk&&f.risk.px!=null&&f.px!=null&&Math.abs(f.risk.px-f.px)>0.005?`Allowing for the odds that ${esc(mcN)} pays less (expected ${fx(paidPct({cp:f.mc},"exp"),0)}% of what it signed), fair value is ${fpr(f.risk.px)}.`:""].filter(Boolean).join(" ");
+ return `<div class="vgrid"><div class="vcell"><span class="l">What the price implies</span><span class="v">${fp(m.px)}</span><span class="s">${fm(f.mktMult)} next-12-month ${eu?"earnings":"EBITDA"}</span><span class="s muted">Fair at ${fm(f.mult)} only if ${EW} ${gw(ig)}</span></div>
+ <div class="vcell"><span class="l">What fundamentals support</span><span class="v ${cls(gap)}">${fv}</span><span class="s">${eu?fp(f.earn1)+" EPS":fb(f.earn1)+" EBITDA"} at ${fm(f.mult)}${eu?"":", less "+fb(b.nd)+" net debt"}</span><span class="s muted">${eu?"Earnings":"EBITDA"} ${f.g>=0?"+":"−"}${fx(Math.abs(f.g),0)}% next 12 months${E({est:b.sourced?[]:["g"]},"g")}</span></div>
+ <div class="vcell gcell"><span class="l">Price vs fair value</span><span class="gword ${cls(gap)}">${gap==null?"n/m":fpc(gap)}</span><div class="gauge" role="img" aria-label="${esc(gaugeWord(gap))}"><span class="gz"></span><span class="gmk" style="left:${pos}%"></span></div><div class="gl"><span>Overvalued</span><span>Fair</span><span>Undervalued</span></div></div></div>
+ <p class="interp">${s1}${s2}${s3}</p>
+ <p class="note">${esc(b.v.why)} ${src}${extra?" "+extra:""}</p>`}
+function controls(c){const vs=vset(c),b=vs.b,mc=mainCp(c);if((!b||!b.meth)&&!mc)return "";const st=sc(c);let h="";
+ if(b&&b.meth){const earn1=b.base*(1+vs.g/100),mk=b.meth==="pe"?b.m.px/earn1:(b.m.mc+b.nd)/earn1,lo=Math.max(1,Math.floor(b.fair0*0.3)),hi=Math.ceil(Math.max(b.fair0*2.5,isFinite(mk)?mk*1.2:0,10));
+  h+=`<div class="ctl"><label for="vm-mult">Fair ${munit(b)}<small>Today's market: <span data-mk>${fm(mk)}</span> · default ${fm(b.fair0)}${b.v.own?"":" (sector placeholder)"}</small></label><output data-out="mult">${fm(vs.mult)}</output><input type="range" id="vm-mult" data-v="mult" min="${lo}" max="${hi}" step="0.5" value="${vs.mult}"></div>
+  <div class="ctl"><label for="vm-g">${b.meth==="pe"?"Earnings":"EBITDA"} growth, next 12 months<small>${b.sourced?`Default ${fg(b.g0)}, from analyst consensus`:b.v.own?`Default ${fg(b.g0)}, Off Book estimate`:`Default ${fg(b.g0)}, a sector placeholder`}</small></label><output data-out="g">${fg(vs.g)}</output><input type="range" id="vm-g" data-v="g" min="-50" max="${Math.max(100,Math.ceil(b.g0*2/10)*10)}" step="1" value="${vs.g}"></div>`}
+ if(mc){const q=cpOf(mc);h+=`<div class="ctl"><label for="tc-${mc}-p">Chance ${esc(cpShort(mc))} falls short<small>${esc(q.n)}</small></label><output data-out="${mc}-p">${q.p}%</output><input type="range" id="tc-${mc}-p" data-cp="${mc}" data-f="p" min="0" max="100" step="5" value="${q.p}"></div>
+  <div class="ctl"><label for="tc-${mc}-rec">If it does, share it still pays<small>Drives the bear cases</small></label><output data-out="${mc}-rec">${q.rec}%</output><input type="range" id="tc-${mc}-rec" data-cp="${mc}" data-f="rec" min="0" max="100" step="5" value="${q.rec}"></div>`}
+ return `<div class="ctrls">${h}</div><div class="ctlfoot"><button class="btn ghost" type="button" data-reset="1">Reset</button><span class="note">Base assumes customers pay what they signed, as forecasts do; the customer settings move the bear cases.</span></div>`}
+function needsFor(c,s,o){const b=o.b,vs=vset(c),out=[];if(!b||!b.meth)return SCEN.find(x=>x.k===s.k).needs;
+ const gl=`${b.meth==="pe"?"Earnings":"EBITDA"} ${o.g>=0?"grow":"shrink"} ${fx(Math.abs(o.g),0)}% over the next 12 months`;
+ if(s.k==="base"){out.push(`${gl}${b.sourced?" (consensus)":" (Off Book estimate)"}`,`Investors pay the fair ${fm(vs.mult)}`,"Every customer pays what it signed")}
+ else if(s.k==="bull"){out.push(`${gl}, against ${fx(vs.g,0)}% expected`,`Investors pay ${fm(o.mult)}, 20% above fair`,o.r.per.length?"Every customer pays in full and new contracts reach full speed":"Nothing goes wrong with customers")}
+ else{const seen=new Set();o.r.per.filter(p=>p.pp<99.5).sort((a,b)=>b.le-a.le).forEach(p=>{const k=cpKey(p.l);if(!seen.has(k)&&seen.size<2){seen.add(k);out.push(`${p.q.n} pays ${fx(p.pp,0)}% of what it signed`)}});
+  if(!seen.size)out.push("No mapped customer contracts at risk; the hit comes from slower growth and a lower multiple");
+  if(o.h&&o.h.guar>0.05)out.push(`${fb(o.h.guar)} of guarantees get called`);
+  out.push(`${gl} (expected ${fx(vs.g,0)}%)`,`Investors pay ${fm(o.mult)} instead of ${fm(vs.mult)}`);
+  if(o.r.S.soft)out.push("Little direct AI exposure, so this uses 40% of the growth and multiple hit")}
+ return out}
+const NOCUST={bear1:"Growth slows, multiple slips",bear2:"Growth stalls, investors de-rate it",bear3:(""+"Broad slump in AI and the economy")};
+function scenCard(c,s){const st=sc(c),o=vscen(c,s.k),r=o.r,m=mkt(c),on=st.sel===s.k,cls2=s.k==="bull"?"bull":s.k==="base"?"basec":"bear",b=o.b;
+ const pv=o.nov?"No price":o.losing?"Losing money":o.wiped?"$0":fp(o.px),d=o.px!=null&&!o.wiped&&m?pct(o.px,m.px):null;
+ const det=o.px!=null||o.wiped?`${b.meth==="pe"?fp(o.earn)+" EPS":fb(o.earn)+" EBITDA"} at ${fm(o.mult)}`:"";
+ return `<button type="button" class="scn ${cls2}${on?" on":""}" data-scen="${s.k}" aria-pressed="${on}" aria-describedby="tip-${s.k}">
+  <span class="tg">${s.tag}</span><span class="t">${s.k==="bear2"&&mainCp(c)&&cpOf(mainCp(c)).p>=RISKY?(n=>esc(n)+(/s$/.test(n)?" pay only part of what they signed":" pays only part of what it signed"))(cpShort(mainCp(c))):!r.per.length&&NOCUST[s.k]?NOCUST[s.k]:s.short}</span>
+  <span class="p">${pv}</span><span class="cs">${d!=null?`<span class="c ${cls(d)}">${fpc(d)} vs today</span>`:o.wiped?`<span class="c down">wiped out</span>`:""}${det?`<span class="c muted">${det}</span>`:""}<span class="c">Rating ${tag(r.cr.model)}</span></span>
+  <span class="tip" id="tip-${s.k}" role="tooltip"><b>What has to happen</b>${needsFor(c,s,o).map(x=>`<span>• ${esc(x)}</span>`).join("")}</span></button>`}
+function scenLine(c){const st=sc(c),o=vscen(c,st.sel);return `<p class="interp"><b>${esc(o.r.S.tag)}.</b> ${esc(interp(c,o))}</p>`}
+function sensBlock(c){const vs=vset(c),b=vs.b;if(!b||!b.meth)return "";const st=sc(c),mc=mainCp(c),mode=st.sens==="pay"&&mc?"pay":"g",px=b.m.px;
+ const earn1=b.base*(1+vs.g/100),mk=b.meth==="pe"?px/earn1:(b.m.mc+b.nd)/earn1;
+ let rows=[1.5,1.3,1.15,1,0.85,0.7,0.55].map(f=>({x:vs.mult*f,fair:f===1}));
+ if(isFinite(mk)&&mk>0){const near=rows.find(r=>Math.abs(mk/r.x-1)<0.05);if(near&&!near.fair){near.x=mk;near.today=true}else rows.push({x:mk,today:true})}
+ rows.sort((a,b)=>b.x-a.x);
+ const step=Math.max(5,Math.round(Math.abs(vs.g)*0.25/5)*5);
+ const cols=mode==="g"?[-2,-1,0,1,2].map(i=>({g:vs.g+i*step,base:i===0})).filter(x=>x.g>-90):[100,90,75,50,25].map(p=>({p,base:p===100}));
+ const hs=mode==="pay"?cols.map(x=>hit(c,l=>cpKey(l)===mc?x.p:100)):[];
+ const cell=(r,x,j)=>{const today=r.today&&x.base,p=today?{px:px,wiped:false,losing:false}:priceAt(c,b,r.x,mode==="g"?x.g:vs.g,mode==="pay"?hs[j]:null);
+  if(p.losing)return `<td class="n0">n/m</td>`;const v=p.wiped?0:p.px,d=pct(v,px),k=d>=25?"u2":d>=5?"u1":d<=-25?"d2":d<=-5?"d1":"n0";
+  return `<td class="${k}${r.fair&&x.base?" bse":""}${today?" tdy":""}">${p.wiped?"$0":fp(v)}</td>`};
+ const mcN=mc?cpOf(mc).n:"";
+ const head=`<tr><th class="corner">${b.meth==="pe"?"P/E":"EV/EBITDA"} ↓ · ${mode==="g"?"growth":esc(cpShort(mc))+" pays"} →</th>${cols.map(x=>`<th${x.base?' class="bc"':""}>${mode==="g"?fg(x.g):x.p+"%"}</th>`).join("")}</tr>`;
+ const body=rows.map(r=>`<tr><th>${fm(r.x)}${r.fair?' <small>fair</small>':""}${r.today?' <small>today</small>':""}</th>${cols.map((x,j)=>cell(r,x,j)).join("")}</tr>`).join("");
+ let read;
+ if(mode==="g"){const imp=fairView(c).impG;read=`Today's ${fp(px)} is ${fm(mk)} next-12-month ${b.meth==="pe"?"earnings":"EBITDA"} at ${fx(vs.g,0)}% growth (dashed cell). At the fair ${fm(vs.mult)}, the shares beat today's price ${imp>vs.g?"only if":"as long as"} ${b.meth==="pe"?"earnings":"EBITDA"} ${imp>=0?`grow at least ${fx(imp,0)}%`:`fall less than ${fx(-imp,0)}%`}.`}
+ else{const fr=cols.map((x,j)=>priceAt(c,b,vs.mult,vs.g,hs[j]));let last=null;fr.forEach((p,j)=>{if(p.px!=null&&p.px>=px)last=cols[j].p});
+  read=`Columns show how much of what ${esc(mcN)} signed it actually pays; other customers pay in full. ${last==null?`At the fair ${fm(vs.mult)}, the shares stay below today's ${fp(px)} even with full payment.`:last===25?`At the fair ${fm(vs.mult)}, the shares stay above today's ${fp(px)} even if ${esc(cpShort(mc))} pays only 25%.`:`At the fair ${fm(vs.mult)}, the shares stay above today's ${fp(px)} as long as ${esc(cpShort(mc))} pays at least ${last}%.`}`}
+ return `<div class="sub" style="margin-top:6px">Share price by multiple and ${mode==="g"?"growth":"customer payment"}</div>
+ ${mc?`<div class="seg" role="group" aria-label="Table columns"><button type="button" data-sens="g" aria-pressed="${mode==="g"}" class="${mode==="g"?"on":""}">Columns: growth</button><button type="button" data-sens="pay" aria-pressed="${mode==="pay"}" class="${mode==="pay"?"on":""}">Columns: ${esc(cpShort(mc))} pays</button></div>`:""}
+ <div class="tbl sensw"><table class="sens">${head}${body}</table></div>
+ <div class="legend"><span><i class="lg u2"></i>25%+ above today</span><span><i class="lg d2"></i>25%+ below</span><span><i class="lg bse"></i>Base case</span><span><i class="lg tdy"></i>Today's price</span></div>
+ <p class="note">${read}</p>`}
+function verdict(c){const m=mkt(c),b=metrics(c),h=hidden(c),st=sc(c),bear=run(c,st,"bear3"),b2=run(c,st,"bear2");
+ const gap=c.notch==null?null:b.model-c.notch,ig=n=>n<=9;
+ const ratingLine=c.notch==null?`No agency rates it; Off Book grades it ${NOTCH[b.model]}.`:gap===0?`Off Book agrees with the agencies at ${NOTCH[b.model]}.`:ig(c.notch)!==ig(b.model)?`Agencies say ${NOTCH[c.notch]} (${ig(c.notch)?"investment grade":"junk"}); Off Book says ${NOTCH[b.model]} (${ig(b.model)?"investment grade":"junk"}).`:`Off Book grades it ${NOTCH[b.model]}, ${Math.abs(gap)} notch${Math.abs(gap)>1?"es":""} ${gap>0?"below":"above"} the agencies' ${NOTCH[c.notch]}.`;
+ const pur=lines(c).filter(l=>l.dir==="out"&&l.kind==="purchase").reduce((a,l)=>a+l.total,0),xr=x=>x<0.1?"under 0.1×":fx(x)+"×";
+ const hidLine=(h.total>0.5?`${fb(h.total)} of obligations sit off the balance sheet${h.fallback?" (estimated)":""}, ${c.debt>0.5?xr(h.total/c.debt)+" its reported debt":"more than its reported debt"}`:`Little debt-like money sits off the balance sheet`)+(pur>0.5?`, plus ${fb(pur)} of purchase commitments (cash already promised, not borrowing).`:".");
+ const d2=b2.cr.model-b.model,d3=bear.cr.model-b.model,eHit=c.ebitda>0?(1-bear.e2/c.ebitda)*100:0;
+ const tone=d2>=3||d3>=4||bear.e2<=0?"high":d2>=1||d3>=2||eHit>25?"med":"low";
+ const word=tone==="high"?"Credit is fragile if AI spending slows":tone==="med"?"Credit bends in a bad year but doesn't break":"Credit holds in a bad year; the share price is the risk";
+ return `<div class="panel verdict" id="vd"><div class="ptitle"><h2>Value, scenarios and credit</h2><span class="r"><a href="#method">Method</a></span></div><div class="pbody">
+ <p class="vword ${tone}">${word}</p>
+ <ul class="vlist"><li>${hidLine}</li><li>${ratingLine}</li></ul>
+ <div id="valbox">${valBox(c)}</div>
+ ${controls(c)}
+ <div class="sub">Scenarios</div>
+ <div class="scns" id="scns">${SCEN.map(s=>scenCard(c,s)).join("")}</div>
+ <div id="scnLine">${scenLine(c)}</div>
+ <div id="sens">${sensBlock(c)}</div>
+ <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px"><button class="btn" type="button" data-jump="st">Full stress test</button><button class="btn ghost" type="button" data-jump="ov">Overview ↓</button></div>
+ <p class="note">Scenarios, not forecasts or advice. Each sets what customers pay, how fast earnings grow and what investors pay for them; the rating comes from the same scorecard as the headline grade.</p></div></div>`}
+
+/* ===== detailed stress test ===== */
+function cpSlider(k,pre){const q=cpOf(k),exp=(100-q.p)+q.p*q.rec/100;
+ return `<div class="cpbox"><div class="h"><b>${esc(q.n)}</b><span class="ev" data-ev="${k}">Expected to pay ${fx(exp,0)}%</span></div><p class="why">${esc(q.why)}</p>
+  <div class="ctl"><label for="${pre}-${k}-p">Chance it falls short</label><output data-out="${k}-p">${q.p}%</output><input type="range" id="${pre}-${k}-p" data-cp="${k}" data-f="p" min="0" max="100" step="5" value="${q.p}"></div>
+  <div class="ctl"><label for="${pre}-${k}-rec">If it does, share it still pays</label><output data-out="${k}-rec">${q.rec}%</output><input type="range" id="${pre}-${k}-rec" data-cp="${k}" data-f="rec" min="0" max="100" step="5" value="${q.rec}"></div></div>`}
+function stressBody(c){
+ const st=sc(c),Ls=lines(c),ins=Ls.filter(l=>l.dir==="in"&&l.kind==="contract"),gu=Ls.filter(l=>l.kind==="guarantee");
+ const keys=[...new Set(ins.concat(gu).map(cpKey))],war=Ls.filter(l=>l.kind==="warrant");
+ let h=`<div class="seg scpick" id="scns2" role="group" aria-label="Scenario">${SCEN.map(s=>`<button type="button" class="${st.sel===s.k?"on":""}" data-scen="${s.k}" aria-pressed="${st.sel===s.k}">${s.tag}</button>`).join("")}</div>
+ <div id="stOut">${stressOut(c)}</div>`;
+ h+=`<details class="adv"${S.advOpen?" open":""}><summary>All customer assumptions</summary><div class="pbody" style="padding-inline:0">`;
+ if(keys.length)h+=`<p class="prose">Each customer group has a chance of falling short and a share it would still pay. Changes apply to every company that sells to that group.</p><div class="two">${keys.map(k=>cpSlider(k,"ac")).join("")}</div>`;
+ else h+=`<p class="note">No customer contracts are mapped for ${esc(c.name)}, so the scenarios differ only in growth and the multiple.</p>`;
+ if(war.length)h+=`<label class="tog"><input type="checkbox" id="t-warr" ${st.warr?"checked":""}><span>Customers exercise their warrants<small>${(war.reduce((a,l)=>a+l.shares,0)*1000).toFixed(0)}M new shares at $0.01, which shrinks each existing share's slice.</small></span></label>`;
+ h+=`<div><button class="btn ghost" type="button" data-reset="1">Reset all assumptions</button></div></div></details>`;
+ return h}
+function stressOut(c){
+ const st=sc(c),o=vscen(c,st.sel),r=o.r,m=mkt(c),S0=r.S,b=o.b,vs=vset(c),hasV=b&&b.meth;
+ const dRow=(lab,a,bb,fmt,goodUp,note)=>{const d=(isFinite(a)&&isFinite(bb)&&a!=null&&bb!=null)?bb-a:null;const pc=pct(bb,a);const bad=d!=null&&Math.abs(d)>1e-6&&((d>0)!==goodUp);
+  return `<tr><td class="l">${lab}${note?`<small>${note}</small>`:""}</td><td>${fmt(a)}</td><td class="${bad?"down":d&&Math.abs(d)>1e-6?"up":""}">${fmt(bb)}</td><td class="${bad?"down":""}">${pc==null||!isFinite(pc)||Math.abs(d)<1e-6?"—":fpc(pc)}</td></tr>`};
+ const pxv=o.nov?"—":o.losing?"n/m":o.wiped?"$0":fp(o.px),d=o.px!=null&&!o.wiped&&m?pct(o.px,m.px):null;
+ const big=`<div class="big">
+  <div><span class="l">Share price today</span><span class="v">${m?fp(m.px):"—"}</span><span class="s muted">${m?esc(m.d):"no price on file"}</span></div>
+  <div><span class="l">${esc(S0.tag)}: implied price</span><span class="v ${cls(d)}">${pxv}</span><span class="s ${cls(d)}">${o.losing?"losing money, nothing to value":o.wiped?"debt exceeds value":d!=null?fpc(d)+" vs today":"—"}</span></div>
+  <div><span class="l">${hasV&&b.meth==="ev"?"EBITDA":"Earnings"} × multiple</span><span class="v">${hasV&&!o.losing?fm(o.mult):"n/m"}</span><span class="s muted">${hasV&&!o.losing?(b.meth==="pe"?fp(o.earn)+" EPS":fb(o.earn)+" EBITDA")+" next 12 months":"—"}</span></div>
+  <div><span class="l">Off Book rating</span><span class="v">${NOTCH[r.cr0.model]} → <span class="${r.cr.model>r.cr0.model?"down":r.cr.model<r.cr0.model?"up":""}">${NOTCH[r.cr.model]}</span></span><span class="s muted">Debt incl. hidden ÷ EBITDA ${fx(r.cr0.v.adj)}× → ${r.e2>0?fx(r.cr.v.adj)+"×":"n/m"}</span></div></div>`;
+ const cards=r.per.length?`<div class="sub">Contracts in this case</div><div class="two">${r.per.map(p=>`<div class="ccard"><div class="hd">${esc(p.l.label)} <small>· ${esc(p.q.n)} · ${p.l.yrs} yrs</small></div>
+  <div><span class="l">Contract value</span><span class="v">${fb(p.l.total)}</span></div><div><span class="l">Paid in this case</span><span class="v ${p.pp<100?"down":""}">${fb(p.paid)} (${fx(p.pp,0)}%)</span></div>
+  <div><span class="l">Cost to deliver, after cutting what it can</span><span class="v">${fb(p.costKept)}</span></div><div><span class="l">Profit: full vs this case</span><span class="v ${p.profit<p.full-0.05?"down":""}">${fb(p.full)} → ${fb(p.profit)}</span></div><div><span class="l">Cost it can cut if unpaid</span><span class="v">${fx(100-(p.l.drop??.8)*100,0)}%</span></div></div>`).join("")}</div>
+  <p class="note">Buildings, chips and leases are paid for up front, so when a customer pays less the company can cut only part of the cost of the unpaid work (10 to 50%, set per contract).</p>`:"";
+ const e1b=hasV?(b.meth==="pe"?b.base*(1+vs.g/100):b.base*(1+vs.g/100)):null;
+ const tbl=`<div class="sub">Today vs ${esc(S0.tag.toLowerCase())}</div><div class="tbl"><table><thead><tr><th>$ in billions</th><th>Today</th><th>This case</th><th>Change</th></tr></thead><tbody>
+ <tr class="grp"><td colspan="4">Last 12 months, restated for this case</td></tr>${dRow("Revenue",c.rev,r.rev2,fb,true)}${dRow("EBITDA (cash operating profit)",c.ebitda,r.e2,fb,true)}${r.ni!=null?dRow("Net income",r.ni,r.ni2,fb,true):""}${dRow("Interest cost",c.interest,r.int2,fb,false)}
+ <tr class="grp"><td colspan="4">Balance sheet</td></tr>${dRow("Reported debt",c.debt,r.debt2,fb,false,r.guarDebt>0.05?"Includes guarantees that get called":"")}${dRow("Hidden obligations (70% of leases, JV debt, guarantees)",r.hid.total,r.hid2,fb,false)}
+ <tr class="grp"><td colspan="4">Cash flow (per year)</td></tr>${dRow("Cash from operations",c.ocf,r.ocf2,fb,true)}${dRow("Free cash flow",r.fcf,r.fcf2,fb,true)}
+ <tr class="grp"><td colspan="4">Credit</td></tr><tr><td class="l">Off Book rating</td><td>${tag(r.cr0.model)}</td><td>${tag(r.cr.model)}</td><td class="${r.cr.model>r.cr0.model?"down":""}">${r.cr.model>r.cr0.model?"down "+(r.cr.model-r.cr0.model)+" notch"+(r.cr.model-r.cr0.model>1?"es":""):r.cr.model<r.cr0.model?"up "+(r.cr0.model-r.cr.model):"—"}</td></tr>
+ ${dRow("Debt incl. hidden ÷ EBITDA",r.cr0.v.adj,r.e2>0?r.cr.v.adj:null,v=>v==null?"n/m":fx(v)+"x",false)}${dRow("Interest coverage (EBITDA ÷ interest)",Math.min(r.cr0.v.cov,999),Math.max(Math.min(r.cr.v.cov,999),0),v=>fx(v)+"x",true)}${dRow("Chance of default within a year",r.cr0.pd,r.cr.pd,v=>fx(v,2)+"%",false)}
+ ${r.cr.cov?`<tr><td class="l">Loan covenant (minimum ${r.cr.cov.min}x)</td><td>${fx(r.cr0.cov.val)}x</td><td class="${r.cr.cov.val<r.cr.cov.min?"down":""}">${fx(r.cr.cov.val)}x${r.cr.cov.val<r.cr.cov.min?" · breached":""}</td><td></td></tr>`:""}
+ ${hasV?`<tr class="grp"><td colspan="4">Valuation, next 12 months (Today = base case)</td></tr>${dRow(b.meth==="pe"?"Earnings per share":"EBITDA",e1b,o.losing&&!(o.earn>0)?null:o.earn,b.meth==="pe"?fp:fb,true)}${dRow(`Multiple (${munit(b)})`,vs.mult,o.mult,fm,true)}${o.sh2>b.sh+1e-6?dRow("Shares (billions)",b.sh,o.sh2,v=>fx(v,2),false):""}${o.losing?"":dRow("Implied price vs base case",vscen(c,"base").px,o.wiped?0:o.px,fp,true)+dRow("Implied price vs today's price",m.px,o.wiped?0:o.px,fp,true)}`:""}
+ </tbody></table></div>`;
+ const why=[];r.per.filter(p=>p.pp<99.95).forEach(p=>why.push(`<b>${esc(p.l.label)}</b>: ${esc(p.q.n)} pays ${fx(p.pp,0)}% (${fb(p.paid)} of ${fb(p.l.total)}). About ${fb(p.lr)} a year of revenue and ${fb(p.le)} of EBITDA go missing.`));
+ if(r.fwdRev>0.05)why.push(`The newest contracts reach full speed, adding about ${fb(r.fwdRev)} a year of revenue.`);
+ if(S0.soft)why.push(`${esc(c.name)} has little direct AI exposure, so this case uses 40% of the sales, growth and multiple hit.`);
+ if(S0.rest)why.push(`For the credit view, the rest of the business ${S0.rest>0?"grows":"shrinks"} ${Math.abs(S0.rest)}% on last year.`);
+ if(r.guarDebt>0.05)why.push(`${fb(r.guarDebt)} of guarantees are called and become debt.`);
+ if(r.cashGap>0.05)why.push(`The lost cash (${fb(r.cashGap)} a year) is borrowed at 6%.`);
+ if(hasV&&S0.k!=="base")why.push(`Next-12-month growth of ${fg(o.g)} (base ${fg(vs.g)}); investors pay ${fm(o.mult)} (base ${fm(vs.mult)}).`);
+ if(hasV&&o.h&&o.h.pv>0.05)why.push(`Profit lost over the contracts' remaining lives is worth ${fb(o.h.pv)} today, taken off the company's value.`);
+ if(st.warr&&r.war)why.push(`Warrants add ${(r.war*1000).toFixed(0)}M shares.`);
+ return `<p class="interp">${esc(interp(c,o))}</p>`+big+cards+tbl+`<ul class="why">${why.length?why.map(w=>`<li>${w}</li>`).join(""):"<li>Every commitment is met and nothing else changes.</li>"}</ul>
+ <p class="note">Implied price = next-12-month earnings before any customer shortfall × this case's multiple, less the value of profit lost over each contract's remaining life (9% discount, 17% tax) and any guarantees called. Not a price target. <a href="#method">Method</a></p>`;
+}
+
+
+function methodPage(){const cpRows=Object.entries(CP).map(([k,q])=>`<tr><td class="l">${esc(q.n)}</td><td>${q.p}%</td><td>${q.rec}%</td><td>${fx((100-q.p)+q.p*q.rec/100,0)}%</td></tr>`).join("");
+ return `<div class="panel method"><div class="ptitle"><h2>How Off Book works</h2><span class="r">Methodology and limits</span></div><div class="pbody">
+ <h3>1. What we add up</h3><p>Reported debt comes from the latest 10-Q or 10-K. <b>Hidden obligations</b> use one formula everywhere on the site: <b>70% of lease commitments + 100% of joint-venture debt + 100% of guarantees</b>. Leases count at 70% because future rent is worth less today than its face value. Purchase commitments are shown but not counted as debt: they're cash already promised, not borrowing. Where a company has no itemized commitments mapped yet, Off Book uses 50% of its estimated off-balance-sheet total and marks it estimated.</p>
+ <h3>2. The Off Book rating</h3><p>Eight factors, each graded AAA to CCC, then weighted: ${FACTORS.map(([k,n])=>`${n} ${Math.round(W[k]*100)}%`).join(", ")}. Business risk is an analyst judgment; the rest are calculated. Hard limits apply on top: a loan-covenant breach caps the grade at B+, negative EBITDA means CCC, and debt including hidden obligations above 8x, 12x or 20x EBITDA caps it at BB, B or CCC. The chance of default for each grade comes from long-run averages for rated companies.</p>
+ <h3>3. Fair value: what fundamentals support</h3><p>Off Book values each company on what it is expected to earn over the next 12 months and what investors typically pay for that kind of business, so the fair value can sit above or below today's price.</p>
+ <ul><li><b>Earnings method</b> (most companies): next-12-month earnings per share × a fair forward P/E. Next-12-month EPS is trailing EPS (price ÷ trailing P/E) grown at the expected rate. Where we found a consensus or guided figure (NVIDIA, Microsoft, Oracle, Palantir) the default growth is the rate that reaches it, and the source is listed on the company page. Where reported profit includes one-off investment gains (Alphabet, Amazon), we start from an operating figure instead.</li>
+ <li><b>Cash-profit method</b> (Intel, CoreWeave, Nebius, and any company with negative earnings): next-12-month EBITDA × a fair company value ÷ EBITDA multiple, minus net debt, per share. Companies on the earnings method also show this as a cross-check, with and without hidden obligations counted as debt.</li>
+ <li>If cash profit is negative there is nothing to value and no price is shown. If debt is larger than the business is worth, the price shows as $0.</li></ul>
+ <p><b>What the market is pricing in:</b> today's price ÷ next-12-month earnings gives the multiple the market pays. Holding the fair multiple, we also solve for the growth today's price requires. The gauge compares fair value with the price: within 10% is "about fair", 10–30% is under- or overvalued, beyond 30% "deeply". The fair multiple and growth are Off Book estimates from how each sector has traded (table below); change them with the sliders.</p>
+ <div class="tbl"><table><thead><tr><th>Company</th><th>Method</th><th>Fair multiple</th><th>Growth, next 12 months</th><th>Why</th></tr></thead><tbody>${Object.entries(VAL).map(([t,v])=>{const c=find(t),b=c?vbase(c):null;return `<tr><td class="l">${esc(t)}</td><td>${v.m==="ev"?"EV/EBITDA":"P/E"}</td><td>${fm(v.m==="ev"?v.ev:v.pe)}</td><td>${b&&b.meth?fg(b.g0):v.g!=null?fg(v.g):"—"}${v.eps1?" (from published estimates)":""}</td><td class="l"><small>${esc(v.why)}</small></td></tr>`}).join("")}</tbody></table></div>
+ <p>Companies without their own row use sector defaults: ${VSEC.map(([re,v,lab])=>`${lab} ${fm(v.m==="ev"?v.ev:v.pe)} ${v.m==="ev"?"EV/EBITDA":"P/E"} with ${v.g}% growth`).join("; ")}.</p>
+ <h3>4. The scenarios</h3><p>Each scenario sets three things: what customers pay, how fast earnings grow, and what investors pay for them.</p><ul>${SCEN.map(s=>`<li><b>${s.tag}: ${s.name}</b>. ${s.needs.join("; ")}.</li>`).join("")}</ul>
+ <p>Growth changes are in percentage points: for example, with 40% expected growth the Bull case uses 40 + 5 + 0.25 × 40 = 55%, and Bear 2 uses 40 − 5 − 0.3 × 40 = 23%. For companies with little direct AI exposure the bear cases use 40% of the growth, multiple and sales hit. Bear 2 treats any customer at a ${RISKY}% or higher chance of falling short as the one that does; Bear 3 does it for every AI lab and neocloud, and halfway for big tech customers.</p>
+ <p><b>Implied price</b> = next-12-month earnings before any customer shortfall × the scenario's multiple, minus the value of profit lost on contracts over their remaining life (discounted at 9%, taxed at 17%), minus guarantees that get called, divided by shares (plus warrant shares if you switch them on). Lost profit is valued over the contract's life rather than multiplied by the P/E, because a contract that ends in five years shouldn't cost the company forever. Scenario EPS shown on the cards is after the shortfall and the extra interest on borrowed cash.</p>
+ <p><b>Credit rating per scenario</b> uses the last 12 months restated for the case: lost contract profit, the rest of the business moving ${SCEN.map(s=>`${s.rest>0?"+":""}${s.rest}%`).join(" / ")} (Bull to Bear 3), guarantees called and lost cash borrowed at 6%. Base is today's reported figures, so its rating is always the headline Off Book rating. Contracts signed recently whose revenue has barely started (OpenAI's Oracle, Azure and AWS deals, for example) count at half against the last 12 months; the Bull case adds the other half. A bear case never shows a better rating than Base.</p>
+ <p><b>Sensitivity table</b>: rows are the multiple (55% to 150% of the fair multiple, plus the market's own multiple); columns are next-12-month growth (the expected rate ± two steps of a quarter of it, at least 5 points), or, if you switch, the share of the main customer's contracts actually paid, with every other customer paying in full. The main customer is the one with the largest expected loss on the default assumptions. Today's price is the cell at the market's multiple and expected growth.</p>
+ <h3>5. Customer assumptions</h3><div class="tbl"><table><thead><tr><th>Customer group</th><th>Chance it falls short</th><th>Share still paid if it does</th><th>Expected share paid</th></tr></thead><tbody>${cpRows}</tbody></table></div><p>When a customer pays less, most of the lost revenue becomes lost cash profit, because buildings, chips and leases are already committed. How much is set per contract (usually 50 to 90%; 100% for pure license income like Apple's search payments) and shown on each contract card. You can change every assumption on any company page; changes apply to every company that sells to that customer.</p>
+ <h3>6. Data and updates</h3><p>Financials come from company filings and earnings releases; each company page lists its own sources, and estimates are marked EST. News and closing prices refresh every evening, and ${PER_DAY} new companies are researched each day from the research list.</p>
+ <h3>7. Limits</h3><ul><li>One year of earnings says little about very fast growers (Nebius, CoreWeave, Palantir, Tesla): their prices reflect many years of expected growth, so a fair value on next-year earnings will look low. Move the multiple to see what you would have to believe.</li><li>Fair multiples are judgment, informed by how peers have traded, not a live peer screen.</li><li>A scorecard can't capture everything agencies weigh: management, legal risk, how lasting a business is.</li><li>Some inputs are estimates where companies don't disclose them (for example how much backlog depends on one customer).</li><li>The chances of a shortfall are judgment calls, not market prices. Change them and see.</li><li>Not investment advice.</li></ul>
+ <p><a href="#home">Back to all stocks</a></p></div></div>`}
+function about(){return `${PURPOSE}<div class="panel"><div class="ptitle"><h2>Why I built Off Book</h2></div><div class="pbody">
+ <p class="prose">I'm interested in where AI and finance meet. Reading about the AI buildout, I kept hitting the same problem: the debt on a balance sheet only tells part of the story. The bigger risks sit in newer structures most people don't track: suppliers investing in their own customers, leases on data centers that aren't built yet, guarantees, off-balance-sheet joint ventures, and contracts worth hundreds of billions from customers that are still losing money.</p>
+ <p class="prose">Finding this today means reading 10-Ks, 10-Qs and a pile of news, then doing the math yourself. Off Book does that for any stock. It adds up the commitments on and off the books and lets you stress them: if a $300B contract has a 35% chance of being only half paid, you see what that does to earnings, debt, cash flow, the rating, the valuation multiples and the share price.</p>
+ <p class="prose">News, prices and searched stocks refresh every day.</p>
+ <p><a href="#home">Back to all stocks</a></p></div></div>`}
+
+/* ===== routing & events ===== */
+function cur(){const h=location.hash.slice(1);return h.startsWith("co-")?find(h.slice(3).toUpperCase()):null}
+function tabs(){const t=document.getElementById("tabs"),c=cur();t.innerHTML=c?`<div class="in">${SECS.filter(s=>document.getElementById(s[0])).map(s=>`<a href="#co-${c.t.toLowerCase()}" data-jump="${s[0]}">${s[1]}</a>`).join("")}</div>`:""}
+function render(keep){const h=location.hash.slice(1),app=document.getElementById("app");
+ if(h==="run"){if(!document.getElementById("lmsg"))location.replace("#home");return}
+ if(h&&!["home","about","method"].includes(h)&&!h.startsWith("co-")&&find(h.toUpperCase())){location.replace("#co-"+h.toLowerCase());return}
+ if(h==="about")app.innerHTML=about();
+ else if(h==="method")app.innerHTML=methodPage();
+ else if(h.startsWith("q-")){let q=h.slice(2);try{q=decodeURIComponent(q)}catch(e){}const c=find(q.toUpperCase());if(c){location.replace("#co-"+c.t.toLowerCase());return}app.innerHTML=pending(q)}
+ else if(h.startsWith("co-")){const c=cur();app.innerHTML=c?report(c):`<div class="panel"><div class="pbody"><p class="prose">${esc(h.slice(3).toUpperCase())} isn't loaded yet.</p><div><button class="btn" type="button" data-ask="${esc(h.slice(3))}">Analyze it</button></div></div></div>`}
+ else app.innerHTML=home();
+ tabs();drawBell();if(!keep)window.scrollTo(0,0)}
+function updStress(full){const c=cur();if(!c)return;const y=window.scrollY,st=sc(c);
+ const set=(id,h)=>{const e=document.getElementById(id);if(e)e.innerHTML=h};
+ if(full)set("stBody",stressBody(c));else{set("stOut",stressOut(c));const s2=document.getElementById("scns2");if(s2)s2.querySelectorAll("[data-scen]").forEach(b=>{const on=b.dataset.scen===st.sel;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)})}
+ {const t=document.createElement("div");t.innerHTML=verdict(c);["vword","vlist"].forEach(k=>{const a=document.querySelector("#vd ."+k),n=t.querySelector("."+k);if(a&&n)a.replaceWith(n)})}
+ set("valbox",valBox(c));{const f=fairView(c);document.querySelectorAll("[data-mk]").forEach(e=>e.textContent=f&&f.mktMult!=null?fm(f.mktMult):"n/m")}set("scns",SCEN.map(s=>scenCard(c,s)).join(""));set("scnLine",scenLine(c));set("sens",sensBlock(c));
+ document.querySelectorAll("[data-ev]").forEach(e=>{const q=cpOf(e.dataset.ev);e.textContent="Expected to pay "+fx((100-q.p)+q.p*q.rec/100,0)+"%"});
+ window.scrollTo(0,y)}
+window.addEventListener("hashchange",()=>{S.dealSel=null;render()});
+const thBtn=document.getElementById("theme");
+function applyTheme(t){if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme;const dark=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;thBtn.textContent=dark?"Light":"Dark";thBtn.setAttribute("aria-label","Switch to "+(dark?"light":"dark")+" theme")}
+let TH=null;try{TH=localStorage.getItem("ob-theme")}catch(e){}applyTheme(TH);
+thBtn.addEventListener("click",()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;TH=dark?"light":"dark";try{localStorage.setItem("ob-theme",TH)}catch(e){}applyTheme(TH)});
+const hq=document.getElementById("hq");const hs=document.createElement("div");hs.style.cssText="position:fixed;left:0;right:0;z-index:6;max-width:960px;margin:0 auto;padding:4px max(16px,env(safe-area-inset-left,0px)) 0";document.body.appendChild(hs);
+function placeSugg(){hs.style.top=document.querySelector("header.top").getBoundingClientRect().bottom+"px"}
+const setSugg=x=>{hs.innerHTML=x;hs.hidden=!x};setSugg("");
+hq.addEventListener("input",()=>{placeSugg();setSugg(suggestHTML(hq.value))});
+hq.addEventListener("blur",()=>setTimeout(()=>setSugg(""),200));
+document.getElementById("hform").addEventListener("submit",e=>{e.preventDefault();const v=hq.value;hq.value="";setSugg("");hq.blur();go(v)});
+hs.addEventListener("mousedown",e=>e.preventDefault());
+hs.addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o){hq.value="";setSugg("");location.hash="co-"+o.dataset.open.toLowerCase();return}const a=e.target.closest("[data-ask]");if(a){hq.value="";setSugg("");ask(a.dataset.ask);return}const qb=e.target.closest("[data-q]");if(qb){hq.value="";setSugg("");location.hash="q-"+encodeURIComponent(qb.dataset.q.toLowerCase())}});
+document.getElementById("tabs").addEventListener("click",e=>{const j=e.target.closest("[data-jump]");if(j){e.preventDefault();const el=document.getElementById(j.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}});
+const app=document.getElementById("app");
+app.addEventListener("click",e=>{
+ const o=e.target.closest("[data-open]");if(o){location.hash="co-"+o.dataset.open.toLowerCase();return}
+ const a=e.target.closest("[data-ask]");if(a){ask(a.dataset.ask);return}
+ const rf=e.target.closest("[data-refresh]");if(rf){const t=rf.dataset.refresh;delete S.ai[t];saveAI();ask(t);return}
+ if(e.target.closest("[data-reset]")){S.cp={};S.sc[cur().t]=DEF();const y=window.scrollY;render(true);window.scrollTo(0,y);return}
+ const sv=e.target.closest("[data-sens]");if(sv){sc(cur()).sens=sv.dataset.sens;const el=document.getElementById("sens");if(el)el.innerHTML=sensBlock(cur());return}
+ const da=e.target.closest("[data-dealall]");if(da){S.dealAll=S.dealAll===da.dataset.dealall?null:da.dataset.dealall;S.dealSel=null;const y=window.scrollY;render(true);window.scrollTo(0,y);return}
+ const d=e.target.closest("[data-deal]");if(d){const i=+d.dataset.deal;S.dealSel=S.dealSel===i?null:i;const y=window.scrollY;render(true);window.scrollTo(0,y);return}
+ const lp=e.target.closest("[data-loop]");if(lp){const cc=cur();if(cc)S["loop-"+cc.t]=+lp.dataset.loop;const y=window.scrollY;render(true);window.scrollTo(0,y);return}
+ const sn=e.target.closest("[data-scen]");if(sn){sc(cur()).sel=sn.dataset.scen;updStress();return}
+ const jp=e.target.closest("[data-jump]");if(jp){const el=document.getElementById(jp.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});return}
+});
+app.addEventListener("input",e=>{const c=cur();if(!c)return;const st=sc(c),t=e.target,v=+t.value,ds=t.dataset||{};
+ if(ds.v){st[ds.v]=v;document.querySelectorAll(`[data-out="${ds.v}"]`).forEach(o=>o.textContent=ds.v==="g"?fg(v):fm(v))}
+ else if(ds.cp){const k=ds.cp,f=ds.f;S.cp[k]={...(S.cp[k]||{}),[f]:v};
+  document.querySelectorAll(`input[data-cp="${k}"][data-f="${f}"]`).forEach(i=>{if(i!==t)i.value=v});document.querySelectorAll(`[data-out="${k}-${f}"]`).forEach(o=>o.textContent=v+"%")}
+ else return;updStress()});
+app.addEventListener("change",e=>{const c=cur();if(!c)return;const st=sc(c);if(e.target.id==="t-warr"){st.warr=e.target.checked;updStress()}});
+app.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("adv"))S.advOpen=e.target.open},true);
+app.addEventListener("keydown",e=>{const d=e.target.closest&&e.target.closest("[data-deal],tr[data-open],.mcard[data-open]");if(d&&(e.key==="Enter"||e.key===" ")){e.preventDefault();d.click()}});
+/* load today's live data */
+function applyLive(j){if(!j||typeof j!=="object")return;LIVE={...LIVE0,...j,co:{...LIVE0.co,...(j.co||{})}};Object.values(LIVE.extra||{}).forEach(c=>{c.researched=true;delete c.ai});}
+render();
+fetch("live.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{if(j){applyLive(j);const y=window.scrollY;render(true);window.scrollTo(0,y)}}).catch(()=>{});
+
+</script>
+
+</body>
+</html>
