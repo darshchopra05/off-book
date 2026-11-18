@@ -14,6 +14,11 @@
 <meta name="theme-color" content="#141820">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e8a34a'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23141820'%3EOB%3C/text%3E%3C/svg%3E">
 <style>[hidden]{display:none!important}body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<script>window.OB_ANALYTICS=1;
+/* count each page, including stock pages like #co-orcl, as its own path */
+(function(){var last="";function send(){var p=location.pathname+(location.hash||"#home");if(p===last)return;last=p;if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:p});}
+window.addEventListener("hashchange",send);window.obCount=send;})();</script>
+<script data-goatcounter="https://offbook.goatcounter.com/count" data-goatcounter-settings='{"no_onload":true}' async src="https://gc.zgo.at/count.js" onload="window.obCount()"></script>
 </head>
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1319,6 +1324,7 @@ function about(){return `${PURPOSE}<div class="panel"><div class="ptitle"><h2>Wh
  <p class="prose">I'm interested in where AI and finance meet. Reading about the AI buildout, I kept hitting the same problem: the debt on a balance sheet only tells part of the story. The bigger risks sit in newer structures most people don't track: suppliers investing in their own customers, leases on data centers that aren't built yet, guarantees, off-balance-sheet joint ventures, and contracts worth hundreds of billions from customers that are still losing money.</p>
  <p class="prose">Finding this today means reading 10-Ks, 10-Qs and a pile of news, then doing the math yourself. Off Book does that for any stock. It adds up the commitments on and off the books and lets you stress them: if a $300B contract has a 35% chance of being only half paid, you see what that does to earnings, debt, cash flow, the rating, the valuation multiples and the share price.</p>
  <p class="prose">News, prices and searched stocks refresh every day.</p>
+ ${window.OB_ANALYTICS?`<p class="note">This site counts visits anonymously with GoatCounter: which pages are opened, from which site, country and device. No cookies, no personal data, nothing sold. Your watchlist never leaves your browser.</p>`:""}
  <p><a href="#home">Back to all stocks</a></p></div></div>`}
 
 /* ===== routing & events ===== */
