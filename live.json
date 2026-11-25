@@ -1,62 +1,52 @@
 {
- "updated": "Nov 19, 2026, 6:57 PM CT",
+ "updated": "Nov 24, 2026, 7:00 PM CT",
  "news": [
   {
-   "title": "Anthropic raises $81.3B in the largest IPO ever, prices at $83 and closes its first day at $97.17",
-   "date": "Nov 19, 2026",
-   "src": "Forbes",
-   "url": "https://www.forbes.com/sites/fionariley/2026/11/19/anthropic-ipo-live-nasdaq-futures-jump-2-ahead-of-record-stock-debut/",
-   "why": "The cash helps Anthropic pay for its giant cloud and chip deals (Google up to $114.5B, Amazon $110B, Broadcom $161B), which are a big source of future revenue for those suppliers; it still posted an $80.7B first-half net loss and has about $321B of future lease commitments.",
+   "title": "AI debt markets shudder as Nvidia's top 'banker' returns",
+   "date": "Nov 24, 2026",
+   "src": "CNBC",
+   "url": "https://cnbc.com/2026/11/24/nvidia-jensen-huang-ai-credit-markets.html",
+   "why": "Credit investors worry Jensen Huang's return means more circular financing: NVIDIA funding the customers that buy its chips.",
    "tk": [
-    "AMZN",
-    "GOOGL",
-    "AVGO",
-    "MSFT",
+    "NVDA",
+    "CRWV",
+    "ORCL",
+    "NBIS"
+   ]
+  },
+  {
+   "title": "CoreWeave bonds hit record lows, wiping out the Nvidia-driven rally",
+   "date": "Nov 24, 2026",
+   "src": "Startup Fortune",
+   "url": "https://startupfortune.com/coreweave-bonds-hit-record-lows-wiping-out-the-nvidia-driven-rally/",
+   "why": "Bond buyers gave back Monday's jump in a day, a sign CoreWeave's credit still rests on NVIDIA's support rather than its own cash flow.",
+   "tk": [
+    "CRWV",
     "NVDA"
    ]
   },
   {
-   "title": "ECB warns eight AI giants hold over $4 trillion of debt-like commitments kept off their balance sheets",
-   "date": "Nov 19, 2026",
-   "src": "Tech Times (ECB Financial Stability Review)",
-   "url": "https://www.techtimes.com/articles/331076/20261119/ecb-draws-subprime-parallels-over-4-trillion-ai-debt-like-commitments-stay-off-balance-sheets.htm",
-   "why": "Leases and purchase promises at Alphabet, Amazon, Meta, Microsoft, Nvidia, Oracle, Broadcom and Anthropic are well above the debts they report, and the ECB notes their bond spreads already sit wider than similarly rated companies, a hint that markets think ratings may be too generous.",
+   "title": "Nvidia's $30 billion OpenAI stake comes with up to $105 billion of lease guarantees",
+   "date": "Nov 24, 2026",
+   "src": "Crypto Briefing",
+   "url": "https://cryptobriefing.com/nvidia-30-billion-openai-investment-guarantees",
+   "why": "The guarantee is far bigger than the stake: if OpenAI can't pay rent on its Ohio campus, NVIDIA could owe it.",
    "tk": [
-    "GOOGL",
-    "AMZN",
-    "META",
-    "MSFT",
-    "NVDA",
-    "ORCL",
-    "AVGO"
+    "NVDA"
    ]
   },
   {
-   "title": "Nvidia says its data-center loan guarantees only kick in once projects are financed and built, and it will be choosier about whom it backs",
-   "date": "Nov 18, 2026",
-   "src": "TechCrunch",
-   "url": "https://techcrunch.com/2026/11/18/nvidia-clarifies-when-it-will-and-wont-keep-financing-neoclouds/",
-   "why": "Lenders to AI data centers have leaned on Nvidia's backstops; they now apply only after a project has its own financing and Nvidia gear is installed (the biggest is $105B for OpenAI's Ohio campus), so a delayed project loses that support.",
+   "title": "The data center financing gap: five-year servers, 30-year buildings",
+   "date": "Nov 24, 2026",
+   "src": "Forbes",
+   "url": "https://www.forbes.com/sites/heatherwishartsmith/2026/11/24/the-data-center-financing-gap-five-year-servers-30-year-buildings/",
+   "why": "Chips wear out in about five years but the leases and loans run for decades, so lenders are betting on customers that may not last that long.",
    "tk": [
-    "NVDA",
+    "ORCL",
     "CRWV",
     "NBIS",
-    "ORCL"
-   ]
-  },
-  {
-   "title": "Fed minutes show almost all officials expect more rate hikes as AI demand pushes up tech prices",
-   "date": "Nov 19, 2026",
-   "src": "Fortune",
-   "url": "https://fortune.com/2026/11/19/fed-minutes-ai-inflation-data-centers-midterms-2027-rate-hike",
-   "why": "Higher rates raise the cost of borrowing for an AI build-out Moody's expects to reach $785B of hyperscaler capex in 2026, and traders now price about 96% odds of a December hike.",
-   "tk": [
     "MSFT",
-    "AMZN",
-    "GOOGL",
-    "META",
-    "ORCL",
-    "CRWV"
+    "META"
    ]
   }
  ],
@@ -64,14 +54,14 @@
   "NVDA": {
    "news": [
     {
+     "t": "NVIDIA backs up to $105B of lease guarantees for an OpenAI data-center campus in Ohio, on top of a $30B equity stake.",
+     "d": "Nov 24, 2026",
+     "url": "https://cryptobriefing.com/nvidia-30-billion-openai-investment-guarantees"
+    },
+    {
      "t": "Said customer loan guarantees take effect only once a project has financing and Nvidia gear is installed; its largest is a $105B backstop for OpenAI's Ohio campus (reports say cut from $250B). Shares fell 3.3% to $145.98 on Nov 19.",
      "d": "Nov 18, 2026",
      "url": "https://techcrunch.com/2026/11/18/nvidia-clarifies-when-it-will-and-wont-keep-financing-neoclouds/"
-    },
-    {
-     "t": "Q3 revenue rose 103% to $115.8B (data center $107.6B) with net income of $65.3B; it guided Q4 revenue of $130B, long-term debt rose to $32.4B from $7.5B in January, and buybacks plus dividends were $28.1B in the quarter.",
-     "d": "Nov 17, 2026",
-     "url": "https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000088/q3fy27pr.htm"
     }
    ]
   },
@@ -91,6 +81,11 @@
   },
   "ORCL": {
    "news": [
+    {
+     "t": "Oracle rose about 11\u201312% on Nov 23 after NVIDIA brought back Jensen Huang as CEO, then fell about 4% on Nov 24.",
+     "d": "Nov 24, 2026",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/iren-sinks-15-coreweave-tumbles-170243344.html"
+    },
     {
      "t": "Banks are selling Oracle-linked data-center construction loans at a discount: HSBC sold $300M of Project Jupiter debt below 90 cents after Oracle's force majeure notice, and ING is offering more in the mid-80s; shares fell 5.0% to $119.09 on Nov 16.",
      "d": "Nov 17, 2026",
@@ -152,21 +147,21 @@
   "CRWV": {
    "news": [
     {
+     "t": "CoreWeave shares fell about 14% on Nov 24 and its 2031 and 2032 bonds hit record lows, erasing Monday's rally on Jensen Huang's return to NVIDIA.",
+     "d": "Nov 24, 2026",
+     "url": "https://startupfortune.com/coreweave-bonds-hit-record-lows-wiping-out-the-nvidia-driven-rally/"
+    },
+    {
      "t": "Fell 6.1% to $44.91 on Nov 19 as AI stocks slid despite Anthropic's debut.",
      "d": "Nov 19, 2026",
      "url": "https://www.investing.com/news/stock-market-news/wall-street-ends-sharply-lower-asanthropics-debut-fails-to-revive-ai-fervor-5040108"
-    },
-    {
-     "t": "Seeking at least a $4B investment-grade loan backed by its chips and a Meta contract, expected to cost 7-7.5% versus about 15% on its junk bonds; total debt is about $47B and Q3 interest was $846M.",
-     "d": "Nov 13, 2026",
-     "url": "https://www.thestreet.com/investing/coreweave-debt-chip-backed-loan"
     }
    ]
   },
   "META": {
    "news": [
     {
-     "t": "Completed a €9B euro bond in six parts paying 4.3%-6.4% out to 2065; with $15B of dollar bonds and $37.5B of stock it raised about $62.6B in under a month. Long-term debt was $80.9B at Sep 30.",
+     "t": "Completed a \u20ac9B euro bond in six parts paying 4.3%-6.4% out to 2065; with $15B of dollar bonds and $37.5B of stock it raised about $62.6B in under a month. Long-term debt was $80.9B at Sep 30.",
      "d": "Nov 12, 2026",
      "url": "https://ppc.land/meta-borrows-eur9bn-in-euros-at-up-to-6-4-until-2065"
     }
@@ -557,7 +552,7 @@
    "t": "SMCI",
    "name": "Super Micro Computer",
    "sector": "AI servers",
-   "q": "Q1 FY27 · quarter to Sep 2026",
+   "q": "Q1 FY27 \u00b7 quarter to Sep 2026",
    "rev": 53.9,
    "ebitda": 4.8,
    "debt": 8.6,
@@ -595,7 +590,7 @@
     [
      "high",
      "Profits without cash",
-     "Net income was $1.59B in Q1 FY27, yet operations used $434M of cash; fiscal 2026 free cash flow was about −$7B as inventory and receivables ballooned.",
+     "Net income was $1.59B in Q1 FY27, yet operations used $434M of cash; fiscal 2026 free cash flow was about \u2212$7B as inventory and receivables ballooned.",
      "Q1 FY27"
     ],
     [
@@ -661,7 +656,7 @@
    "t": "PLTR",
    "name": "Palantir Technologies",
    "sector": "AI software",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 7.29,
    "ebitda": 3.6,
    "debt": 0.25,
@@ -745,7 +740,7 @@
    "t": "MU",
    "name": "Micron Technology",
    "sector": "Memory chips",
-   "q": "FY2026 · year to Sep 3, 2026",
+   "q": "FY2026 \u00b7 year to Sep 3, 2026",
    "rev": 133.2,
    "ebitda": 109,
    "debt": 5.2,
@@ -770,7 +765,7 @@
     "loop",
     "labRev"
    ],
-   "story": "AI memory demand turned Micron into a cash machine: fiscal 2026 revenue of $133B, an 87% gross margin last quarter, and $68B of net cash. The risk is the memory cycle: prices that rose this fast can fall fast, while capex is climbing to build plants that open in 2027–2030.",
+   "story": "AI memory demand turned Micron into a cash machine: fiscal 2026 revenue of $133B, an 87% gross margin last quarter, and $68B of net cash. The risk is the memory cycle: prices that rose this fast can fall fast, while capex is climbing to build plants that open in 2027\u20132030.",
    "issues": [
     [
      "low",
@@ -787,7 +782,7 @@
     [
      "med",
      "Capex climbing into a cyclical business",
-     "About $25B of capex planned for the first half of fiscal 2027 alone, more in the second half, for plants opening 2027–2030.",
+     "About $25B of capex planned for the first half of fiscal 2027 alone, more in the second half, for plants opening 2027\u20132030.",
      "Sep 2026"
     ]
    ],
@@ -845,7 +840,7 @@
    "t": "TSM",
    "name": "Taiwan Semiconductor (TSMC)",
    "sector": "Chip manufacturing",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 155.2,
    "ebitda": 113.3,
    "debt": 25.7,
@@ -928,7 +923,7 @@
    "t": "ARM",
    "name": "Arm Holdings",
    "sector": "Chip designs (licensing)",
-   "q": "Q2 FY27 · quarter to Sep 2026",
+   "q": "Q2 FY27 \u00b7 quarter to Sep 2026",
    "rev": 5.46,
    "ebitda": 1.13,
    "debt": 0.5,
@@ -1015,7 +1010,7 @@
    "t": "ANET",
    "name": "Arista Networks",
    "sector": "AI data-center networking",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 11.89,
    "ebitda": 5.3,
    "debt": 0,
@@ -1091,7 +1086,7 @@
    "t": "VRT",
    "name": "Vertiv Holdings",
    "sector": "Data-center power and cooling",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 13.12,
    "ebitda": 3.19,
    "debt": 3.36,
@@ -1172,7 +1167,7 @@
    "t": "CEG",
    "name": "Constellation Energy",
    "sector": "Nuclear and gas power",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 31.27,
    "ebitda": 7.95,
    "debt": 24.7,
@@ -1258,7 +1253,7 @@
    "t": "VST",
    "name": "Vistra",
    "sector": "Power generation (gas, nuclear, Texas retail)",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 20.59,
    "ebitda": 7.4,
    "debt": 20.5,
@@ -1347,7 +1342,7 @@
    "t": "MRVL",
    "name": "Marvell Technology",
    "sector": "Custom AI chips and data-center networking",
-   "q": "Q2 FY2027 · quarter to Aug 2026",
+   "q": "Q2 FY2027 \u00b7 quarter to Aug 2026",
    "rev": 9.45,
    "ebitda": 2.85,
    "debt": 5.29,
@@ -1437,7 +1432,7 @@
    "t": "QCOM",
    "name": "Qualcomm",
    "sector": "Phone, car and data-center chips; patent licensing",
-   "q": "Q4 FY2026 · quarter to Sep 2026",
+   "q": "Q4 FY2026 \u00b7 quarter to Sep 2026",
    "rev": 43.12,
    "ebitda": 10.62,
    "debt": 15.11,
@@ -1537,7 +1532,7 @@
    "t": "ASML",
    "name": "ASML Holding",
    "sector": "Chipmaking machines (lithography)",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 44.98,
    "ebitda": 18.44,
    "debt": 2.24,
@@ -1565,19 +1560,19 @@
     [
      "low",
      "Record sales, supply short",
-     "Q3 sales hit a record €11.7B with a 57.5% gross margin; ASML says its 2027-28 supply will not fully meet customer demand.",
+     "Q3 sales hit a record \u20ac11.7B with a 57.5% gross margin; ASML says its 2027-28 supply will not fully meet customer demand.",
      "Oct 2026"
     ],
     [
      "low",
      "Net cash",
-     "About $14.5B of cash versus $2.2B of debt; euro bonds of €750M or less mature between 2027 and 2032.",
+     "About $14.5B of cash versus $2.2B of debt; euro bonds of \u20ac750M or less mature between 2027 and 2032.",
      "Sep 2026"
     ],
     [
      "med",
      "Tied to chipmaker spending",
-     "2026 sales guided to €44-45B; a slowdown in AI-driven factory building would hit orders, and its China outlook is dimming.",
+     "2026 sales guided to \u20ac44-45B; a slowdown in AI-driven factory building would hit orders, and its China outlook is dimming.",
      "Oct 2026"
     ]
    ],
@@ -1623,7 +1618,7 @@
    "t": "CRM",
    "name": "Salesforce",
    "sector": "Business software (CRM, AI agents)",
-   "q": "Q2 FY2027 · quarter to Jul 2026",
+   "q": "Q2 FY2027 \u00b7 quarter to Jul 2026",
    "rev": 43.94,
    "ebitda": 12.9,
    "debt": 42.38,
@@ -1709,7 +1704,7 @@
    "t": "NOW",
    "name": "ServiceNow",
    "sector": "Business software (IT workflow, AI agents)",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 15.43,
    "ebitda": 3.24,
    "debt": 7.52,
@@ -1777,7 +1772,7 @@
      "https://www.sec.gov/Archives/edgar/data/0001373715/000137371526000092/erq3fy26.htm"
     ],
     [
-     "ServiceNow $4B bond, $38B demand (Börse Express)",
+     "ServiceNow $4B bond, $38B demand (B\u00f6rse Express)",
      "https://www.boerse-express.com/news/articles/servicenow-aktie-38-milliarden-dollar-nachfrage-fuer-anleihe-905348"
     ],
     [
@@ -1795,7 +1790,7 @@
    "t": "ADBE",
    "name": "Adobe",
    "sector": "Creative and marketing software",
-   "q": "Q3 FY2026 · quarter to Aug 2026",
+   "q": "Q3 FY2026 \u00b7 quarter to Aug 2026",
    "rev": 25.97,
    "ebitda": 9.92,
    "debt": 6.36,
@@ -1877,7 +1872,7 @@
    "t": "SNOW",
    "name": "Snowflake",
    "sector": "Cloud data and AI software",
-   "q": "Q2 FY2027 · quarter to Jul 2026",
+   "q": "Q2 FY2027 \u00b7 quarter to Jul 2026",
    "rev": 5.43,
    "ebitda": -1.04,
    "debt": 2.76,
@@ -1959,7 +1954,7 @@
    "t": "IREN",
    "name": "IREN",
    "sector": "AI cloud / data centers (former bitcoin miner)",
-   "q": "Q1 FY2027 · quarter to Sep 2026",
+   "q": "Q1 FY2027 \u00b7 quarter to Sep 2026",
    "rev": 0.7,
    "ebitda": -0.03,
    "debt": 10.21,
@@ -2077,7 +2072,7 @@
    "t": "WULF",
    "name": "TeraWulf",
    "sector": "AI data-center leasing (former bitcoin miner)",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 0.19,
    "ebitda": -0.33,
    "debt": 5.23,
@@ -2198,7 +2193,7 @@
    "t": "GEV",
    "name": "GE Vernova",
    "sector": "Gas turbines, grid equipment and wind",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 44.04,
    "ebitda": 5.05,
    "debt": 2.83,
@@ -2220,7 +2215,7 @@
     "interest",
     "loop"
    ],
-   "story": "GE Vernova sells the gas turbines and grid gear that power new data centers; it holds $16.8B of cash against about $2.8B of borrowings and a record $197B backlog. The main credit change ahead is its roughly €8B Trench purchase, to be paid half in cash and half with new debt.",
+   "story": "GE Vernova sells the gas turbines and grid gear that power new data centers; it holds $16.8B of cash against about $2.8B of borrowings and a record $197B backlog. The main credit change ahead is its roughly \u20ac8B Trench purchase, to be paid half in cash and half with new debt.",
    "issues": [
     [
      "low",
@@ -2236,8 +2231,8 @@
     ],
     [
      "med",
-     "€8B Trench purchase",
-     "Agreed to buy Trench Group for about €8B ($9.0B), funded about equally with cash and debt, closing late 2027.",
+     "\u20ac8B Trench purchase",
+     "Agreed to buy Trench Group for about \u20ac8B ($9.0B), funded about equally with cash and debt, closing late 2027.",
      "Oct 2026"
     ],
     [
@@ -2299,7 +2294,7 @@
    "t": "ETN",
    "name": "Eaton",
    "sector": "Electrical equipment for data centers and grids",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 31.98,
    "ebitda": 7.06,
    "debt": 20.11,
@@ -2394,7 +2389,7 @@
    "t": "CIFR",
    "name": "Cipher Digital",
    "sector": "AI data-center leasing (former bitcoin miner)",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 0.15,
    "ebitda": 0.02,
    "debt": 5.62,
@@ -2515,7 +2510,7 @@
    "t": "APLD",
    "name": "Applied Digital",
    "sector": "AI data-center leasing (former crypto hosting)",
-   "q": "FQ1 2027 · quarter to Aug 2026",
+   "q": "FQ1 2027 \u00b7 quarter to Aug 2026",
    "rev": 0.87,
    "ebitda": -0.12,
    "debt": 6.38,
@@ -2640,7 +2635,7 @@
    "t": "CORZ",
    "name": "Core Scientific",
    "sector": "AI data-center leasing (former bitcoin miner)",
-   "q": "Q3 2026 · quarter to Sep 2026",
+   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
    "rev": 0.59,
    "ebitda": 0.2,
    "debt": 4.3,
@@ -2765,7 +2760,7 @@
    "t": "LRCX",
    "name": "Lam Research",
    "sector": "Chipmaking machines (etch and deposition)",
-   "q": "FQ1 2027 · quarter to Sep 2026",
+   "q": "FQ1 2027 \u00b7 quarter to Sep 2026",
    "rev": 26.13,
    "ebitda": 10.12,
    "debt": 3.74,
@@ -2857,7 +2852,7 @@
    "t": "AMAT",
    "name": "Applied Materials",
    "sector": "Chipmaking machines (broad equipment)",
-   "q": "FQ4 2026 · quarter to Oct 2026",
+   "q": "FQ4 2026 \u00b7 quarter to Oct 2026",
    "rev": 34.45,
    "ebitda": 11.92,
    "debt": 6.53,
@@ -2949,7 +2944,7 @@
    "t": "KLAC",
    "name": "KLA Corporation",
    "sector": "Chip inspection and measurement tools",
-   "q": "FQ1 2027 · quarter to Sep 2026",
+   "q": "FQ1 2027 \u00b7 quarter to Sep 2026",
    "rev": 14.51,
    "ebitda": 6.58,
    "debt": 5.99,
