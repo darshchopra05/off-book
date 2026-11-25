@@ -1,5 +1,5 @@
 {
- "updated": "Nov 24, 2026, 7:10 PM CT",
+ "updated": "Nov 24, 2026, 7:20 PM CT",
  "news": [
   {
    "title": "AI debt markets shudder as Nvidia's top 'banker' returns",
@@ -59,9 +59,9 @@
      "url": "https://cryptobriefing.com/nvidia-30-billion-openai-investment-guarantees"
     },
     {
-     "t": "Said customer loan guarantees take effect only once a project has financing and Nvidia gear is installed; its largest is a $105B backstop for OpenAI's Ohio campus (reports say cut from $250B). Shares fell 3.3% to $145.98 on Nov 19.",
-     "d": "Nov 18, 2026",
-     "url": "https://techcrunch.com/2026/11/18/nvidia-clarifies-when-it-will-and-wont-keep-financing-neoclouds/"
+     "t": "Credit investors worry Huang will expand customer financing: Nvidia had about $118B of guarantees backing AI projects as of Oct 25, and spreads on its own bonds widened.",
+     "d": "Nov 24, 2026",
+     "url": "https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-ai-credit-markets.html"
     }
    ]
   },
@@ -71,25 +71,20 @@
      "t": "Fell 9.4% to $96.92 on Nov 19, the worst of the AI cloud names, as the Anthropic IPO failed to lift AI stocks.",
      "d": "Nov 19, 2026",
      "url": "https://www.investing.com/news/stock-market-news/wall-street-ends-sharply-lower-asanthropics-debut-fails-to-revive-ai-fervor-5040108"
-    },
-    {
-     "t": "Shares fell 16.8% to $128.64 after Nebius trimmed 2026 revenue to the low end of $3.0-3.4B; Q3 revenue rose 571% to $980.8M. Customer prepayments now cover 100% of new build costs.",
-     "d": "Nov 12, 2026",
-     "url": "https://www.fool.com/coverage/stock-market-today/2026/11/12/stock-market-today-nov-12-nebius-group-sinks-nearly-17-after-lowering-2026-outlook/"
     }
    ]
   },
   "ORCL": {
    "news": [
     {
-     "t": "Oracle rose about 11\u201312% on Nov 23 after NVIDIA brought back Jensen Huang as CEO, then fell about 4% on Nov 24.",
+     "t": "Oracle rose about 11–12% on Nov 23 after NVIDIA brought back Jensen Huang as CEO, then fell about 4% on Nov 24.",
      "d": "Nov 24, 2026",
      "url": "https://finance.yahoo.com/markets/stocks/articles/iren-sinks-15-coreweave-tumbles-170243344.html"
     },
     {
-     "t": "Banks are selling Oracle-linked data-center construction loans at a discount: HSBC sold $300M of Project Jupiter debt below 90 cents after Oracle's force majeure notice, and ING is offering more in the mid-80s; shares fell 5.0% to $119.09 on Nov 16.",
-     "d": "Nov 17, 2026",
-     "url": "https://www.bisnow.com/news/national/data-center-capital-markets/hsbc-sells-300m-of-data-center-debt-at-steep-discount"
+     "t": "Raised $10B of debt at rates up to 8.65% as part of a $20B debt-and-equity plan, and said it has all the financing needed for its OpenAI contract; expects capex to peak in fiscal 2027-2028.",
+     "d": "Nov 24, 2026",
+     "url": "https://finance.yahoo.com/technology/ai/articles/oracle-raises-10-billion-debt-121244271.html"
     }
    ]
   },
@@ -119,14 +114,14 @@
   "AMD": {
    "news": [
     {
+     "t": "Fell 8.86% to $413.27 after filing to register about 337M shares for possible resale, which raises dilution worries.",
+     "d": "Nov 24, 2026",
+     "url": "https://www.fool.com/coverage/stock-market-today/2026/11/24/stock-market-today-nov-24-amd-plunges-9-as-337-million-share-resale-filing-adds-to-ai-sell-off/"
+    },
+    {
      "t": "Fell 7.7% to $489.19 on Nov 19 after a short-seller report.",
      "d": "Nov 19, 2026",
      "url": "https://rockandturner.substack.com/p/thur-nov-19-2026-the-market-today"
-    },
-    {
-     "t": "Fell 5.6% to $504.28 on Nov 16 after new US export limits on advanced AI chips to Southeast Asian countries.",
-     "d": "Nov 16, 2026",
-     "url": "https://www.fool.com/coverage/stock-market-today/2026/11/16/stock-market-today-nov-16-tech-selloff-deepens-as-ai-leadership-crisis-rattles-nasdaq/"
     }
    ]
   },
@@ -136,11 +131,6 @@
      "t": "Named by the ECB among eight firms holding over $4 trillion of AI commitments, mostly off their balance sheets, and said hyperscaler bond spreads are wider than similarly rated companies.",
      "d": "Nov 19, 2026",
      "url": "https://www.techtimes.com/articles/331076/20261119/ecb-draws-subprime-parallels-over-4-trillion-ai-debt-like-commitments-stay-off-balance-sheets.htm"
-    },
-    {
-     "t": "Downgraded to Neutral with the price target cut to $398 from $595; shares fell 4.8% to $347.01.",
-     "d": "Nov 13, 2026",
-     "url": "https://investrade.com/market-review-november-13-2026/"
     }
    ]
   },
@@ -152,66 +142,48 @@
      "url": "https://startupfortune.com/coreweave-bonds-hit-record-lows-wiping-out-the-nvidia-driven-rally/"
     },
     {
-     "t": "Fell 6.1% to $44.91 on Nov 19 as AI stocks slid despite Anthropic's debut.",
-     "d": "Nov 19, 2026",
-     "url": "https://www.investing.com/news/stock-market-news/wall-street-ends-sharply-lower-asanthropics-debut-fails-to-revive-ai-fervor-5040108"
+     "t": "Fell 11.85% to $42.61; its 2031 bond yield rose above 17% and five-year default insurance passed 1,200bp as AI credit worries returned.",
+     "d": "Nov 24, 2026",
+     "url": "https://superpowerdaily.com/posts/coreweave-falls-13-as-ai-debt-worries-deepen-after-huang-s-return"
     }
    ]
   },
   "META": {
-   "news": [
-    {
-     "t": "Completed a \u20ac9B euro bond in six parts paying 4.3%-6.4% out to 2065; with $15B of dollar bonds and $37.5B of stock it raised about $62.6B in under a month. Long-term debt was $80.9B at Sep 30.",
-     "d": "Nov 12, 2026",
-     "url": "https://ppc.land/meta-borrows-eur9bn-in-euros-at-up-to-6-4-until-2065"
-    }
-   ]
+   "news": []
   },
   "TSLA": {
-   "news": [
-    {
-     "t": "Morgan Stanley projects negative free cash flow of $2.8B in 2026, $10.4B in 2027 and $17.7B in 2028, and sees 2027 operating profit of $2.5B versus a $5.1B consensus.",
-     "d": "Nov 14, 2026",
-     "url": "https://404kresearch.substack.com/p/456x-evening-brief-november-14-2026"
-    }
-   ]
+   "news": []
   },
   "AMZN": {
    "news": [
     {
+     "t": "Agreed to acquire Decart's AI-optimization technology and team for about $7.5B (per Bloomberg) to speed up its Trainium chips; needs regulatory approval.",
+     "d": "Nov 23, 2026",
+     "url": "https://finance.yahoo.com/technology/ai/articles/amazon-signs-deal-reportedly-worth-124837677.html"
+    },
+    {
      "t": "Owns nearly 11% of Anthropic (1.92B shares, about $159B at the $83 IPO price); Anthropic has about $110B of commitments to Amazon.",
      "d": "Nov 19, 2026",
      "url": "https://www.forbes.com/sites/fionariley/2026/11/19/anthropic-ipo-live-nasdaq-futures-jump-2-ahead-of-record-stock-debut/"
-    },
-    {
-     "t": "Selling a 75% stake in 13 new data-center buildings to Blackstone's data-center REIT for $5B; AWS leases back 100% for 12 years (extendable to 32) and guarantees the rent.",
-     "d": "Nov 16, 2026",
-     "url": "https://www.bisnow.com/news/national/data-center/blackstone-s-data-center-reit-makes-first-investment-with-5b-deal-with-aws"
     }
    ]
   },
   "INTC": {
    "news": [
     {
+     "t": "Fell 8.15% to $54.80 in the Nov 24 chip sell-off.",
+     "d": "Nov 24, 2026",
+     "url": "https://www.fool.com/coverage/stock-market-today/2026/11/24/stock-market-today-nov-24-amd-plunges-9-as-337-million-share-resale-filing-adds-to-ai-sell-off/"
+    },
+    {
      "t": "A 13F filing showed Nvidia sold about 53.7M Intel shares in Q3, cutting its stake about 25% to roughly 161M shares; the stock sits about 62% below its $142.35 high.",
      "d": "Nov 17, 2026",
      "url": "https://finviz.com/news/423790/why-is-intel-stock-falling-31-in-pre-market-trading"
-    },
-    {
-     "t": "Fell about 7% on Nov 16 with chip stocks; a shareholder lawsuit filed Nov 13 says Intel was slow to disclose weak PC sales and excess inventory before its nearly 29% one-day drop after Q3 results.",
-     "d": "Nov 16, 2026",
-     "url": "https://www.fool.com/investing/2026/11/16/why-intel-stock-is-falling-monday/"
     }
    ]
   },
   "LLY": {
-   "news": [
-    {
-     "t": "Agreed to buy private biotech Calytrix Bio for up to $1.5B, including milestone payments, so not all of it is paid upfront.",
-     "d": "Nov 16, 2026",
-     "url": "https://www.marketscreener.com/news/eli-lilly-and-company-entered-into-definitive-agreement-to-acquire-calytrix-bio-inc-for-1-5-billi-ce785edfdd89f423"
-    }
-   ]
+   "news": []
   },
   "WMT": {
    "news": [
@@ -221,63 +193,81 @@
      "url": "https://www.sec.gov/Archives/edgar/data/0000104169/000010416926000168/earningsreleasefy27q3.htm"
     }
    ]
+  },
+  "DELL": {
+   "news": [
+    {
+     "t": "Q3 revenue rose 103% to $54.9B (AI servers $22.0B) with $60.2B of AI orders and a record $132.3B AI backlog; full-year revenue outlook raised to $202B; debt $37.7B vs cash $13.6B; added a $25B buyback.",
+     "d": "Nov 24, 2026",
+     "url": "https://www.financialcontent.com/article/bizwire-2026-11-24-dell-technologies-delivers-third-quarter-fiscal-2027-financial-results"
+    }
+   ]
+  },
+  "COST": {
+   "news": [
+    {
+     "t": "Holders of record on Nov 24 receive the $30-per-share special dividend, about $13.3B in cash; it also renewed a $4B buyback.",
+     "d": "Nov 24, 2026",
+     "url": "https://investinglive.com/stocks/costco-declares-30-special-dividend-worth-13-3-billion-renews-4-billion-buyback/"
+    }
+   ]
   }
  },
  "px": {
   "AAPL": {
    "px": 354.07,
-   "mc": 5145.4,
+   "mc": 5145.5,
    "pe": 39.4,
-   "chg": 1.47,
+   "chg": 1.43,
    "d": "Nov 24, 2026"
   },
   "NVDA": {
    "px": 155.38,
-   "mc": 3752.0,
+   "mc": 3874.4,
    "pe": 16.7,
-   "chg": -5.98,
+   "chg": -5.86,
    "d": "Nov 24, 2026"
   },
   "MSFT": {
    "px": 496.13,
-   "mc": 3684.4,
+   "mc": 3684.3,
    "pe": 25.9,
-   "chg": 1.05,
+   "chg": 0.74,
    "d": "Nov 24, 2026"
   },
   "GOOGL": {
    "px": 279.05,
-   "mc": 3430.6,
+   "mc": 3399.3,
    "pe": 14.6,
-   "chg": -1.49,
+   "chg": -1.08,
    "d": "Nov 24, 2026"
   },
   "AMZN": {
    "px": 252.29,
-   "mc": 2728.0,
+   "mc": 2728.2,
    "pe": 20.4,
-   "chg": -1.15,
+   "chg": -1.21,
    "d": "Nov 24, 2026"
   },
   "META": {
    "px": 589.82,
-   "mc": 1507.7,
+   "mc": 1507.6,
    "pe": 20.1,
-   "chg": -1.37,
+   "chg": -1.3,
    "d": "Nov 24, 2026"
   },
   "AVGO": {
-   "px": 301.08,
-   "mc": 1437.2,
+   "px": 301.75,
+   "mc": 1440.4,
    "pe": 38.5,
-   "chg": -3.28,
+   "chg": -3.76,
    "d": "Nov 24, 2026"
   },
   "TSLA": {
    "px": 384.68,
    "mc": 1520.5,
-   "pe": 422.7,
-   "chg": -0.12,
+   "pe": 422.6,
+   "chg": -0.2,
    "d": "Nov 24, 2026"
   },
   "ORCL": {
@@ -289,262 +279,290 @@
   },
   "LLY": {
    "px": 1407.59,
-   "mc": 1253.8,
+   "mc": 1324.2,
    "pe": 45.7,
-   "chg": 2.82,
+   "chg": 3.3,
    "d": "Nov 24, 2026"
   },
   "WMT": {
-   "px": 132.31,
-   "mc": 1049.7,
-   "pe": 47.9,
-   "chg": 2.31,
-   "d": "Nov 24, 2026"
+   "px": 128.41,
+   "mc": 1021.8,
+   "pe": 46.54,
+   "chg": 0.25,
+   "d": "Nov 16, 2026"
   },
   "NFLX": {
-   "px": 58.87,
-   "mc": 241.7,
-   "pe": 17.0,
-   "chg": 1.68,
-   "d": "Nov 24, 2026"
+   "px": 59.82,
+   "mc": 245.7,
+   "pe": 17.31,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "XOM": {
-   "px": 158.23,
-   "mc": 645.5,
-   "pe": 16.3,
-   "chg": 0.72,
-   "d": "Nov 24, 2026"
+   "px": 160.58,
+   "mc": 655.0,
+   "pe": 16.56,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "COST": {
-   "px": 1091.71,
-   "mc": 483.8,
-   "pe": 52.6,
-   "chg": -1.25,
-   "d": "Nov 24, 2026"
+   "px": 1067.91,
+   "mc": 473.2,
+   "pe": 51.45,
+   "chg": -0.39,
+   "d": "Nov 23, 2026"
   },
   "AMD": {
    "px": 413.27,
-   "mc": 684.0,
-   "pe": 88.3,
-   "chg": -7.7,
+   "mc": 677.9,
+   "pe": 89.6,
+   "chg": -8.86,
    "d": "Nov 24, 2026"
   },
   "INTC": {
-   "px": 54.8,
-   "mc": 291.3,
+   "px": 54.7,
+   "mc": 290.7,
    "pe": null,
-   "chg": -6.95,
+   "chg": -8.31,
    "d": "Nov 24, 2026"
   },
   "CRWV": {
-   "px": 42.6,
+   "px": 42.61,
    "mc": 23.7,
    "pe": null,
-   "chg": -11.97,
+   "chg": -11.84,
    "d": "Nov 24, 2026"
   },
   "NBIS": {
    "px": 87.31,
    "mc": 25.6,
-   "pe": null,
-   "chg": -11.81,
+   "pe": 208.2,
+   "chg": -10.73,
    "d": "Nov 24, 2026"
   },
   "DELL": {
    "px": 295.28,
-   "mc": 187.7,
+   "mc": 187.9,
    "pe": 17.2,
-   "chg": -11.56,
+   "chg": -11.83,
    "d": "Nov 24, 2026"
   },
   "IBM": {
-   "px": 235.62,
-   "mc": 222.7,
-   "pe": 20.1,
-   "chg": 1.12,
-   "d": "Nov 24, 2026"
+   "px": 231.09,
+   "mc": 218.4,
+   "pe": 19.72,
+   "chg": null,
+   "d": "Nov 17, 2026"
   },
   "SMCI": {
-   "px": 22.62,
-   "mc": 14.9,
-   "pe": 4.8,
-   "chg": -8.38,
-   "d": "Nov 24, 2026"
+   "px": 24.14,
+   "mc": 15.9,
+   "pe": 5.09,
+   "chg": null,
+   "d": "Nov 17, 2026"
   },
   "PLTR": {
-   "px": 161.18,
-   "mc": 388.4,
-   "pe": 113.5,
-   "chg": 1.59,
-   "d": "Nov 24, 2026"
+   "px": 156.67,
+   "mc": 377.5,
+   "pe": 110.33,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "MU": {
    "px": 629.79,
    "mc": 712.6,
    "pe": 8.5,
-   "chg": -10.63,
+   "chg": -11.01,
    "d": "Nov 24, 2026"
   },
   "TSM": {
-   "px": 349.2,
-   "mc": 1811.1,
-   "pe": 22.6,
-   "chg": -5.16,
-   "d": "Nov 24, 2026"
+   "px": 373.45,
+   "mc": 1732.7,
+   "pe": 25.2,
+   "chg": -6.34,
+   "d": "Nov 16, 2026"
   },
   "ARM": {
-   "px": 161.56,
-   "mc": 172.9,
-   "pe": 185.7,
-   "chg": -8.44,
-   "d": "Nov 24, 2026"
+   "px": 183.39,
+   "mc": 196.3,
+   "pe": 208.77,
+   "chg": null,
+   "d": "Nov 17, 2026"
   },
   "ANET": {
-   "px": 168.56,
-   "mc": 213.0,
-   "pe": 45.2,
-   "chg": -4.92,
-   "d": "Nov 24, 2026"
+   "px": 189.59,
+   "mc": 239.5,
+   "pe": 50.83,
+   "chg": null,
+   "d": "Nov 19, 2026"
   },
   "VRT": {
-   "px": 173.82,
-   "mc": 66.9,
-   "pe": 32.5,
-   "chg": -7.05,
-   "d": "Nov 24, 2026"
+   "px": 194.48,
+   "mc": 74.8,
+   "pe": 36.36,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "CEG": {
-   "px": 244.84,
-   "mc": 86.1,
-   "pe": 19.7,
-   "chg": -2.73,
-   "d": "Nov 24, 2026"
+   "px": 262.74,
+   "mc": 92.4,
+   "pe": 20.77,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "VST": {
-   "px": 120.72,
-   "mc": 41.0,
-   "pe": 16.3,
-   "chg": -2.52,
-   "d": "Nov 24, 2026"
+   "px": 125.58,
+   "mc": 42.5,
+   "pe": 16.77,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "MRVL": {
-   "px": 131.57,
-   "mc": 118.4,
-   "pe": 43.3,
-   "chg": -9.17,
-   "d": "Nov 24, 2026"
+   "px": 145.54,
+   "mc": 127.8,
+   "pe": 48.83,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "QCOM": {
-   "px": 164.96,
-   "mc": 176.5,
-   "pe": 13.0,
-   "chg": 0.55,
-   "d": "Nov 24, 2026"
+   "px": 159.81,
+   "mc": 171.0,
+   "pe": 12.58,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "ASML": {
-   "px": 1336.06,
-   "mc": 514.9,
-   "pe": 32.9,
-   "chg": -3.18,
-   "d": "Nov 24, 2026"
+   "px": 1395.27,
+   "mc": 527.1,
+   "pe": 36.2,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "CRM": {
-   "px": 193.26,
-   "mc": 159.1,
-   "pe": 17.7,
-   "chg": 4.24,
-   "d": "Nov 24, 2026"
+   "px": 190.4,
+   "mc": 156.7,
+   "pe": 17.65,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "IREN": {
-   "px": 12.95,
-   "mc": 5.5,
+   "px": 14.64,
+   "mc": 6.24,
    "pe": null,
-   "chg": -12.5,
-   "d": "Nov 24, 2026"
+   "chg": 23.86,
+   "d": "Nov 23, 2026"
   },
   "WULF": {
-   "px": 10.01,
-   "mc": 5.0,
+   "px": 11.88,
+   "mc": 5.96,
    "pe": null,
-   "chg": -8.67,
-   "d": "Nov 24, 2026"
+   "chg": -5.86,
+   "d": "Nov 16, 2026"
   },
   "NOW": {
-   "px": 91.74,
-   "mc": 95.2,
-   "pe": 66.0,
-   "chg": 0.48,
-   "d": "Nov 24, 2026"
+   "px": 90.59,
+   "mc": 94.0,
+   "pe": 65.28,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "ADBE": {
-   "px": 232.08,
-   "mc": 90.3,
-   "pe": 13.0,
-   "chg": 4.0,
-   "d": "Nov 24, 2026"
+   "px": 235.55,
+   "mc": 91.7,
+   "pe": 13.14,
+   "chg": null,
+   "d": "Nov 17, 2026"
   },
   "SNOW": {
-   "px": 271.09,
-   "mc": 95.6,
+   "px": 272.94,
+   "mc": 96.2,
    "pe": null,
-   "chg": -0.29,
-   "d": "Nov 24, 2026"
+   "chg": null,
+   "d": "Nov 17, 2026"
   },
   "GEV": {
-   "px": 720.65,
-   "mc": 190.7,
-   "pe": 18.9,
-   "chg": -4.56,
-   "d": "Nov 24, 2026"
+   "px": 772.22,
+   "mc": 204.4,
+   "pe": 20.27,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "ETN": {
-   "px": 319.27,
-   "mc": 124.0,
-   "pe": 31.9,
-   "chg": -5.82,
-   "d": "Nov 24, 2026"
+   "px": 338.34,
+   "mc": 131.4,
+   "pe": 33.82,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "CIFR": {
-   "px": 5.52,
-   "mc": 2.5,
+   "px": 6.57,
+   "mc": 3.0,
    "pe": null,
-   "chg": -10.97,
-   "d": "Nov 24, 2026"
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "APLD": {
-   "px": 12.22,
-   "mc": 3.7,
+   "px": 14.45,
+   "mc": 4.37,
    "pe": null,
-   "chg": -12.15,
-   "d": "Nov 24, 2026"
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "CORZ": {
-   "px": 10.99,
-   "mc": 3.5,
+   "px": 13.51,
+   "mc": 4.34,
    "pe": null,
-   "chg": -10.93,
-   "d": "Nov 24, 2026"
+   "chg": null,
+   "d": "Nov 17, 2026"
   },
   "LRCX": {
-   "px": 196.16,
-   "mc": 245.0,
-   "pe": 29.2,
-   "chg": -5.48,
-   "d": "Nov 24, 2026"
+   "px": 211.67,
+   "mc": 264.6,
+   "pe": 31.5,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "AMAT": {
-   "px": 323.76,
-   "mc": 256.9,
-   "pe": 25.7,
-   "chg": -5.68,
-   "d": "Nov 24, 2026"
+   "px": 351.77,
+   "mc": 279.2,
+   "pe": 27.87,
+   "chg": null,
+   "d": "Nov 18, 2026"
   },
   "KLAC": {
-   "px": 133.65,
-   "mc": 174.1,
-   "pe": 29.1,
-   "chg": -7.33,
+   "px": 143.96,
+   "mc": 187.1,
+   "pe": 35.97,
+   "chg": null,
+   "d": "Nov 16, 2026"
+  },
+  "CSCO": {
+   "px": 90.64,
+   "mc": 357.3,
+   "pe": 24.17,
+   "chg": null,
+   "d": "Nov 20, 2026"
+  },
+  "HPE": {
+   "px": 40.19,
+   "mc": 53.5,
+   "pe": 13.09,
+   "chg": -16.31,
    "d": "Nov 24, 2026"
+  },
+  "NTAP": {
+   "px": 157.65,
+   "mc": 31.0,
+   "pe": 22.25,
+   "chg": null,
+   "d": "Nov 20, 2026"
+  },
+  "DDOG": {
+   "px": 184.16,
+   "mc": 66.5,
+   "pe": 257.36,
+   "chg": null,
+   "d": "Nov 13, 2026"
   }
  },
  "extra": {
@@ -552,7 +570,7 @@
    "t": "SMCI",
    "name": "Super Micro Computer",
    "sector": "AI servers",
-   "q": "Q1 FY27 \u00b7 quarter to Sep 2026",
+   "q": "Q1 FY27 · quarter to Sep 2026",
    "rev": 53.9,
    "ebitda": 4.8,
    "debt": 8.6,
@@ -590,7 +608,7 @@
     [
      "high",
      "Profits without cash",
-     "Net income was $1.59B in Q1 FY27, yet operations used $434M of cash; fiscal 2026 free cash flow was about \u2212$7B as inventory and receivables ballooned.",
+     "Net income was $1.59B in Q1 FY27, yet operations used $434M of cash; fiscal 2026 free cash flow was about −$7B as inventory and receivables ballooned.",
      "Q1 FY27"
     ],
     [
@@ -656,7 +674,7 @@
    "t": "PLTR",
    "name": "Palantir Technologies",
    "sector": "AI software",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 7.29,
    "ebitda": 3.6,
    "debt": 0.25,
@@ -740,7 +758,7 @@
    "t": "MU",
    "name": "Micron Technology",
    "sector": "Memory chips",
-   "q": "FY2026 \u00b7 year to Sep 3, 2026",
+   "q": "FY2026 · year to Sep 3, 2026",
    "rev": 133.2,
    "ebitda": 109,
    "debt": 5.2,
@@ -765,7 +783,7 @@
     "loop",
     "labRev"
    ],
-   "story": "AI memory demand turned Micron into a cash machine: fiscal 2026 revenue of $133B, an 87% gross margin last quarter, and $68B of net cash. The risk is the memory cycle: prices that rose this fast can fall fast, while capex is climbing to build plants that open in 2027\u20132030.",
+   "story": "AI memory demand turned Micron into a cash machine: fiscal 2026 revenue of $133B, an 87% gross margin last quarter, and $68B of net cash. The risk is the memory cycle: prices that rose this fast can fall fast, while capex is climbing to build plants that open in 2027–2030.",
    "issues": [
     [
      "low",
@@ -782,7 +800,7 @@
     [
      "med",
      "Capex climbing into a cyclical business",
-     "About $25B of capex planned for the first half of fiscal 2027 alone, more in the second half, for plants opening 2027\u20132030.",
+     "About $25B of capex planned for the first half of fiscal 2027 alone, more in the second half, for plants opening 2027–2030.",
      "Sep 2026"
     ]
    ],
@@ -800,11 +818,11 @@
     }
    ],
    "mkt": {
-    "px": 690.44,
-    "mc": 781.2,
-    "pe": 9.29,
-    "chg": -2.1,
-    "d": "Nov 19, 2026"
+    "px": 629.79,
+    "mc": 712.6,
+    "pe": 8.5,
+    "chg": -11.01,
+    "d": "Nov 24, 2026"
    },
    "sources": [
     [
@@ -840,7 +858,7 @@
    "t": "TSM",
    "name": "Taiwan Semiconductor (TSMC)",
    "sector": "Chip manufacturing",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 155.2,
    "ebitda": 113.3,
    "debt": 25.7,
@@ -923,7 +941,7 @@
    "t": "ARM",
    "name": "Arm Holdings",
    "sector": "Chip designs (licensing)",
-   "q": "Q2 FY27 \u00b7 quarter to Sep 2026",
+   "q": "Q2 FY27 · quarter to Sep 2026",
    "rev": 5.46,
    "ebitda": 1.13,
    "debt": 0.5,
@@ -1010,7 +1028,7 @@
    "t": "ANET",
    "name": "Arista Networks",
    "sector": "AI data-center networking",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 11.89,
    "ebitda": 5.3,
    "debt": 0,
@@ -1086,7 +1104,7 @@
    "t": "VRT",
    "name": "Vertiv Holdings",
    "sector": "Data-center power and cooling",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 13.12,
    "ebitda": 3.19,
    "debt": 3.36,
@@ -1167,7 +1185,7 @@
    "t": "CEG",
    "name": "Constellation Energy",
    "sector": "Nuclear and gas power",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 31.27,
    "ebitda": 7.95,
    "debt": 24.7,
@@ -1253,7 +1271,7 @@
    "t": "VST",
    "name": "Vistra",
    "sector": "Power generation (gas, nuclear, Texas retail)",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 20.59,
    "ebitda": 7.4,
    "debt": 20.5,
@@ -1342,7 +1360,7 @@
    "t": "MRVL",
    "name": "Marvell Technology",
    "sector": "Custom AI chips and data-center networking",
-   "q": "Q2 FY2027 \u00b7 quarter to Aug 2026",
+   "q": "Q2 FY2027 · quarter to Aug 2026",
    "rev": 9.45,
    "ebitda": 2.85,
    "debt": 5.29,
@@ -1432,7 +1450,7 @@
    "t": "QCOM",
    "name": "Qualcomm",
    "sector": "Phone, car and data-center chips; patent licensing",
-   "q": "Q4 FY2026 \u00b7 quarter to Sep 2026",
+   "q": "Q4 FY2026 · quarter to Sep 2026",
    "rev": 43.12,
    "ebitda": 10.62,
    "debt": 15.11,
@@ -1489,8 +1507,7 @@
      "cp": "HYP",
      "m": 0.3,
      "drop": 0.3,
-     "est": 1,
-     "shares": 0.025
+     "est": 1
     }
    ],
    "mkt": {
@@ -1533,7 +1550,7 @@
    "t": "ASML",
    "name": "ASML Holding",
    "sector": "Chipmaking machines (lithography)",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 44.98,
    "ebitda": 18.44,
    "debt": 2.24,
@@ -1561,19 +1578,19 @@
     [
      "low",
      "Record sales, supply short",
-     "Q3 sales hit a record \u20ac11.7B with a 57.5% gross margin; ASML says its 2027-28 supply will not fully meet customer demand.",
+     "Q3 sales hit a record €11.7B with a 57.5% gross margin; ASML says its 2027-28 supply will not fully meet customer demand.",
      "Oct 2026"
     ],
     [
      "low",
      "Net cash",
-     "About $14.5B of cash versus $2.2B of debt; euro bonds of \u20ac750M or less mature between 2027 and 2032.",
+     "About $14.5B of cash versus $2.2B of debt; euro bonds of €750M or less mature between 2027 and 2032.",
      "Sep 2026"
     ],
     [
      "med",
      "Tied to chipmaker spending",
-     "2026 sales guided to \u20ac44-45B; a slowdown in AI-driven factory building would hit orders, and its China outlook is dimming.",
+     "2026 sales guided to €44-45B; a slowdown in AI-driven factory building would hit orders, and its China outlook is dimming.",
      "Oct 2026"
     ]
    ],
@@ -1619,7 +1636,7 @@
    "t": "CRM",
    "name": "Salesforce",
    "sector": "Business software (CRM, AI agents)",
-   "q": "Q2 FY2027 \u00b7 quarter to Jul 2026",
+   "q": "Q2 FY2027 · quarter to Jul 2026",
    "rev": 43.94,
    "ebitda": 12.9,
    "debt": 42.38,
@@ -1705,7 +1722,7 @@
    "t": "NOW",
    "name": "ServiceNow",
    "sector": "Business software (IT workflow, AI agents)",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 15.43,
    "ebitda": 3.24,
    "debt": 7.52,
@@ -1773,7 +1790,7 @@
      "https://www.sec.gov/Archives/edgar/data/0001373715/000137371526000092/erq3fy26.htm"
     ],
     [
-     "ServiceNow $4B bond, $38B demand (B\u00f6rse Express)",
+     "ServiceNow $4B bond, $38B demand (Börse Express)",
      "https://www.boerse-express.com/news/articles/servicenow-aktie-38-milliarden-dollar-nachfrage-fuer-anleihe-905348"
     ],
     [
@@ -1791,7 +1808,7 @@
    "t": "ADBE",
    "name": "Adobe",
    "sector": "Creative and marketing software",
-   "q": "Q3 FY2026 \u00b7 quarter to Aug 2026",
+   "q": "Q3 FY2026 · quarter to Aug 2026",
    "rev": 25.97,
    "ebitda": 9.92,
    "debt": 6.36,
@@ -1873,7 +1890,7 @@
    "t": "SNOW",
    "name": "Snowflake",
    "sector": "Cloud data and AI software",
-   "q": "Q2 FY2027 \u00b7 quarter to Jul 2026",
+   "q": "Q2 FY2027 · quarter to Jul 2026",
    "rev": 5.43,
    "ebitda": -1.04,
    "debt": 2.76,
@@ -1955,7 +1972,7 @@
    "t": "IREN",
    "name": "IREN",
    "sector": "AI cloud / data centers (former bitcoin miner)",
-   "q": "Q1 FY2027 \u00b7 quarter to Sep 2026",
+   "q": "Q1 FY2027 · quarter to Sep 2026",
    "rev": 0.7,
    "ebitda": -0.03,
    "debt": 10.21,
@@ -2032,11 +2049,11 @@
     }
    ],
    "mkt": {
-    "px": 15.24,
-    "mc": 6.5,
+    "px": 14.64,
+    "mc": 6.24,
     "pe": null,
-    "chg": null,
-    "d": "Nov 18, 2026"
+    "chg": 23.86,
+    "d": "Nov 23, 2026"
    },
    "val": {
     "m": "ev",
@@ -2073,7 +2090,7 @@
    "t": "WULF",
    "name": "TeraWulf",
    "sector": "AI data-center leasing (former bitcoin miner)",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 0.19,
    "ebitda": -0.33,
    "debt": 5.23,
@@ -2194,7 +2211,7 @@
    "t": "GEV",
    "name": "GE Vernova",
    "sector": "Gas turbines, grid equipment and wind",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 44.04,
    "ebitda": 5.05,
    "debt": 2.83,
@@ -2216,7 +2233,7 @@
     "interest",
     "loop"
    ],
-   "story": "GE Vernova sells the gas turbines and grid gear that power new data centers; it holds $16.8B of cash against about $2.8B of borrowings and a record $197B backlog. The main credit change ahead is its roughly \u20ac8B Trench purchase, to be paid half in cash and half with new debt.",
+   "story": "GE Vernova sells the gas turbines and grid gear that power new data centers; it holds $16.8B of cash against about $2.8B of borrowings and a record $197B backlog. The main credit change ahead is its roughly €8B Trench purchase, to be paid half in cash and half with new debt.",
    "issues": [
     [
      "low",
@@ -2232,8 +2249,8 @@
     ],
     [
      "med",
-     "\u20ac8B Trench purchase",
-     "Agreed to buy Trench Group for about \u20ac8B ($9.0B), funded about equally with cash and debt, closing late 2027.",
+     "€8B Trench purchase",
+     "Agreed to buy Trench Group for about €8B ($9.0B), funded about equally with cash and debt, closing late 2027.",
      "Oct 2026"
     ],
     [
@@ -2295,7 +2312,7 @@
    "t": "ETN",
    "name": "Eaton",
    "sector": "Electrical equipment for data centers and grids",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 31.98,
    "ebitda": 7.06,
    "debt": 20.11,
@@ -2390,7 +2407,7 @@
    "t": "CIFR",
    "name": "Cipher Digital",
    "sector": "AI data-center leasing (former bitcoin miner)",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 0.15,
    "ebitda": 0.02,
    "debt": 5.62,
@@ -2511,7 +2528,7 @@
    "t": "APLD",
    "name": "Applied Digital",
    "sector": "AI data-center leasing (former crypto hosting)",
-   "q": "FQ1 2027 \u00b7 quarter to Aug 2026",
+   "q": "FQ1 2027 · quarter to Aug 2026",
    "rev": 0.87,
    "ebitda": -0.12,
    "debt": 6.38,
@@ -2636,7 +2653,7 @@
    "t": "CORZ",
    "name": "Core Scientific",
    "sector": "AI data-center leasing (former bitcoin miner)",
-   "q": "Q3 2026 \u00b7 quarter to Sep 2026",
+   "q": "Q3 2026 · quarter to Sep 2026",
    "rev": 0.59,
    "ebitda": 0.2,
    "debt": 4.3,
@@ -2761,7 +2778,7 @@
    "t": "LRCX",
    "name": "Lam Research",
    "sector": "Chipmaking machines (etch and deposition)",
-   "q": "FQ1 2027 \u00b7 quarter to Sep 2026",
+   "q": "FQ1 2027 · quarter to Sep 2026",
    "rev": 26.13,
    "ebitda": 10.12,
    "debt": 3.74,
@@ -2853,7 +2870,7 @@
    "t": "AMAT",
    "name": "Applied Materials",
    "sector": "Chipmaking machines (broad equipment)",
-   "q": "FQ4 2026 \u00b7 quarter to Oct 2026",
+   "q": "FQ4 2026 · quarter to Oct 2026",
    "rev": 34.45,
    "ebitda": 11.92,
    "debt": 6.53,
@@ -2945,7 +2962,7 @@
    "t": "KLAC",
    "name": "KLA Corporation",
    "sector": "Chip inspection and measurement tools",
-   "q": "FQ1 2027 \u00b7 quarter to Sep 2026",
+   "q": "FQ1 2027 · quarter to Sep 2026",
    "rev": 14.51,
    "ebitda": 6.58,
    "debt": 5.99,
@@ -3026,15 +3043,349 @@
     ]
    ],
    "updated": "Nov 19, 2026"
+  },
+  "CSCO": {
+   "t": "CSCO",
+   "name": "Cisco Systems",
+   "sector": "Networking and security (AI data-center switches)",
+   "q": "Q1 FY2027 · quarter to Oct 2026",
+   "rev": 66.96,
+   "ebitda": 20.7,
+   "debt": 29.8,
+   "cash": 15.8,
+   "interest": 1.6,
+   "ocf": 15.32,
+   "capex": 1.59,
+   "offBS": 0,
+   "backlog": 46.2,
+   "loop": 15,
+   "labRev": 0,
+   "vendorFin": 0,
+   "floatShare": 0,
+   "biz": 3,
+   "rating": "A1 (Moody's) / AA- (S&P)",
+   "notch": 3,
+   "cds": null,
+   "est": [
+    "interest",
+    "loop",
+    "offBS"
+   ],
+   "story": "Cisco is one of the safest credits in tech: about $29.8B of debt against $15.8B of cash and investments, with $15.3B of yearly operating cash flow. AI is now a real growth driver (it expects $9B of AI infrastructure orders from cloud giants in fiscal 2027), but most revenue still comes from steady enterprise networking and software.",
+   "issues": [
+    [
+     "low",
+     "Strong cash flow",
+     "Q1 operating cash flow $4.4B, up 36%; trailing operating cash flow about $15.3B versus about $1.6B of capex.",
+     "Oct 2026"
+    ],
+    [
+     "low",
+     "AI orders doubling",
+     "Raised its fiscal 2027 AI infrastructure orders expectation from cloud giants to $9B, more than double fiscal 2026; Q1 revenue up 24% to $18.5B.",
+     "Nov 2026"
+    ],
+    [
+     "med",
+     "Big cash returns",
+     "Returned $3.7B in Q1 ($2.0B buybacks, $1.7B dividends), and $10.4B of debt is due within a year, so cash is not building.",
+     "Oct 2026"
+    ]
+   ],
+   "deals": [],
+   "cm": [],
+   "mkt": {
+    "px": 90.64,
+    "mc": 357.3,
+    "pe": 24.17,
+    "chg": null,
+    "d": "Nov 20, 2026"
+   },
+   "val": {
+    "m": "pe",
+    "pe": 18,
+    "ev": 15,
+    "g": 15,
+    "eps1": 5.56,
+    "src": "Implied by StockAnalysis forward P/E of 16.30 at $90.64 (analyst consensus, adjusted EPS), Nov 21, 2026",
+    "why": "Cisco has usually traded around 13-18x forward adjusted earnings, well below faster-growing Arista (35-50x); 18x is at the top of its own range to credit the AI order boom. Adjusted EPS is used because acquisition costs depress GAAP profit."
+   },
+   "sources": [
+    [
+     "Cisco Q1 FY2027 results (Nov 12, 2026)",
+     "https://investor.cisco.com/news/news-details/2026/CISCO-REPORTS-FIRST-QUARTER-EARNINGS/default.aspx"
+    ],
+    [
+     "Moody's affirms Cisco A1 rating (ResearchPool)",
+     "https://app.researchpool.com/provider/moodys-investors-service/cisco-systems-inc-csco-moodys-affirms-ciscos-a1-rating-outlook-stable-DI2QpeqHgk"
+    ],
+    [
+     "S&P rates Cisco notes AA- (Investing.com)",
+     "https://ng.investing.com/news/stock-market-news/ciscos-planned-notes-for-commercial-paper-reduction-rated-aa-at-sp-93CH-1769381"
+    ],
+    [
+     "StockAnalysis trailing-twelve-month statistics (CSCO)",
+     "https://stockanalysis.com/stocks/csco/statistics/"
+    ]
+   ],
+   "updated": "Nov 24, 2026"
+  },
+  "HPE": {
+   "t": "HPE",
+   "name": "Hewlett Packard Enterprise",
+   "sector": "AI servers, storage and networking",
+   "q": "Q4 FY2026 · quarter to Oct 2026",
+   "rev": 46.7,
+   "ebitda": 8.1,
+   "debt": 18.6,
+   "cash": 5.8,
+   "interest": 0.9,
+   "ocf": 6.6,
+   "capex": 2.1,
+   "offBS": 0,
+   "backlog": 10.5,
+   "loop": 30,
+   "labRev": 0,
+   "vendorFin": 0.05,
+   "floatShare": 0,
+   "biz": 7,
+   "rating": "Baa2 (Moody's) / BBB (S&P)",
+   "notch": 8,
+   "cds": null,
+   "est": [
+    "ebitda",
+    "interest",
+    "loop",
+    "vendorFin",
+    "offBS"
+   ],
+   "story": "HPE grew fiscal 2026 revenue 36% to $46.7B (helped by buying Juniper) and cut net debt to $12.9B from $16.6B, with $4.5B of free cash flow. The risk is that AI servers are low-margin: it expects Cloud & AI margins to slip to about 14% in fiscal 2027, and the stock fell 16% on Nov 24.",
+   "issues": [
+    [
+     "med",
+     "Thin AI margins",
+     "Expects Cloud & AI operating margin of about 14% in fiscal 2027, down from 15.2%; memory and component shortages may last until late 2028.",
+     "Nov 2026"
+    ],
+    [
+     "low",
+     "Debt coming down",
+     "Total debt $18.6B ($3.6B short-term, $15.0B long-term) vs $5.8B cash; net leverage fell to 1.4x from 2.7x. Part of the debt funds its customer-financing arm.",
+     "Oct 2026"
+    ],
+    [
+     "low",
+     "AI orders and backlog",
+     "Record Q4 AI orders of $5.7B and an AI backlog of $10.5B, up more than 80%; fiscal 2027 revenue guidance $59.4-63.1B.",
+     "Nov 2026"
+    ]
+   ],
+   "deals": [],
+   "cm": [],
+   "mkt": {
+    "px": 40.19,
+    "mc": 53.5,
+    "pe": 13.09,
+    "chg": -16.31,
+    "d": "Nov 24, 2026"
+   },
+   "val": {
+    "m": "pe",
+    "pe": 12,
+    "ev": 9,
+    "g": 30,
+    "why": "Hardware makers like Dell and HPE have traded roughly 9-15x forward earnings because AI servers earn thin margins; 12x sits mid-range. Growth uses HPE's own fiscal 2027 adjusted EPS guidance ($5.05-5.35, about 30% higher), since no fresh analyst consensus was found after the guidance."
+   },
+   "sources": [
+    [
+     "HPE fiscal 2026 Q4 results (SEC 8-K exhibit 99.1, Nov 23, 2026)",
+     "https://www.sec.gov/Archives/edgar/data/1645590/000164559026000097/ex-991x11232026x8k.htm"
+    ],
+    [
+     "HPE Q4 FY26 slides: AI orders, backlog, leverage (Investing.com)",
+     "https://www.investing.com/news/company-news/hpe-q4-fy26-slides-ai-orders-hit-57b-revenue-up-50-93CH-5046683"
+    ],
+    [
+     "Moody's assigns Baa2 rating to HPE (ResearchPool)",
+     "https://app.researchpool.com/provider/moodys-investors-service/hewlett-packard-enterprise-co-hpe-moodys-assigns-baa2-rating-to-hewlett-packard-enterprise-company-out"
+    ],
+    [
+     "S&P revises HPE outlook to stable after Juniper (Investing.com)",
+     "https://ng.investing.com/news/stock-market-news/sp-global-revises-hpe-outlook-to-stable-after-juniper-acquisition-93CH-1996225"
+    ],
+    [
+     "Stock market today, Nov 24, 2026 (Stock Titan)",
+     "https://stocktitan.net/articles/stock-market-today-live-november-24-2026"
+    ]
+   ],
+   "updated": "Nov 24, 2026"
+  },
+  "NTAP": {
+   "t": "NTAP",
+   "name": "NetApp",
+   "sector": "Data storage (all-flash and cloud storage for AI)",
+   "q": "Q1 FY2027 · quarter to Jul 2026",
+   "rev": 7.39,
+   "ebitda": 2.1,
+   "debt": 2.53,
+   "cash": 3.58,
+   "interest": 0.07,
+   "ocf": 1.9,
+   "capex": 0.25,
+   "offBS": 0,
+   "backlog": null,
+   "loop": 10,
+   "labRev": 0,
+   "vendorFin": 0,
+   "floatShare": 0,
+   "biz": 5,
+   "rating": "Baa2 (Moody's) / BBB+ (S&P)",
+   "notch": 7,
+   "cds": null,
+   "est": [
+    "interest",
+    "loop",
+    "offBS",
+    "rating"
+   ],
+   "story": "NetApp has more cash ($3.6B) than debt ($2.5B) and earns about $1.9B a year of operating cash flow. Revenue jumped 30% last quarter as customers bought flash storage for AI, though cash flow fell from a year earlier.",
+   "issues": [
+    [
+     "low",
+     "Net cash",
+     "Cash and investments about $3.58B against $2.53B of debt.",
+     "Jul 2026"
+    ],
+    [
+     "med",
+     "Cash flow dipped",
+     "Q1 operating cash flow fell 25% to $503M and free cash flow fell 35% to $401M even as revenue rose 30% to $2.03B.",
+     "Sep 2026"
+    ],
+    [
+     "low",
+     "Guidance",
+     "Fiscal 2027 revenue guidance $7.975-8.225B and adjusted EPS $9.73-10.03; Q2 results due in late November.",
+     "Sep 2026"
+    ]
+   ],
+   "deals": [],
+   "cm": [],
+   "mkt": {
+    "px": 157.65,
+    "mc": 31.0,
+    "pe": 22.25,
+    "chg": null,
+    "d": "Nov 20, 2026"
+   },
+   "val": {
+    "m": "pe",
+    "pe": 16,
+    "ev": 13,
+    "g": 20,
+    "eps1": 10.0,
+    "src": "Implied by StockAnalysis forward P/E of 15.77 at $157.65 (analyst consensus, adjusted EPS), Nov 22, 2026",
+    "why": "NetApp has traded around 13-18x forward adjusted earnings, between hardware peers like HPE and Dell (about 9-15x) and faster-growing Pure Storage (30x+); 16x is mid-range. Adjusted EPS is used consistently."
+   },
+   "sources": [
+    [
+     "NetApp Q1 FY2027 results (Sep 2, 2026)",
+     "https://netapp.com/newsroom/press-releases/news-rel-20260902-results-607632"
+    ],
+    [
+     "Moody's assigns Baa2 to NetApp senior notes (ResearchPool)",
+     "https://app.researchpool.com/provider/moodys-investors-service/netapp-inc-ntap-moodys-ratings-assigns-baa2-rating-to-netapps-new-senior-unsecured-not-v3Y9BDNJUv"
+    ],
+    [
+     "StockAnalysis trailing-twelve-month statistics (NTAP)",
+     "https://stockanalysis.com/stocks/ntap/statistics/"
+    ]
+   ],
+   "updated": "Nov 24, 2026"
+  },
+  "DDOG": {
+   "t": "DDOG",
+   "name": "Datadog",
+   "sector": "Cloud monitoring and observability software",
+   "q": "Q3 2026 · quarter to Sep 2026",
+   "rev": 4.28,
+   "ebitda": 0.17,
+   "debt": 1.31,
+   "cash": 5.23,
+   "interest": 0.01,
+   "ocf": 1.27,
+   "capex": 0.04,
+   "offBS": 0,
+   "backlog": null,
+   "loop": 10,
+   "labRev": 5,
+   "vendorFin": 0,
+   "floatShare": 0,
+   "biz": 7,
+   "rating": "Not rated",
+   "notch": null,
+   "cds": null,
+   "est": [
+    "interest",
+    "loop",
+    "labRev",
+    "offBS"
+   ],
+   "story": "Datadog has $5.2B of cash and securities against about $1.0B of 0% convertible notes (plus leases), and turns about $1.2B a year into free cash flow, so credit risk is low. GAAP profit is small because of stock-based pay, and AI-native customers are a growing but volatile part of revenue.",
+   "issues": [
+    [
+     "low",
+     "Cash far above debt",
+     "$881M cash plus $4.35B marketable securities vs $1.0B of 0% convertible notes due 2029.",
+     "Sep 2026"
+    ],
+    [
+     "med",
+     "Thin GAAP profit",
+     "Q3 GAAP operating income $74.7M (6% margin) vs $334.3M adjusted (28%), mostly due to stock-based pay.",
+     "Nov 2026"
+    ],
+    [
+     "low",
+     "Growth",
+     "Q3 revenue up 35% to $1.20B; 2026 revenue guidance $4.515-4.525B; customers paying $100K+ a year up 20% to about 4,860.",
+     "Nov 2026"
+    ]
+   ],
+   "deals": [],
+   "cm": [],
+   "mkt": {
+    "px": 184.16,
+    "mc": 66.5,
+    "pe": 257.36,
+    "chg": null,
+    "d": "Nov 13, 2026"
+   },
+   "val": {
+    "m": "pe",
+    "pe": 50,
+    "ev": 40,
+    "g": 25,
+    "eps1": 2.98,
+    "src": "Implied by StockAnalysis forward P/E of 61.83 at $184.16 (analyst consensus, adjusted EPS), Nov 15, 2026",
+    "why": "GAAP P/E (about 257x) is distorted by stock pay, so adjusted EPS is used; fast-growing software peers like Snowflake, ServiceNow and CrowdStrike have traded roughly 40-80x adjusted earnings, and 50x credits ~25-35% growth while sitting below today's ~62x."
+   },
+   "sources": [
+    [
+     "Datadog Q3 2026 results (SEC 8-K exhibit 99.1)",
+     "https://www.sec.gov/Archives/edgar/data/0001561550/000162828026069792/ex-991x20260930x8k.htm"
+    ],
+    [
+     "StockAnalysis trailing-twelve-month statistics (DDOG)",
+     "https://stockanalysis.com/stocks/ddog/statistics/"
+    ]
+   ],
+   "updated": "Nov 24, 2026"
   }
  },
  "asof": "2026-11-24",
  "queue": [
-  "CSCO",
-  "HPE",
-  "NTAP",
   "PSTG",
-  "DDOG",
   "NET",
   "MDB",
   "APP",
