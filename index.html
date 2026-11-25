@@ -1129,7 +1129,7 @@ function report(c){
  // commitments
  const ins=Ls.filter(l=>l.dir==="in"),outs=Ls.filter(l=>l.dir==="out");
  const kt={contract:"Contract",lease:"Lease",jv:"Joint-venture debt",guarantee:"Guarantee",purchase:"Purchase",warrant:"Warrants",memo:"Note"};
- const row=l=>{const w=WHY[l.kind]||WHY.memo;return `<tr><td class="l">${esc(l.label)}${l.est?'<span class="est">EST</span>':""}${l.note?`<small>${esc(l.note)}</small>`:l.kind==="memo"?"":`<small><b>Why it's off the books:</b> ${esc(w[0])}</small><small><b>Why we count it:</b> ${esc(w[1])}</small>`}</td><td>${kt[l.kind]}</td><td>${l.kind==="warrant"?(l.shares*1000).toFixed(0)+"M shares":fb(l.total)}</td><td>${l.yrs?l.yrs+" yrs":"—"}</td><td class="when">${esc(l.dt)}</td></tr>`};
+ const row=l=>{const w=WHY[l.kind]||WHY.memo;return `<tr><td class="l">${esc(l.label)}${l.est?'<span class="est">EST</span>':""}${l.note?`<small>${esc(l.note)}</small>`:l.kind==="memo"?"":`<small><b>Why it's off the books:</b> ${esc(w[0])}</small><small><b>Why we count it:</b> ${esc(w[1])}</small>`}</td><td>${kt[l.kind]}</td><td>${l.kind==="warrant"&&l.shares>0?(l.shares*1000).toFixed(0)+"M shares":fb(l.total)}</td><td>${l.yrs?l.yrs+" yrs":"—"}</td><td class="when">${esc(l.dt)}</td></tr>`};
  const tIn=ins.filter(l=>l.kind==="contract").reduce((a,l)=>a+l.total,0),capable=outs.filter(l=>l.kind==="lease").reduce((a,l)=>a+l.total,0)*0.7+outs.filter(l=>l.kind==="jv").reduce((a,l)=>a+l.total,0),guarT=outs.filter(l=>l.kind==="guarantee").reduce((a,l)=>a+l.total,0);
  const HD=hidden(c),onb=c.debt+HD.total;
  const obs=`<div class="panel" id="obs"><div class="ptitle"><h2><span class="n">03</span>Commitments on and off the books</h2><span class="r">$ in billions, face value</span></div>
@@ -1259,7 +1259,7 @@ function stressBody(c){
  h+=`<details class="adv"${S.advOpen?" open":""}><summary>All customer assumptions</summary><div class="pbody" style="padding-inline:0">`;
  if(keys.length)h+=`<p class="prose">Each customer group has a chance of falling short and a share it would still pay. Changes apply to every company that sells to that group.</p><div class="two">${keys.map(k=>cpSlider(k,"ac")).join("")}</div>`;
  else h+=`<p class="note">No customer contracts are mapped for ${esc(c.name)}, so the scenarios differ only in growth and the multiple.</p>`;
- if(war.length)h+=`<label class="tog"><input type="checkbox" id="t-warr" ${st.warr?"checked":""}><span>Customers exercise their warrants<small>${(war.reduce((a,l)=>a+l.shares,0)*1000).toFixed(0)}M new shares at $0.01, which shrinks each existing share's slice.</small></span></label>`;
+ if(war.some(l=>l.shares>0))h+=`<label class="tog"><input type="checkbox" id="t-warr" ${st.warr?"checked":""}><span>Customers exercise their warrants<small>${(war.reduce((a,l)=>a+l.shares,0)*1000).toFixed(0)}M new shares at $0.01, which shrinks each existing share's slice.</small></span></label>`;
  h+=`<div><button class="btn ghost" type="button" data-reset="1">Reset all assumptions</button></div></div></details>`;
  return h}
 function stressOut(c){
